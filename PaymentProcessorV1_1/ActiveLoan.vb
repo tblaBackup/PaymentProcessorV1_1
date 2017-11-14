@@ -8,15 +8,15 @@
     Public Event clientSelected()
     Public Event loanSelected()
     Public Event PaymentProcessed()
-    Private Sub GotPaid() Handles ProcessPayment1.processPay
+    Public Sub GotPaid() Handles ProcessPayment1.processPay
         RaiseEvent PaymentProcessed()
     End Sub
     Private Sub ActiveCustomer_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles ActiveCustomer.CellClick
         If Not loading Then
-            If Not activeCustID = CInt(ActiveCustomer.SelectedRows.Item(0).Cells(0).Value.ToString) Then
-                activeCustID = CInt(ActiveCustomer.SelectedRows.Item(0).Cells(0).Value.ToString)
-                RaiseEvent clientSelected()
-            End If
+
+            activeCustID = CInt(ActiveCustomer.SelectedRows.Item(0).Cells(0).Value.ToString)
+            RaiseEvent clientSelected()
+
 
         End If
     End Sub

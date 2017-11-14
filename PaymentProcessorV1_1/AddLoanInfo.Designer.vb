@@ -36,6 +36,8 @@ Partial Class AddLoanInfo
         Me.NumericUpDown2 = New System.Windows.Forms.NumericUpDown()
         Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
         Me.Label6 = New System.Windows.Forms.Label()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         CType(Me.NumericUpDown4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -46,6 +48,8 @@ Partial Class AddLoanInfo
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Panel1.Controls.Add(Me.Label7)
+        Me.Panel1.Controls.Add(Me.DateTimePicker1)
         Me.Panel1.Controls.Add(Me.Button1)
         Me.Panel1.Controls.Add(Me.Label5)
         Me.Panel1.Controls.Add(Me.NumericUpDown4)
@@ -66,7 +70,7 @@ Partial Class AddLoanInfo
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(241, 330)
+        Me.Button1.Location = New System.Drawing.Point(241, 365)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 23
@@ -76,7 +80,7 @@ Partial Class AddLoanInfo
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(132, 290)
+        Me.Label5.Location = New System.Drawing.Point(132, 325)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(97, 13)
         Me.Label5.TabIndex = 22
@@ -86,7 +90,7 @@ Partial Class AddLoanInfo
         '
         Me.NumericUpDown4.DecimalPlaces = 2
         Me.NumericUpDown4.Enabled = False
-        Me.NumericUpDown4.Location = New System.Drawing.Point(241, 283)
+        Me.NumericUpDown4.Location = New System.Drawing.Point(241, 318)
         Me.NumericUpDown4.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
         Me.NumericUpDown4.Name = "NumericUpDown4"
         Me.NumericUpDown4.Size = New System.Drawing.Size(188, 20)
@@ -95,7 +99,7 @@ Partial Class AddLoanInfo
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(241, 250)
+        Me.CheckBox1.Location = New System.Drawing.Point(241, 285)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(121, 17)
         Me.CheckBox1.TabIndex = 20
@@ -181,6 +185,23 @@ Partial Class AddLoanInfo
         Me.Label6.TabIndex = 11
         Me.Label6.Text = "Loan Information"
         '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.DateTimePicker1.Location = New System.Drawing.Point(241, 246)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(188, 20)
+        Me.DateTimePicker1.TabIndex = 24
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(154, 250)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(55, 13)
+        Me.Label7.TabIndex = 25
+        Me.Label7.Text = "Start Date"
+        '
         'AddLoanInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -211,5 +232,7 @@ Partial Class AddLoanInfo
     Friend WithEvents NumericUpDown2 As System.Windows.Forms.NumericUpDown
     Friend WithEvents NumericUpDown1 As System.Windows.Forms.NumericUpDown
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents DateTimePicker1 As System.Windows.Forms.DateTimePicker
 
 End Class

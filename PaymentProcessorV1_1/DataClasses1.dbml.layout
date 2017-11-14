@@ -2,25 +2,12 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DataClasses1">
   <DataContextMoniker Name="/DataClasses1DataContext" />
   <nestedChildShapes>
-    <classShape Id="b83c5fb4-38aa-468b-b8d5-e4556db64d7f" absoluteBounds="0.5, 1.375, 2, 2.5401025390625">
-      <DataClassMoniker Name="/DataClasses1DataContext/tblLoan" />
-      <nestedChildShapes>
-        <elementListCompartment Id="baf6e804-aff3-479c-a854-7c9dee8a7af1" absoluteBounds="0.515, 1.835, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="7be7e4e6-991e-4b20-81d2-c5c3a386ba33" absoluteBounds="2.875, 0.5, 2, 1.3862939453125">
       <DataClassMoniker Name="/DataClasses1DataContext/tblCustAcctNum" />
       <nestedChildShapes>
         <elementListCompartment Id="c961aac4-8742-46d1-a0bd-57810385e1b5" absoluteBounds="2.89, 0.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.875 : 1.63064697265625); (2.5 : 1.63064697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/DataClasses1DataContext/tblCustAcctNum/tblCustAcctNum_tblLoan" />
-      <nodes>
-        <classShapeMoniker Id="7be7e4e6-991e-4b20-81d2-c5c3a386ba33" />
-        <classShapeMoniker Id="b83c5fb4-38aa-468b-b8d5-e4556db64d7f" />
-      </nodes>
-    </associationConnector>
     <classShape Id="c9fa650a-548e-43e7-8ad5-46c436932c9b" absoluteBounds="3.125, 5.25, 2, 1.3862939453125">
       <DataClassMoniker Name="/DataClasses1DataContext/CustomersLoan" />
       <nestedChildShapes>
@@ -33,13 +20,6 @@
         <elementListCompartment Id="16e464d9-901b-4875-9834-839b98adcf4d" absoluteBounds="0.51500000000000012, 4.71, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.5 : 3.9151025390625); (1.5 : 4.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/DataClasses1DataContext/tblLoan/tblLoan_tblPayment" />
-      <nodes>
-        <classShapeMoniker Id="b83c5fb4-38aa-468b-b8d5-e4556db64d7f" />
-        <classShapeMoniker Id="1526927c-7775-4420-96df-71cae7d77dce" />
-      </nodes>
-    </associationConnector>
     <classShape Id="2a33ccac-2cd3-4feb-a727-c8b84af322bc" absoluteBounds="5.625, 5.25, 2, 2.1554996744791666">
       <DataClassMoniker Name="/DataClasses1DataContext/CustomerAmort" />
       <nestedChildShapes>
@@ -52,13 +32,6 @@
         <elementListCompartment Id="949596f0-40a2-4539-9f49-75acd1612fe6" absoluteBounds="3.39, 3.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.5 : 3.33255126953125); (3.375 : 3.33255126953125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/DataClasses1DataContext/tblLoan/tblLoan_tblAmort" />
-      <nodes>
-        <classShapeMoniker Id="b83c5fb4-38aa-468b-b8d5-e4556db64d7f" />
-        <classShapeMoniker Id="e99d7461-ccd1-4221-898e-27dee8f9df23" />
-      </nodes>
-    </associationConnector>
     <classShape Id="584b98c1-15aa-4574-ade4-40410ab839b5" absoluteBounds="6.125, 1.5, 2, 1.9631982421875">
       <DataClassMoniker Name="/DataClasses1DataContext/tblCustomer" />
       <nestedChildShapes>
@@ -78,5 +51,32 @@
         <elementListCompartment Id="319e8e12-c5f8-4cb0-970f-f4e8280aafde" absoluteBounds="6.515, 4.835, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="0d7bfc70-30a5-45c7-922a-a9904d736dd6" absoluteBounds="0.5, 0.5, 2, 2.5401025390625">
+      <DataClassMoniker Name="/DataClasses1DataContext/tblLoan" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d2fee0ce-8c1a-46a4-aae0-cd614929689f" absoluteBounds="0.515, 0.96, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(1.5 : 3.0401025390625); (1.5 : 4.25)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/tblLoan/tblLoan_tblPayment" />
+      <nodes>
+        <classShapeMoniker Id="0d7bfc70-30a5-45c7-922a-a9904d736dd6" />
+        <classShapeMoniker Id="1526927c-7775-4420-96df-71cae7d77dce" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.5 : 2.34939647265625); (5.15625 : 2.34939647265625); (5.15625 : 2.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/tblLoan/tblLoan_tblAmort" />
+      <nodes>
+        <classShapeMoniker Id="0d7bfc70-30a5-45c7-922a-a9904d736dd6" />
+        <classShapeMoniker Id="e99d7461-ccd1-4221-898e-27dee8f9df23" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.875 : 1.19314697265625); (2.5 : 1.19314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/tblCustAcctNum/tblCustAcctNum_tblLoan" />
+      <nodes>
+        <classShapeMoniker Id="7be7e4e6-991e-4b20-81d2-c5c3a386ba33" />
+        <classShapeMoniker Id="0d7bfc70-30a5-45c7-922a-a9904d736dd6" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

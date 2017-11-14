@@ -31,12 +31,6 @@ Partial Public Class DataClasses1DataContext
   #Region "Extensibility Method Definitions"
   Partial Private Sub OnCreated()
   End Sub
-  Partial Private Sub InserttblLoan(instance As tblLoan)
-    End Sub
-  Partial Private Sub UpdatetblLoan(instance As tblLoan)
-    End Sub
-  Partial Private Sub DeletetblLoan(instance As tblLoan)
-    End Sub
   Partial Private Sub InserttblCustAcctNum(instance As tblCustAcctNum)
     End Sub
   Partial Private Sub UpdatetblCustAcctNum(instance As tblCustAcctNum)
@@ -60,6 +54,12 @@ Partial Public Class DataClasses1DataContext
   Partial Private Sub UpdatetblCustomer(instance As tblCustomer)
     End Sub
   Partial Private Sub DeletetblCustomer(instance As tblCustomer)
+    End Sub
+  Partial Private Sub InserttblLoan(instance As tblLoan)
+    End Sub
+  Partial Private Sub UpdatetblLoan(instance As tblLoan)
+    End Sub
+  Partial Private Sub DeletetblLoan(instance As tblLoan)
     End Sub
   #End Region
 	
@@ -87,12 +87,6 @@ Partial Public Class DataClasses1DataContext
 		MyBase.New(connection, mappingSource)
 		OnCreated
 	End Sub
-	
-	Public ReadOnly Property tblLoans() As System.Data.Linq.Table(Of tblLoan)
-		Get
-			Return Me.GetTable(Of tblLoan)
-		End Get
-	End Property
 	
 	Public ReadOnly Property tblCustAcctNums() As System.Data.Linq.Table(Of tblCustAcctNum)
 		Get
@@ -133,6 +127,12 @@ Partial Public Class DataClasses1DataContext
 	Public ReadOnly Property FullNameCusts() As System.Data.Linq.Table(Of FullNameCust)
 		Get
 			Return Me.GetTable(Of FullNameCust)
+		End Get
+	End Property
+	
+	Public ReadOnly Property tblLoans() As System.Data.Linq.Table(Of tblLoan)
+		Get
+			Return Me.GetTable(Of tblLoan)
 		End Get
 	End Property
 	
@@ -179,328 +179,38 @@ Partial Public Class DataClasses1DataContext
 	Public Function allCustFullName() As IQueryable(Of allCustFullNameResult)
 		Return Me.CreateMethodCallQuery(Of allCustFullNameResult)(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo))
 	End Function
-End Class
-
-<Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.tblLoan")>  _
-Partial Public Class tblLoan
-	Implements System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
 	
-	Private Shared emptyChangingEventArgs As PropertyChangingEventArgs = New PropertyChangingEventArgs(String.Empty)
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.CreateLoan")>  _
+	Public Function CreateLoan(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="LoanPrincipal", DbType:="Float")> ByVal loanPrincipal As System.Nullable(Of Double), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="APR", DbType:="Float")> ByVal aPR As System.Nullable(Of Double), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="Term", DbType:="Int")> ByVal term As System.Nullable(Of Integer), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="StartDate", DbType:="Date")> ByVal startDate As System.Nullable(Of Date), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="MRC", DbType:="Float")> ByVal mRC As System.Nullable(Of Double), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="CustAccNum", DbType:="Int")> ByVal custAccNum As System.Nullable(Of Integer), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="ManualAmort", DbType:="Bit")> ByVal manualAmort As System.Nullable(Of Boolean)) As Integer
+		Dim result As IExecuteResult = Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanPrincipal, aPR, term, startDate, mRC, custAccNum, manualAmort)
+		Return CType(result.ReturnValue,Integer)
+	End Function
 	
-	Private _LoanID As Integer
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.InsertIntoCash")>  _
+	Public Function InsertIntoCash(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="Payment", DbType:="Float")> ByVal payment As System.Nullable(Of Double), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="DateSubmitted", DbType:="Date")> ByVal dateSubmitted As System.Nullable(Of Date), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="LoanID", DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As Integer
+		Dim result As IExecuteResult = Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), payment, dateSubmitted, loanID)
+		Return CType(result.ReturnValue,Integer)
+	End Function
 	
-	Private _LoanIPrincipal As Decimal
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.ReturnsCashID", IsComposable:=true)>  _
+	Public Function ReturnsCashID(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="Amt", DbType:="Float")> ByVal amt As System.Nullable(Of Double), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="DateDone", DbType:="Date")> ByVal dateDone As System.Nullable(Of Date), <Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As System.Nullable(Of Integer)
+		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), amt, dateDone, loanID).ReturnValue,System.Nullable(Of Integer))
+	End Function
 	
-	Private _LoanPPrincipal As Decimal
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.SumOnHold", IsComposable:=true)>  _
+	Public Function SumOnHold(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="LoanID", DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As System.Nullable(Of Double)
+		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanID).ReturnValue,System.Nullable(Of Double))
+	End Function
 	
-	Private _LoanRateOfInterest As Double
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.ReturnPrincipal", IsComposable:=true)>  _
+	Public Function ReturnPrincipal(<Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="Int")> ByVal loanID As System.Nullable(Of Integer), <Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="Int")> ByVal paymentNumber As System.Nullable(Of Integer)) As System.Nullable(Of Double)
+		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanID, paymentNumber).ReturnValue,System.Nullable(Of Double))
+	End Function
 	
-	Private _CustomerAcctID As Integer
-	
-	Private _LoanTerm As System.Nullable(Of Integer)
-	
-	Private _LoanStartDate As System.Nullable(Of Date)
-	
-	Private _OutstandingInterest As System.Nullable(Of Decimal)
-	
-	Private _MonthlyInstallment As System.Nullable(Of Decimal)
-	
-	Private _tblPayments As EntitySet(Of tblPayment)
-	
-	Private _tblAmorts As EntitySet(Of tblAmort)
-	
-	Private _tblCustAcctNum As EntityRef(Of tblCustAcctNum)
-	
-    #Region "Extensibility Method Definitions"
-    Partial Private Sub OnLoaded()
-    End Sub
-    Partial Private Sub OnValidate(action As System.Data.Linq.ChangeAction)
-    End Sub
-    Partial Private Sub OnCreated()
-    End Sub
-    Partial Private Sub OnLoanIDChanging(value As Integer)
-    End Sub
-    Partial Private Sub OnLoanIDChanged()
-    End Sub
-    Partial Private Sub OnLoanIPrincipalChanging(value As Decimal)
-    End Sub
-    Partial Private Sub OnLoanIPrincipalChanged()
-    End Sub
-    Partial Private Sub OnLoanPPrincipalChanging(value As Decimal)
-    End Sub
-    Partial Private Sub OnLoanPPrincipalChanged()
-    End Sub
-    Partial Private Sub OnLoanRateOfInterestChanging(value As Double)
-    End Sub
-    Partial Private Sub OnLoanRateOfInterestChanged()
-    End Sub
-    Partial Private Sub OnCustomerAcctIDChanging(value As Integer)
-    End Sub
-    Partial Private Sub OnCustomerAcctIDChanged()
-    End Sub
-    Partial Private Sub OnLoanTermChanging(value As System.Nullable(Of Integer))
-    End Sub
-    Partial Private Sub OnLoanTermChanged()
-    End Sub
-    Partial Private Sub OnLoanStartDateChanging(value As System.Nullable(Of Date))
-    End Sub
-    Partial Private Sub OnLoanStartDateChanged()
-    End Sub
-    Partial Private Sub OnOutstandingInterestChanging(value As System.Nullable(Of Decimal))
-    End Sub
-    Partial Private Sub OnOutstandingInterestChanged()
-    End Sub
-    Partial Private Sub OnMonthlyInstallmentChanging(value As System.Nullable(Of Decimal))
-    End Sub
-    Partial Private Sub OnMonthlyInstallmentChanged()
-    End Sub
-    #End Region
-	
-	Public Sub New()
-		MyBase.New
-		Me._tblPayments = New EntitySet(Of tblPayment)(AddressOf Me.attach_tblPayments, AddressOf Me.detach_tblPayments)
-		Me._tblAmorts = New EntitySet(Of tblAmort)(AddressOf Me.attach_tblAmorts, AddressOf Me.detach_tblAmorts)
-		Me._tblCustAcctNum = CType(Nothing, EntityRef(Of tblCustAcctNum))
-		OnCreated
-	End Sub
-	
-	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanID", AutoSync:=AutoSync.OnInsert, DbType:="Int NOT NULL IDENTITY", IsPrimaryKey:=true, IsDbGenerated:=true)>  _
-	Public Property LoanID() As Integer
-		Get
-			Return Me._LoanID
-		End Get
-		Set
-			If ((Me._LoanID = value)  _
-						= false) Then
-				Me.OnLoanIDChanging(value)
-				Me.SendPropertyChanging
-				Me._LoanID = value
-				Me.SendPropertyChanged("LoanID")
-				Me.OnLoanIDChanged
-			End If
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanIPrincipal", DbType:="Decimal(20,2) NOT NULL")>  _
-	Public Property LoanIPrincipal() As Decimal
-		Get
-			Return Me._LoanIPrincipal
-		End Get
-		Set
-			If ((Me._LoanIPrincipal = value)  _
-						= false) Then
-				Me.OnLoanIPrincipalChanging(value)
-				Me.SendPropertyChanging
-				Me._LoanIPrincipal = value
-				Me.SendPropertyChanged("LoanIPrincipal")
-				Me.OnLoanIPrincipalChanged
-			End If
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanPPrincipal", DbType:="Decimal(20,2) NOT NULL")>  _
-	Public Property LoanPPrincipal() As Decimal
-		Get
-			Return Me._LoanPPrincipal
-		End Get
-		Set
-			If ((Me._LoanPPrincipal = value)  _
-						= false) Then
-				Me.OnLoanPPrincipalChanging(value)
-				Me.SendPropertyChanging
-				Me._LoanPPrincipal = value
-				Me.SendPropertyChanged("LoanPPrincipal")
-				Me.OnLoanPPrincipalChanged
-			End If
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanRateOfInterest", DbType:="Float NOT NULL")>  _
-	Public Property LoanRateOfInterest() As Double
-		Get
-			Return Me._LoanRateOfInterest
-		End Get
-		Set
-			If ((Me._LoanRateOfInterest = value)  _
-						= false) Then
-				Me.OnLoanRateOfInterestChanging(value)
-				Me.SendPropertyChanging
-				Me._LoanRateOfInterest = value
-				Me.SendPropertyChanged("LoanRateOfInterest")
-				Me.OnLoanRateOfInterestChanged
-			End If
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_CustomerAcctID", DbType:="Int NOT NULL")>  _
-	Public Property CustomerAcctID() As Integer
-		Get
-			Return Me._CustomerAcctID
-		End Get
-		Set
-			If ((Me._CustomerAcctID = value)  _
-						= false) Then
-				If Me._tblCustAcctNum.HasLoadedOrAssignedValue Then
-					Throw New System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException()
-				End If
-				Me.OnCustomerAcctIDChanging(value)
-				Me.SendPropertyChanging
-				Me._CustomerAcctID = value
-				Me.SendPropertyChanged("CustomerAcctID")
-				Me.OnCustomerAcctIDChanged
-			End If
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanTerm", DbType:="Int")>  _
-	Public Property LoanTerm() As System.Nullable(Of Integer)
-		Get
-			Return Me._LoanTerm
-		End Get
-		Set
-			If (Me._LoanTerm.Equals(value) = false) Then
-				Me.OnLoanTermChanging(value)
-				Me.SendPropertyChanging
-				Me._LoanTerm = value
-				Me.SendPropertyChanged("LoanTerm")
-				Me.OnLoanTermChanged
-			End If
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanStartDate", DbType:="Date")>  _
-	Public Property LoanStartDate() As System.Nullable(Of Date)
-		Get
-			Return Me._LoanStartDate
-		End Get
-		Set
-			If (Me._LoanStartDate.Equals(value) = false) Then
-				Me.OnLoanStartDateChanging(value)
-				Me.SendPropertyChanging
-				Me._LoanStartDate = value
-				Me.SendPropertyChanged("LoanStartDate")
-				Me.OnLoanStartDateChanged
-			End If
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_OutstandingInterest", DbType:="Decimal(20,2)")>  _
-	Public Property OutstandingInterest() As System.Nullable(Of Decimal)
-		Get
-			Return Me._OutstandingInterest
-		End Get
-		Set
-			If (Me._OutstandingInterest.Equals(value) = false) Then
-				Me.OnOutstandingInterestChanging(value)
-				Me.SendPropertyChanging
-				Me._OutstandingInterest = value
-				Me.SendPropertyChanged("OutstandingInterest")
-				Me.OnOutstandingInterestChanged
-			End If
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_MonthlyInstallment", DbType:="Decimal(20,2)")>  _
-	Public Property MonthlyInstallment() As System.Nullable(Of Decimal)
-		Get
-			Return Me._MonthlyInstallment
-		End Get
-		Set
-			If (Me._MonthlyInstallment.Equals(value) = false) Then
-				Me.OnMonthlyInstallmentChanging(value)
-				Me.SendPropertyChanging
-				Me._MonthlyInstallment = value
-				Me.SendPropertyChanged("MonthlyInstallment")
-				Me.OnMonthlyInstallmentChanged
-			End If
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.AssociationAttribute(Name:="tblLoan_tblPayment", Storage:="_tblPayments", ThisKey:="LoanID", OtherKey:="LoanID")>  _
-	Public Property tblPayments() As EntitySet(Of tblPayment)
-		Get
-			Return Me._tblPayments
-		End Get
-		Set
-			Me._tblPayments.Assign(value)
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.AssociationAttribute(Name:="tblLoan_tblAmort", Storage:="_tblAmorts", ThisKey:="LoanID", OtherKey:="LoanID")>  _
-	Public Property tblAmorts() As EntitySet(Of tblAmort)
-		Get
-			Return Me._tblAmorts
-		End Get
-		Set
-			Me._tblAmorts.Assign(value)
-		End Set
-	End Property
-	
-	<Global.System.Data.Linq.Mapping.AssociationAttribute(Name:="tblCustAcctNum_tblLoan", Storage:="_tblCustAcctNum", ThisKey:="CustomerAcctID", OtherKey:="CustAcctID", IsForeignKey:=true)>  _
-	Public Property tblCustAcctNum() As tblCustAcctNum
-		Get
-			Return Me._tblCustAcctNum.Entity
-		End Get
-		Set
-			Dim previousValue As tblCustAcctNum = Me._tblCustAcctNum.Entity
-			If ((Object.Equals(previousValue, value) = false)  _
-						OrElse (Me._tblCustAcctNum.HasLoadedOrAssignedValue = false)) Then
-				Me.SendPropertyChanging
-				If ((previousValue Is Nothing)  _
-							= false) Then
-					Me._tblCustAcctNum.Entity = Nothing
-					previousValue.tblLoans.Remove(Me)
-				End If
-				Me._tblCustAcctNum.Entity = value
-				If ((value Is Nothing)  _
-							= false) Then
-					value.tblLoans.Add(Me)
-					Me._CustomerAcctID = value.CustAcctID
-				Else
-					Me._CustomerAcctID = CType(Nothing, Integer)
-				End If
-				Me.SendPropertyChanged("tblCustAcctNum")
-			End If
-		End Set
-	End Property
-	
-	Public Event PropertyChanging As PropertyChangingEventHandler Implements System.ComponentModel.INotifyPropertyChanging.PropertyChanging
-	
-	Public Event PropertyChanged As PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-	
-	Protected Overridable Sub SendPropertyChanging()
-		If ((Me.PropertyChangingEvent Is Nothing)  _
-					= false) Then
-			RaiseEvent PropertyChanging(Me, emptyChangingEventArgs)
-		End If
-	End Sub
-	
-	Protected Overridable Sub SendPropertyChanged(ByVal propertyName As [String])
-		If ((Me.PropertyChangedEvent Is Nothing)  _
-					= false) Then
-			RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
-		End If
-	End Sub
-	
-	Private Sub attach_tblPayments(ByVal entity As tblPayment)
-		Me.SendPropertyChanging
-		entity.tblLoan = Me
-	End Sub
-	
-	Private Sub detach_tblPayments(ByVal entity As tblPayment)
-		Me.SendPropertyChanging
-		entity.tblLoan = Nothing
-	End Sub
-	
-	Private Sub attach_tblAmorts(ByVal entity As tblAmort)
-		Me.SendPropertyChanging
-		entity.tblLoan = Me
-	End Sub
-	
-	Private Sub detach_tblAmorts(ByVal entity As tblAmort)
-		Me.SendPropertyChanging
-		entity.tblLoan = Nothing
-	End Sub
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.ReturnInterest", IsComposable:=true)>  _
+	Public Function ReturnInterest(<Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="Int")> ByVal loanID As System.Nullable(Of Integer), <Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="Int")> ByVal paymentNumber As System.Nullable(Of Integer)) As System.Nullable(Of Double)
+		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanID, paymentNumber).ReturnValue,System.Nullable(Of Double))
+	End Function
 End Class
 
 <Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.tblCustAcctNum")>  _
@@ -1549,6 +1259,328 @@ Partial Public Class FullNameCust
 			End If
 		End Set
 	End Property
+End Class
+
+<Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.tblLoan")>  _
+Partial Public Class tblLoan
+	Implements System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
+	
+	Private Shared emptyChangingEventArgs As PropertyChangingEventArgs = New PropertyChangingEventArgs(String.Empty)
+	
+	Private _LoanID As Integer
+	
+	Private _LoanIPrincipal As Decimal
+	
+	Private _LoanPPrincipal As Decimal
+	
+	Private _LoanRateOfInterest As Double
+	
+	Private _CustomerAcctID As Integer
+	
+	Private _LoanTerm As System.Nullable(Of Integer)
+	
+	Private _LoanStartDate As System.Nullable(Of Date)
+	
+	Private _ManualAmort As System.Nullable(Of Boolean)
+	
+	Private _MonthlyInstallment As System.Nullable(Of Decimal)
+	
+	Private _tblPayments As EntitySet(Of tblPayment)
+	
+	Private _tblAmorts As EntitySet(Of tblAmort)
+	
+	Private _tblCustAcctNum As EntityRef(Of tblCustAcctNum)
+	
+    #Region "Extensibility Method Definitions"
+    Partial Private Sub OnLoaded()
+    End Sub
+    Partial Private Sub OnValidate(action As System.Data.Linq.ChangeAction)
+    End Sub
+    Partial Private Sub OnCreated()
+    End Sub
+    Partial Private Sub OnLoanIDChanging(value As Integer)
+    End Sub
+    Partial Private Sub OnLoanIDChanged()
+    End Sub
+    Partial Private Sub OnLoanIPrincipalChanging(value As Decimal)
+    End Sub
+    Partial Private Sub OnLoanIPrincipalChanged()
+    End Sub
+    Partial Private Sub OnLoanPPrincipalChanging(value As Decimal)
+    End Sub
+    Partial Private Sub OnLoanPPrincipalChanged()
+    End Sub
+    Partial Private Sub OnLoanRateOfInterestChanging(value As Double)
+    End Sub
+    Partial Private Sub OnLoanRateOfInterestChanged()
+    End Sub
+    Partial Private Sub OnCustomerAcctIDChanging(value As Integer)
+    End Sub
+    Partial Private Sub OnCustomerAcctIDChanged()
+    End Sub
+    Partial Private Sub OnLoanTermChanging(value As System.Nullable(Of Integer))
+    End Sub
+    Partial Private Sub OnLoanTermChanged()
+    End Sub
+    Partial Private Sub OnLoanStartDateChanging(value As System.Nullable(Of Date))
+    End Sub
+    Partial Private Sub OnLoanStartDateChanged()
+    End Sub
+    Partial Private Sub OnManualAmortChanging(value As System.Nullable(Of Boolean))
+    End Sub
+    Partial Private Sub OnManualAmortChanged()
+    End Sub
+    Partial Private Sub OnMonthlyInstallmentChanging(value As System.Nullable(Of Decimal))
+    End Sub
+    Partial Private Sub OnMonthlyInstallmentChanged()
+    End Sub
+    #End Region
+	
+	Public Sub New()
+		MyBase.New
+		Me._tblPayments = New EntitySet(Of tblPayment)(AddressOf Me.attach_tblPayments, AddressOf Me.detach_tblPayments)
+		Me._tblAmorts = New EntitySet(Of tblAmort)(AddressOf Me.attach_tblAmorts, AddressOf Me.detach_tblAmorts)
+		Me._tblCustAcctNum = CType(Nothing, EntityRef(Of tblCustAcctNum))
+		OnCreated
+	End Sub
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanID", AutoSync:=AutoSync.OnInsert, DbType:="Int NOT NULL IDENTITY", IsPrimaryKey:=true, IsDbGenerated:=true)>  _
+	Public Property LoanID() As Integer
+		Get
+			Return Me._LoanID
+		End Get
+		Set
+			If ((Me._LoanID = value)  _
+						= false) Then
+				Me.OnLoanIDChanging(value)
+				Me.SendPropertyChanging
+				Me._LoanID = value
+				Me.SendPropertyChanged("LoanID")
+				Me.OnLoanIDChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanIPrincipal", DbType:="Decimal(20,2) NOT NULL")>  _
+	Public Property LoanIPrincipal() As Decimal
+		Get
+			Return Me._LoanIPrincipal
+		End Get
+		Set
+			If ((Me._LoanIPrincipal = value)  _
+						= false) Then
+				Me.OnLoanIPrincipalChanging(value)
+				Me.SendPropertyChanging
+				Me._LoanIPrincipal = value
+				Me.SendPropertyChanged("LoanIPrincipal")
+				Me.OnLoanIPrincipalChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanPPrincipal", DbType:="Decimal(20,2) NOT NULL")>  _
+	Public Property LoanPPrincipal() As Decimal
+		Get
+			Return Me._LoanPPrincipal
+		End Get
+		Set
+			If ((Me._LoanPPrincipal = value)  _
+						= false) Then
+				Me.OnLoanPPrincipalChanging(value)
+				Me.SendPropertyChanging
+				Me._LoanPPrincipal = value
+				Me.SendPropertyChanged("LoanPPrincipal")
+				Me.OnLoanPPrincipalChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanRateOfInterest", DbType:="Float NOT NULL")>  _
+	Public Property LoanRateOfInterest() As Double
+		Get
+			Return Me._LoanRateOfInterest
+		End Get
+		Set
+			If ((Me._LoanRateOfInterest = value)  _
+						= false) Then
+				Me.OnLoanRateOfInterestChanging(value)
+				Me.SendPropertyChanging
+				Me._LoanRateOfInterest = value
+				Me.SendPropertyChanged("LoanRateOfInterest")
+				Me.OnLoanRateOfInterestChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_CustomerAcctID", DbType:="Int NOT NULL")>  _
+	Public Property CustomerAcctID() As Integer
+		Get
+			Return Me._CustomerAcctID
+		End Get
+		Set
+			If ((Me._CustomerAcctID = value)  _
+						= false) Then
+				If Me._tblCustAcctNum.HasLoadedOrAssignedValue Then
+					Throw New System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException()
+				End If
+				Me.OnCustomerAcctIDChanging(value)
+				Me.SendPropertyChanging
+				Me._CustomerAcctID = value
+				Me.SendPropertyChanged("CustomerAcctID")
+				Me.OnCustomerAcctIDChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanTerm", DbType:="Int")>  _
+	Public Property LoanTerm() As System.Nullable(Of Integer)
+		Get
+			Return Me._LoanTerm
+		End Get
+		Set
+			If (Me._LoanTerm.Equals(value) = false) Then
+				Me.OnLoanTermChanging(value)
+				Me.SendPropertyChanging
+				Me._LoanTerm = value
+				Me.SendPropertyChanged("LoanTerm")
+				Me.OnLoanTermChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanStartDate", DbType:="Date")>  _
+	Public Property LoanStartDate() As System.Nullable(Of Date)
+		Get
+			Return Me._LoanStartDate
+		End Get
+		Set
+			If (Me._LoanStartDate.Equals(value) = false) Then
+				Me.OnLoanStartDateChanging(value)
+				Me.SendPropertyChanging
+				Me._LoanStartDate = value
+				Me.SendPropertyChanged("LoanStartDate")
+				Me.OnLoanStartDateChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_ManualAmort", DbType:="Bit")>  _
+	Public Property ManualAmort() As System.Nullable(Of Boolean)
+		Get
+			Return Me._ManualAmort
+		End Get
+		Set
+			If (Me._ManualAmort.Equals(value) = false) Then
+				Me.OnManualAmortChanging(value)
+				Me.SendPropertyChanging
+				Me._ManualAmort = value
+				Me.SendPropertyChanged("ManualAmort")
+				Me.OnManualAmortChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_MonthlyInstallment", DbType:="Decimal(20,2)")>  _
+	Public Property MonthlyInstallment() As System.Nullable(Of Decimal)
+		Get
+			Return Me._MonthlyInstallment
+		End Get
+		Set
+			If (Me._MonthlyInstallment.Equals(value) = false) Then
+				Me.OnMonthlyInstallmentChanging(value)
+				Me.SendPropertyChanging
+				Me._MonthlyInstallment = value
+				Me.SendPropertyChanged("MonthlyInstallment")
+				Me.OnMonthlyInstallmentChanged
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.AssociationAttribute(Name:="tblLoan_tblPayment", Storage:="_tblPayments", ThisKey:="LoanID", OtherKey:="LoanID")>  _
+	Public Property tblPayments() As EntitySet(Of tblPayment)
+		Get
+			Return Me._tblPayments
+		End Get
+		Set
+			Me._tblPayments.Assign(value)
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.AssociationAttribute(Name:="tblLoan_tblAmort", Storage:="_tblAmorts", ThisKey:="LoanID", OtherKey:="LoanID")>  _
+	Public Property tblAmorts() As EntitySet(Of tblAmort)
+		Get
+			Return Me._tblAmorts
+		End Get
+		Set
+			Me._tblAmorts.Assign(value)
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.AssociationAttribute(Name:="tblCustAcctNum_tblLoan", Storage:="_tblCustAcctNum", ThisKey:="CustomerAcctID", OtherKey:="CustAcctID", IsForeignKey:=true)>  _
+	Public Property tblCustAcctNum() As tblCustAcctNum
+		Get
+			Return Me._tblCustAcctNum.Entity
+		End Get
+		Set
+			Dim previousValue As tblCustAcctNum = Me._tblCustAcctNum.Entity
+			If ((Object.Equals(previousValue, value) = false)  _
+						OrElse (Me._tblCustAcctNum.HasLoadedOrAssignedValue = false)) Then
+				Me.SendPropertyChanging
+				If ((previousValue Is Nothing)  _
+							= false) Then
+					Me._tblCustAcctNum.Entity = Nothing
+					previousValue.tblLoans.Remove(Me)
+				End If
+				Me._tblCustAcctNum.Entity = value
+				If ((value Is Nothing)  _
+							= false) Then
+					value.tblLoans.Add(Me)
+					Me._CustomerAcctID = value.CustAcctID
+				Else
+					Me._CustomerAcctID = CType(Nothing, Integer)
+				End If
+				Me.SendPropertyChanged("tblCustAcctNum")
+			End If
+		End Set
+	End Property
+	
+	Public Event PropertyChanging As PropertyChangingEventHandler Implements System.ComponentModel.INotifyPropertyChanging.PropertyChanging
+	
+	Public Event PropertyChanged As PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
+	
+	Protected Overridable Sub SendPropertyChanging()
+		If ((Me.PropertyChangingEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanging(Me, emptyChangingEventArgs)
+		End If
+	End Sub
+	
+	Protected Overridable Sub SendPropertyChanged(ByVal propertyName As [String])
+		If ((Me.PropertyChangedEvent Is Nothing)  _
+					= false) Then
+			RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyName))
+		End If
+	End Sub
+	
+	Private Sub attach_tblPayments(ByVal entity As tblPayment)
+		Me.SendPropertyChanging
+		entity.tblLoan = Me
+	End Sub
+	
+	Private Sub detach_tblPayments(ByVal entity As tblPayment)
+		Me.SendPropertyChanging
+		entity.tblLoan = Nothing
+	End Sub
+	
+	Private Sub attach_tblAmorts(ByVal entity As tblAmort)
+		Me.SendPropertyChanging
+		entity.tblLoan = Me
+	End Sub
+	
+	Private Sub detach_tblAmorts(ByVal entity As tblAmort)
+		Me.SendPropertyChanging
+		entity.tblLoan = Nothing
+	End Sub
 End Class
 
 Partial Public Class allCustFullNameResult

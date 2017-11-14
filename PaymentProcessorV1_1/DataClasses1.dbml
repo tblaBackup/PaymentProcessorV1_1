@@ -1,21 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="NHALoanModule" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=lopinot\sqlexpress;Initial Catalog=NHALoanModule;Integrated Security=True" SettingsObjectName="PaymentProcessorV1_1.My.MySettings" SettingsPropertyName="NHALoanModuleConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.tblLoan" Member="tblLoans">
-    <Type Name="tblLoan">
-      <Column Name="LoanID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="LoanIPrincipal" Type="System.Decimal" DbType="Decimal(20,2) NOT NULL" CanBeNull="false" />
-      <Column Name="LoanPPrincipal" Type="System.Decimal" DbType="Decimal(20,2) NOT NULL" CanBeNull="false" />
-      <Column Name="LoanRateOfInterest" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerAcctID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="LoanTerm" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="LoanStartDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="OutstandingInterest" Type="System.Decimal" DbType="Decimal(20,2)" CanBeNull="true" />
-      <Column Name="MonthlyInstallment" Type="System.Decimal" DbType="Decimal(20,2)" CanBeNull="true" />
-      <Association Name="tblLoan_tblPayment" Member="tblPayments" ThisKey="LoanID" OtherKey="LoanID" Type="tblPayment" />
-      <Association Name="tblLoan_tblAmort" Member="tblAmorts" ThisKey="LoanID" OtherKey="LoanID" Type="tblAmort" />
-      <Association Name="tblCustAcctNum_tblLoan" Member="tblCustAcctNum" ThisKey="CustomerAcctID" OtherKey="CustAcctID" Type="tblCustAcctNum" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.tblCustAcctNum" Member="tblCustAcctNums">
     <Type Name="tblCustAcctNum">
       <Column Name="CustAcctID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -85,6 +69,22 @@
       <Column Name="CustomerID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.tblLoan" Member="tblLoans">
+    <Type Name="tblLoan">
+      <Column Name="LoanID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LoanIPrincipal" Type="System.Decimal" DbType="Decimal(20,2) NOT NULL" CanBeNull="false" />
+      <Column Name="LoanPPrincipal" Type="System.Decimal" DbType="Decimal(20,2) NOT NULL" CanBeNull="false" />
+      <Column Name="LoanRateOfInterest" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerAcctID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LoanTerm" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LoanStartDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="ManualAmort" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MonthlyInstallment" Type="System.Decimal" DbType="Decimal(20,2)" CanBeNull="true" />
+      <Association Name="tblLoan_tblPayment" Member="tblPayments" ThisKey="LoanID" OtherKey="LoanID" Type="tblPayment" />
+      <Association Name="tblLoan_tblAmort" Member="tblAmorts" ThisKey="LoanID" OtherKey="LoanID" Type="tblAmort" />
+      <Association Name="tblCustAcctNum_tblLoan" Member="tblCustAcctNum" ThisKey="CustomerAcctID" OtherKey="CustAcctID" Type="tblCustAcctNum" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Function Name="dbo.ReturnLastCust" Method="ReturnLastCust" IsComposable="true">
     <Return Type="System.Int32" />
   </Function>
@@ -128,5 +128,41 @@
     <ElementType Name="allCustFullNameResult">
       <Column Name="FullName" Type="System.String" DbType="NVarChar(101)" CanBeNull="true" />
     </ElementType>
+  </Function>
+  <Function Name="dbo.CreateLoan" Method="CreateLoan">
+    <Parameter Name="LoanPrincipal" Parameter="loanPrincipal" Type="System.Double" DbType="Float" />
+    <Parameter Name="APR" Parameter="aPR" Type="System.Double" DbType="Float" />
+    <Parameter Name="Term" Parameter="term" Type="System.Int32" DbType="Int" />
+    <Parameter Name="StartDate" Parameter="startDate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="MRC" Parameter="mRC" Type="System.Double" DbType="Float" />
+    <Parameter Name="CustAccNum" Parameter="custAccNum" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ManualAmort" Parameter="manualAmort" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InsertIntoCash" Method="InsertIntoCash">
+    <Parameter Name="Payment" Parameter="payment" Type="System.Double" DbType="Float" />
+    <Parameter Name="DateSubmitted" Parameter="dateSubmitted" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="LoanID" Parameter="loanID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ReturnsCashID" Method="ReturnsCashID" IsComposable="true">
+    <Parameter Name="Amt" Parameter="amt" Type="System.Double" DbType="Float" />
+    <Parameter Name="DateDone" Parameter="dateDone" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="loanID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SumOnHold" Method="SumOnHold" IsComposable="true">
+    <Parameter Name="LoanID" Parameter="loanID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Double" />
+  </Function>
+  <Function Name="dbo.ReturnPrincipal" Method="ReturnPrincipal" IsComposable="true">
+    <Parameter Name="loanID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="paymentNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Double" />
+  </Function>
+  <Function Name="dbo.ReturnInterest" Method="ReturnInterest" IsComposable="true">
+    <Parameter Name="loanID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="paymentNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Double" />
   </Function>
 </Database>

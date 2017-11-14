@@ -37,8 +37,6 @@ Partial Public Class NHALoanModuleDataSet
     
     Private tabletblInterestInfo As tblInterestInfoDataTable
     
-    Private tabletblLoan As tblLoanDataTable
-    
     Private tabletblPayments As tblPaymentsDataTable
     
     Private tabletblReceipts As tblReceiptsDataTable
@@ -51,21 +49,23 @@ Partial Public Class NHALoanModuleDataSet
     
     Private tableFullNameCust As FullNameCustDataTable
     
+    Private tabletblLoan As tblLoanDataTable
+    
+    Private relationFK_tblPayments_tblCash As Global.System.Data.DataRelation
+    
+    Private relationFK_tblReceipts_tblPayments As Global.System.Data.DataRelation
+    
+    Private relationFK_tblCustAcctNum_tblCustomer As Global.System.Data.DataRelation
+    
     Private relationFK_tblAmort_tblLoan As Global.System.Data.DataRelation
     
     Private relationFK_tblCash_tblLoan As Global.System.Data.DataRelation
     
     Private relationFK_tblHolding_tblLoan As Global.System.Data.DataRelation
     
-    Private relationFK_tblLoan_tblCustomer As Global.System.Data.DataRelation
-    
-    Private relationFK_tblPayments_tblCash As Global.System.Data.DataRelation
-    
     Private relationFK_tblPayments_tblLoan As Global.System.Data.DataRelation
     
-    Private relationFK_tblReceipts_tblPayments As Global.System.Data.DataRelation
-    
-    Private relationFK_tblCustAcctNum_tblCustomer As Global.System.Data.DataRelation
+    Private relationFK_tblLoan_tblCustomer As Global.System.Data.DataRelation
     
     Private _schemaSerializationMode As Global.System.Data.SchemaSerializationMode = Global.System.Data.SchemaSerializationMode.IncludeSchema
     
@@ -114,9 +114,6 @@ Partial Public Class NHALoanModuleDataSet
             If (Not (ds.Tables("tblInterestInfo")) Is Nothing) Then
                 MyBase.Tables.Add(New tblInterestInfoDataTable(ds.Tables("tblInterestInfo")))
             End If
-            If (Not (ds.Tables("tblLoan")) Is Nothing) Then
-                MyBase.Tables.Add(New tblLoanDataTable(ds.Tables("tblLoan")))
-            End If
             If (Not (ds.Tables("tblPayments")) Is Nothing) Then
                 MyBase.Tables.Add(New tblPaymentsDataTable(ds.Tables("tblPayments")))
             End If
@@ -134,6 +131,9 @@ Partial Public Class NHALoanModuleDataSet
             End If
             If (Not (ds.Tables("FullNameCust")) Is Nothing) Then
                 MyBase.Tables.Add(New FullNameCustDataTable(ds.Tables("FullNameCust")))
+            End If
+            If (Not (ds.Tables("tblLoan")) Is Nothing) Then
+                MyBase.Tables.Add(New tblLoanDataTable(ds.Tables("tblLoan")))
             End If
             Me.DataSetName = ds.DataSetName
             Me.Prefix = ds.Prefix
@@ -216,16 +216,6 @@ Partial Public Class NHALoanModuleDataSet
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
      Global.System.ComponentModel.Browsable(false),  _
      Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
-    Public ReadOnly Property tblLoan() As tblLoanDataTable
-        Get
-            Return Me.tabletblLoan
-        End Get
-    End Property
-    
-    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-     Global.System.ComponentModel.Browsable(false),  _
-     Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
     Public ReadOnly Property tblPayments() As tblPaymentsDataTable
         Get
             Return Me.tabletblPayments
@@ -279,6 +269,16 @@ Partial Public Class NHALoanModuleDataSet
     Public ReadOnly Property FullNameCust() As FullNameCustDataTable
         Get
             Return Me.tableFullNameCust
+        End Get
+    End Property
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+     Global.System.ComponentModel.Browsable(false),  _
+     Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
+    Public ReadOnly Property tblLoan() As tblLoanDataTable
+        Get
+            Return Me.tabletblLoan
         End Get
     End Property
     
@@ -367,9 +367,6 @@ Partial Public Class NHALoanModuleDataSet
             If (Not (ds.Tables("tblInterestInfo")) Is Nothing) Then
                 MyBase.Tables.Add(New tblInterestInfoDataTable(ds.Tables("tblInterestInfo")))
             End If
-            If (Not (ds.Tables("tblLoan")) Is Nothing) Then
-                MyBase.Tables.Add(New tblLoanDataTable(ds.Tables("tblLoan")))
-            End If
             If (Not (ds.Tables("tblPayments")) Is Nothing) Then
                 MyBase.Tables.Add(New tblPaymentsDataTable(ds.Tables("tblPayments")))
             End If
@@ -387,6 +384,9 @@ Partial Public Class NHALoanModuleDataSet
             End If
             If (Not (ds.Tables("FullNameCust")) Is Nothing) Then
                 MyBase.Tables.Add(New FullNameCustDataTable(ds.Tables("FullNameCust")))
+            End If
+            If (Not (ds.Tables("tblLoan")) Is Nothing) Then
+                MyBase.Tables.Add(New tblLoanDataTable(ds.Tables("tblLoan")))
             End If
             Me.DataSetName = ds.DataSetName
             Me.Prefix = ds.Prefix
@@ -456,12 +456,6 @@ Partial Public Class NHALoanModuleDataSet
                 Me.tabletblInterestInfo.InitVars
             End If
         End If
-        Me.tabletblLoan = CType(MyBase.Tables("tblLoan"),tblLoanDataTable)
-        If (initTable = true) Then
-            If (Not (Me.tabletblLoan) Is Nothing) Then
-                Me.tabletblLoan.InitVars
-            End If
-        End If
         Me.tabletblPayments = CType(MyBase.Tables("tblPayments"),tblPaymentsDataTable)
         If (initTable = true) Then
             If (Not (Me.tabletblPayments) Is Nothing) Then
@@ -498,14 +492,20 @@ Partial Public Class NHALoanModuleDataSet
                 Me.tableFullNameCust.InitVars
             End If
         End If
+        Me.tabletblLoan = CType(MyBase.Tables("tblLoan"),tblLoanDataTable)
+        If (initTable = true) Then
+            If (Not (Me.tabletblLoan) Is Nothing) Then
+                Me.tabletblLoan.InitVars
+            End If
+        End If
+        Me.relationFK_tblPayments_tblCash = Me.Relations("FK_tblPayments_tblCash")
+        Me.relationFK_tblReceipts_tblPayments = Me.Relations("FK_tblReceipts_tblPayments")
+        Me.relationFK_tblCustAcctNum_tblCustomer = Me.Relations("FK_tblCustAcctNum_tblCustomer")
         Me.relationFK_tblAmort_tblLoan = Me.Relations("FK_tblAmort_tblLoan")
         Me.relationFK_tblCash_tblLoan = Me.Relations("FK_tblCash_tblLoan")
         Me.relationFK_tblHolding_tblLoan = Me.Relations("FK_tblHolding_tblLoan")
-        Me.relationFK_tblLoan_tblCustomer = Me.Relations("FK_tblLoan_tblCustomer")
-        Me.relationFK_tblPayments_tblCash = Me.Relations("FK_tblPayments_tblCash")
         Me.relationFK_tblPayments_tblLoan = Me.Relations("FK_tblPayments_tblLoan")
-        Me.relationFK_tblReceipts_tblPayments = Me.Relations("FK_tblReceipts_tblPayments")
-        Me.relationFK_tblCustAcctNum_tblCustomer = Me.Relations("FK_tblCustAcctNum_tblCustomer")
+        Me.relationFK_tblLoan_tblCustomer = Me.Relations("FK_tblLoan_tblCustomer")
     End Sub
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -528,8 +528,6 @@ Partial Public Class NHALoanModuleDataSet
         MyBase.Tables.Add(Me.tabletblHolding)
         Me.tabletblInterestInfo = New tblInterestInfoDataTable()
         MyBase.Tables.Add(Me.tabletblInterestInfo)
-        Me.tabletblLoan = New tblLoanDataTable()
-        MyBase.Tables.Add(Me.tabletblLoan)
         Me.tabletblPayments = New tblPaymentsDataTable()
         MyBase.Tables.Add(Me.tabletblPayments)
         Me.tabletblReceipts = New tblReceiptsDataTable()
@@ -542,22 +540,24 @@ Partial Public Class NHALoanModuleDataSet
         MyBase.Tables.Add(Me.tableCustomerAmort)
         Me.tableFullNameCust = New FullNameCustDataTable()
         MyBase.Tables.Add(Me.tableFullNameCust)
+        Me.tabletblLoan = New tblLoanDataTable()
+        MyBase.Tables.Add(Me.tabletblLoan)
+        Me.relationFK_tblPayments_tblCash = New Global.System.Data.DataRelation("FK_tblPayments_tblCash", New Global.System.Data.DataColumn() {Me.tabletblCash.IDColumn}, New Global.System.Data.DataColumn() {Me.tabletblPayments.CashIDColumn}, false)
+        Me.Relations.Add(Me.relationFK_tblPayments_tblCash)
+        Me.relationFK_tblReceipts_tblPayments = New Global.System.Data.DataRelation("FK_tblReceipts_tblPayments", New Global.System.Data.DataColumn() {Me.tabletblCash.IDColumn}, New Global.System.Data.DataColumn() {Me.tabletblReceipts.IDColumn}, false)
+        Me.Relations.Add(Me.relationFK_tblReceipts_tblPayments)
+        Me.relationFK_tblCustAcctNum_tblCustomer = New Global.System.Data.DataRelation("FK_tblCustAcctNum_tblCustomer", New Global.System.Data.DataColumn() {Me.tabletblCustomer.CustomerIDColumn}, New Global.System.Data.DataColumn() {Me.tabletblCustAcctNum.CustomerIDColumn}, false)
+        Me.Relations.Add(Me.relationFK_tblCustAcctNum_tblCustomer)
         Me.relationFK_tblAmort_tblLoan = New Global.System.Data.DataRelation("FK_tblAmort_tblLoan", New Global.System.Data.DataColumn() {Me.tabletblLoan.LoanIDColumn}, New Global.System.Data.DataColumn() {Me.tabletblAmort.LoanIDColumn}, false)
         Me.Relations.Add(Me.relationFK_tblAmort_tblLoan)
         Me.relationFK_tblCash_tblLoan = New Global.System.Data.DataRelation("FK_tblCash_tblLoan", New Global.System.Data.DataColumn() {Me.tabletblLoan.LoanIDColumn}, New Global.System.Data.DataColumn() {Me.tabletblCash.LoanIDColumn}, false)
         Me.Relations.Add(Me.relationFK_tblCash_tblLoan)
         Me.relationFK_tblHolding_tblLoan = New Global.System.Data.DataRelation("FK_tblHolding_tblLoan", New Global.System.Data.DataColumn() {Me.tabletblLoan.LoanIDColumn}, New Global.System.Data.DataColumn() {Me.tabletblHolding.LoanIDColumn}, false)
         Me.Relations.Add(Me.relationFK_tblHolding_tblLoan)
-        Me.relationFK_tblLoan_tblCustomer = New Global.System.Data.DataRelation("FK_tblLoan_tblCustomer", New Global.System.Data.DataColumn() {Me.tabletblCustAcctNum.CustAcctIDColumn}, New Global.System.Data.DataColumn() {Me.tabletblLoan.CustomerAcctIDColumn}, false)
-        Me.Relations.Add(Me.relationFK_tblLoan_tblCustomer)
-        Me.relationFK_tblPayments_tblCash = New Global.System.Data.DataRelation("FK_tblPayments_tblCash", New Global.System.Data.DataColumn() {Me.tabletblCash.IDColumn}, New Global.System.Data.DataColumn() {Me.tabletblPayments.CashIDColumn}, false)
-        Me.Relations.Add(Me.relationFK_tblPayments_tblCash)
         Me.relationFK_tblPayments_tblLoan = New Global.System.Data.DataRelation("FK_tblPayments_tblLoan", New Global.System.Data.DataColumn() {Me.tabletblLoan.LoanIDColumn}, New Global.System.Data.DataColumn() {Me.tabletblPayments.LoanIDColumn}, false)
         Me.Relations.Add(Me.relationFK_tblPayments_tblLoan)
-        Me.relationFK_tblReceipts_tblPayments = New Global.System.Data.DataRelation("FK_tblReceipts_tblPayments", New Global.System.Data.DataColumn() {Me.tabletblCash.IDColumn}, New Global.System.Data.DataColumn() {Me.tabletblReceipts.IDColumn}, false)
-        Me.Relations.Add(Me.relationFK_tblReceipts_tblPayments)
-        Me.relationFK_tblCustAcctNum_tblCustomer = New Global.System.Data.DataRelation("FK_tblCustAcctNum_tblCustomer", New Global.System.Data.DataColumn() {Me.tabletblCustomer.CustomerIDColumn}, New Global.System.Data.DataColumn() {Me.tabletblCustAcctNum.CustomerIDColumn}, false)
-        Me.Relations.Add(Me.relationFK_tblCustAcctNum_tblCustomer)
+        Me.relationFK_tblLoan_tblCustomer = New Global.System.Data.DataRelation("FK_tblLoan_tblCustomer", New Global.System.Data.DataColumn() {Me.tabletblCustAcctNum.CustAcctIDColumn}, New Global.System.Data.DataColumn() {Me.tabletblLoan.CustomerAcctIDColumn}, false)
+        Me.Relations.Add(Me.relationFK_tblLoan_tblCustomer)
     End Sub
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -598,12 +598,6 @@ Partial Public Class NHALoanModuleDataSet
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-    Private Function ShouldSerializetblLoan() As Boolean
-        Return false
-    End Function
-    
-    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Private Function ShouldSerializetblPayments() As Boolean
         Return false
     End Function
@@ -635,6 +629,12 @@ Partial Public Class NHALoanModuleDataSet
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Private Function ShouldSerializeFullNameCust() As Boolean
+        Return false
+    End Function
+    
+    <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Private Function ShouldSerializetblLoan() As Boolean
         Return false
     End Function
     
@@ -715,9 +715,6 @@ Partial Public Class NHALoanModuleDataSet
     Public Delegate Sub tblInterestInfoRowChangeEventHandler(ByVal sender As Object, ByVal e As tblInterestInfoRowChangeEvent)
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-    Public Delegate Sub tblLoanRowChangeEventHandler(ByVal sender As Object, ByVal e As tblLoanRowChangeEvent)
-    
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Public Delegate Sub tblPaymentsRowChangeEventHandler(ByVal sender As Object, ByVal e As tblPaymentsRowChangeEvent)
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
@@ -734,6 +731,9 @@ Partial Public Class NHALoanModuleDataSet
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Public Delegate Sub FullNameCustRowChangeEventHandler(ByVal sender As Object, ByVal e As FullNameCustRowChangeEvent)
+    
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Delegate Sub tblLoanRowChangeEventHandler(ByVal sender As Object, ByVal e As tblLoanRowChangeEvent)
     
     '''<summary>
     '''Represents the strongly named DataTable class.
@@ -2603,382 +2603,6 @@ Partial Public Class NHALoanModuleDataSet
             Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
             attribute2.Name = "tableTypeName"
             attribute2.FixedValue = "tblInterestInfoDataTable"
-            type.Attributes.Add(attribute2)
-            type.Particle = sequence
-            Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
-            If xs.Contains(dsSchema.TargetNamespace) Then
-                Dim s1 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
-                Dim s2 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
-                Try 
-                    Dim schema As Global.System.Xml.Schema.XmlSchema = Nothing
-                    dsSchema.Write(s1)
-                    Dim schemas As Global.System.Collections.IEnumerator = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator
-                    Do While schemas.MoveNext
-                        schema = CType(schemas.Current,Global.System.Xml.Schema.XmlSchema)
-                        s2.SetLength(0)
-                        schema.Write(s2)
-                        If (s1.Length = s2.Length) Then
-                            s1.Position = 0
-                            s2.Position = 0
-                            
-                            Do While ((s1.Position <> s1.Length)  _
-                                        AndAlso (s1.ReadByte = s2.ReadByte))
-                                
-                                
-                            Loop
-                            If (s1.Position = s1.Length) Then
-                                Return type
-                            End If
-                        End If
-                        
-                    Loop
-                Finally
-                    If (Not (s1) Is Nothing) Then
-                        s1.Close
-                    End If
-                    If (Not (s2) Is Nothing) Then
-                        s2.Close
-                    End If
-                End Try
-            End If
-            xs.Add(dsSchema)
-            Return type
-        End Function
-    End Class
-    
-    '''<summary>
-    '''Represents the strongly named DataTable class.
-    '''</summary>
-    <Global.System.Serializable(),  _
-     Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")>  _
-    Partial Public Class tblLoanDataTable
-        Inherits Global.System.Data.TypedTableBase(Of tblLoanRow)
-        
-        Private columnLoanID As Global.System.Data.DataColumn
-        
-        Private columnLoanIPrincipal As Global.System.Data.DataColumn
-        
-        Private columnLoanPPrincipal As Global.System.Data.DataColumn
-        
-        Private columnLoanRateOfInterest As Global.System.Data.DataColumn
-        
-        Private columnCustomerAcctID As Global.System.Data.DataColumn
-        
-        Private columnLoanTerm As Global.System.Data.DataColumn
-        
-        Private columnLoanStartDate As Global.System.Data.DataColumn
-        
-        Private columnOutstandingInterest As Global.System.Data.DataColumn
-        
-        Private columnMonthlyInstallment As Global.System.Data.DataColumn
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub New()
-            MyBase.New
-            Me.TableName = "tblLoan"
-            Me.BeginInit
-            Me.InitClass
-            Me.EndInit
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Friend Sub New(ByVal table As Global.System.Data.DataTable)
-            MyBase.New
-            Me.TableName = table.TableName
-            If (table.CaseSensitive <> table.DataSet.CaseSensitive) Then
-                Me.CaseSensitive = table.CaseSensitive
-            End If
-            If (table.Locale.ToString <> table.DataSet.Locale.ToString) Then
-                Me.Locale = table.Locale
-            End If
-            If (table.Namespace <> table.DataSet.Namespace) Then
-                Me.Namespace = table.Namespace
-            End If
-            Me.Prefix = table.Prefix
-            Me.MinimumCapacity = table.MinimumCapacity
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
-            MyBase.New(info, context)
-            Me.InitVars
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property LoanIDColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnLoanID
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property LoanIPrincipalColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnLoanIPrincipal
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property LoanPPrincipalColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnLoanPPrincipal
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property LoanRateOfInterestColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnLoanRateOfInterest
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property CustomerAcctIDColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnCustomerAcctID
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property LoanTermColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnLoanTerm
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property LoanStartDateColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnLoanStartDate
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property OutstandingInterestColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnOutstandingInterest
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property MonthlyInstallmentColumn() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnMonthlyInstallment
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Browsable(false)>  _
-        Public ReadOnly Property Count() As Integer
-            Get
-                Return Me.Rows.Count
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Default ReadOnly Property Item(ByVal index As Integer) As tblLoanRow
-            Get
-                Return CType(Me.Rows(index),tblLoanRow)
-            End Get
-        End Property
-        
-        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Event tblLoanRowChanging As tblLoanRowChangeEventHandler
-        
-        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Event tblLoanRowChanged As tblLoanRowChangeEventHandler
-        
-        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Event tblLoanRowDeleting As tblLoanRowChangeEventHandler
-        
-        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Event tblLoanRowDeleted As tblLoanRowChangeEventHandler
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Sub AddtblLoanRow(ByVal row As tblLoanRow)
-            Me.Rows.Add(row)
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddtblLoanRow(ByVal LoanIPrincipal As Decimal, ByVal LoanPPrincipal As Decimal, ByVal LoanRateOfInterest As Double, ByVal parenttblCustAcctNumRowByFK_tblLoan_tblCustomer As tblCustAcctNumRow, ByVal LoanTerm As Integer, ByVal LoanStartDate As Date, ByVal OutstandingInterest As Decimal, ByVal MonthlyInstallment As Decimal) As tblLoanRow
-            Dim rowtblLoanRow As tblLoanRow = CType(Me.NewRow,tblLoanRow)
-            Dim columnValuesArray() As Object = New Object() {Nothing, LoanIPrincipal, LoanPPrincipal, LoanRateOfInterest, Nothing, LoanTerm, LoanStartDate, OutstandingInterest, MonthlyInstallment}
-            If (Not (parenttblCustAcctNumRowByFK_tblLoan_tblCustomer) Is Nothing) Then
-                columnValuesArray(4) = parenttblCustAcctNumRowByFK_tblLoan_tblCustomer(0)
-            End If
-            rowtblLoanRow.ItemArray = columnValuesArray
-            Me.Rows.Add(rowtblLoanRow)
-            Return rowtblLoanRow
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function FindByLoanID(ByVal LoanID As Integer) As tblLoanRow
-            Return CType(Me.Rows.Find(New Object() {LoanID}),tblLoanRow)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overrides Function Clone() As Global.System.Data.DataTable
-            Dim cln As tblLoanDataTable = CType(MyBase.Clone,tblLoanDataTable)
-            cln.InitVars
-            Return cln
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected Overrides Function CreateInstance() As Global.System.Data.DataTable
-            Return New tblLoanDataTable()
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Friend Sub InitVars()
-            Me.columnLoanID = MyBase.Columns("LoanID")
-            Me.columnLoanIPrincipal = MyBase.Columns("LoanIPrincipal")
-            Me.columnLoanPPrincipal = MyBase.Columns("LoanPPrincipal")
-            Me.columnLoanRateOfInterest = MyBase.Columns("LoanRateOfInterest")
-            Me.columnCustomerAcctID = MyBase.Columns("CustomerAcctID")
-            Me.columnLoanTerm = MyBase.Columns("LoanTerm")
-            Me.columnLoanStartDate = MyBase.Columns("LoanStartDate")
-            Me.columnOutstandingInterest = MyBase.Columns("OutstandingInterest")
-            Me.columnMonthlyInstallment = MyBase.Columns("MonthlyInstallment")
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Private Sub InitClass()
-            Me.columnLoanID = New Global.System.Data.DataColumn("LoanID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnLoanID)
-            Me.columnLoanIPrincipal = New Global.System.Data.DataColumn("LoanIPrincipal", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnLoanIPrincipal)
-            Me.columnLoanPPrincipal = New Global.System.Data.DataColumn("LoanPPrincipal", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnLoanPPrincipal)
-            Me.columnLoanRateOfInterest = New Global.System.Data.DataColumn("LoanRateOfInterest", GetType(Double), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnLoanRateOfInterest)
-            Me.columnCustomerAcctID = New Global.System.Data.DataColumn("CustomerAcctID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnCustomerAcctID)
-            Me.columnLoanTerm = New Global.System.Data.DataColumn("LoanTerm", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnLoanTerm)
-            Me.columnLoanStartDate = New Global.System.Data.DataColumn("LoanStartDate", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnLoanStartDate)
-            Me.columnOutstandingInterest = New Global.System.Data.DataColumn("OutstandingInterest", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnOutstandingInterest)
-            Me.columnMonthlyInstallment = New Global.System.Data.DataColumn("MonthlyInstallment", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnMonthlyInstallment)
-            Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnLoanID}, true))
-            Me.columnLoanID.AutoIncrement = true
-            Me.columnLoanID.AutoIncrementSeed = -1
-            Me.columnLoanID.AutoIncrementStep = -1
-            Me.columnLoanID.AllowDBNull = false
-            Me.columnLoanID.ReadOnly = true
-            Me.columnLoanID.Unique = true
-            Me.columnLoanIPrincipal.AllowDBNull = false
-            Me.columnLoanPPrincipal.AllowDBNull = false
-            Me.columnLoanRateOfInterest.AllowDBNull = false
-            Me.columnCustomerAcctID.AllowDBNull = false
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function NewtblLoanRow() As tblLoanRow
-            Return CType(Me.NewRow,tblLoanRow)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected Overrides Function NewRowFromBuilder(ByVal builder As Global.System.Data.DataRowBuilder) As Global.System.Data.DataRow
-            Return New tblLoanRow(builder)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected Overrides Function GetRowType() As Global.System.Type
-            Return GetType(tblLoanRow)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected Overrides Sub OnRowChanged(ByVal e As Global.System.Data.DataRowChangeEventArgs)
-            MyBase.OnRowChanged(e)
-            If (Not (Me.tblLoanRowChangedEvent) Is Nothing) Then
-                RaiseEvent tblLoanRowChanged(Me, New tblLoanRowChangeEvent(CType(e.Row,tblLoanRow), e.Action))
-            End If
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected Overrides Sub OnRowChanging(ByVal e As Global.System.Data.DataRowChangeEventArgs)
-            MyBase.OnRowChanging(e)
-            If (Not (Me.tblLoanRowChangingEvent) Is Nothing) Then
-                RaiseEvent tblLoanRowChanging(Me, New tblLoanRowChangeEvent(CType(e.Row,tblLoanRow), e.Action))
-            End If
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected Overrides Sub OnRowDeleted(ByVal e As Global.System.Data.DataRowChangeEventArgs)
-            MyBase.OnRowDeleted(e)
-            If (Not (Me.tblLoanRowDeletedEvent) Is Nothing) Then
-                RaiseEvent tblLoanRowDeleted(Me, New tblLoanRowChangeEvent(CType(e.Row,tblLoanRow), e.Action))
-            End If
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected Overrides Sub OnRowDeleting(ByVal e As Global.System.Data.DataRowChangeEventArgs)
-            MyBase.OnRowDeleting(e)
-            If (Not (Me.tblLoanRowDeletingEvent) Is Nothing) Then
-                RaiseEvent tblLoanRowDeleting(Me, New tblLoanRowChangeEvent(CType(e.Row,tblLoanRow), e.Action))
-            End If
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub RemovetblLoanRow(ByVal row As tblLoanRow)
-            Me.Rows.Remove(row)
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Shared Function GetTypedTableSchema(ByVal xs As Global.System.Xml.Schema.XmlSchemaSet) As Global.System.Xml.Schema.XmlSchemaComplexType
-            Dim type As Global.System.Xml.Schema.XmlSchemaComplexType = New Global.System.Xml.Schema.XmlSchemaComplexType()
-            Dim sequence As Global.System.Xml.Schema.XmlSchemaSequence = New Global.System.Xml.Schema.XmlSchemaSequence()
-            Dim ds As NHALoanModuleDataSet = New NHALoanModuleDataSet()
-            Dim any1 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
-            any1.Namespace = "http://www.w3.org/2001/XMLSchema"
-            any1.MinOccurs = New Decimal(0)
-            any1.MaxOccurs = Decimal.MaxValue
-            any1.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
-            sequence.Items.Add(any1)
-            Dim any2 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
-            any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1"
-            any2.MinOccurs = New Decimal(1)
-            any2.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
-            sequence.Items.Add(any2)
-            Dim attribute1 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
-            attribute1.Name = "namespace"
-            attribute1.FixedValue = ds.Namespace
-            type.Attributes.Add(attribute1)
-            Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
-            attribute2.Name = "tableTypeName"
-            attribute2.FixedValue = "tblLoanDataTable"
             type.Attributes.Add(attribute2)
             type.Particle = sequence
             Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
@@ -4933,6 +4557,382 @@ Partial Public Class NHALoanModuleDataSet
     End Class
     
     '''<summary>
+    '''Represents the strongly named DataTable class.
+    '''</summary>
+    <Global.System.Serializable(),  _
+     Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")>  _
+    Partial Public Class tblLoanDataTable
+        Inherits Global.System.Data.TypedTableBase(Of tblLoanRow)
+        
+        Private columnLoanID As Global.System.Data.DataColumn
+        
+        Private columnLoanIPrincipal As Global.System.Data.DataColumn
+        
+        Private columnLoanPPrincipal As Global.System.Data.DataColumn
+        
+        Private columnLoanRateOfInterest As Global.System.Data.DataColumn
+        
+        Private columnCustomerAcctID As Global.System.Data.DataColumn
+        
+        Private columnLoanTerm As Global.System.Data.DataColumn
+        
+        Private columnLoanStartDate As Global.System.Data.DataColumn
+        
+        Private columnManualAmort As Global.System.Data.DataColumn
+        
+        Private columnMonthlyInstallment As Global.System.Data.DataColumn
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New()
+            MyBase.New
+            Me.TableName = "tblLoan"
+            Me.BeginInit
+            Me.InitClass
+            Me.EndInit
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal table As Global.System.Data.DataTable)
+            MyBase.New
+            Me.TableName = table.TableName
+            If (table.CaseSensitive <> table.DataSet.CaseSensitive) Then
+                Me.CaseSensitive = table.CaseSensitive
+            End If
+            If (table.Locale.ToString <> table.DataSet.Locale.ToString) Then
+                Me.Locale = table.Locale
+            End If
+            If (table.Namespace <> table.DataSet.Namespace) Then
+                Me.Namespace = table.Namespace
+            End If
+            Me.Prefix = table.Prefix
+            Me.MinimumCapacity = table.MinimumCapacity
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Sub New(ByVal info As Global.System.Runtime.Serialization.SerializationInfo, ByVal context As Global.System.Runtime.Serialization.StreamingContext)
+            MyBase.New(info, context)
+            Me.InitVars
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property LoanIDColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLoanID
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property LoanIPrincipalColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLoanIPrincipal
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property LoanPPrincipalColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLoanPPrincipal
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property LoanRateOfInterestColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLoanRateOfInterest
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property CustomerAcctIDColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnCustomerAcctID
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property LoanTermColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLoanTerm
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property LoanStartDateColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLoanStartDate
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ManualAmortColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnManualAmort
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property MonthlyInstallmentColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnMonthlyInstallment
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Browsable(false)>  _
+        Public ReadOnly Property Count() As Integer
+            Get
+                Return Me.Rows.Count
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Default ReadOnly Property Item(ByVal index As Integer) As tblLoanRow
+            Get
+                Return CType(Me.Rows(index),tblLoanRow)
+            End Get
+        End Property
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event tblLoanRowChanging As tblLoanRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event tblLoanRowChanged As tblLoanRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event tblLoanRowDeleting As tblLoanRowChangeEventHandler
+        
+        <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Event tblLoanRowDeleted As tblLoanRowChangeEventHandler
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Sub AddtblLoanRow(ByVal row As tblLoanRow)
+            Me.Rows.Add(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overloads Function AddtblLoanRow(ByVal LoanIPrincipal As Decimal, ByVal LoanPPrincipal As Decimal, ByVal LoanRateOfInterest As Double, ByVal parenttblCustAcctNumRowByFK_tblLoan_tblCustomer As tblCustAcctNumRow, ByVal LoanTerm As Integer, ByVal LoanStartDate As Date, ByVal ManualAmort As Boolean, ByVal MonthlyInstallment As Decimal) As tblLoanRow
+            Dim rowtblLoanRow As tblLoanRow = CType(Me.NewRow,tblLoanRow)
+            Dim columnValuesArray() As Object = New Object() {Nothing, LoanIPrincipal, LoanPPrincipal, LoanRateOfInterest, Nothing, LoanTerm, LoanStartDate, ManualAmort, MonthlyInstallment}
+            If (Not (parenttblCustAcctNumRowByFK_tblLoan_tblCustomer) Is Nothing) Then
+                columnValuesArray(4) = parenttblCustAcctNumRowByFK_tblLoan_tblCustomer(0)
+            End If
+            rowtblLoanRow.ItemArray = columnValuesArray
+            Me.Rows.Add(rowtblLoanRow)
+            Return rowtblLoanRow
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function FindByLoanID(ByVal LoanID As Integer) As tblLoanRow
+            Return CType(Me.Rows.Find(New Object() {LoanID}),tblLoanRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Overrides Function Clone() As Global.System.Data.DataTable
+            Dim cln As tblLoanDataTable = CType(MyBase.Clone,tblLoanDataTable)
+            cln.InitVars
+            Return cln
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function CreateInstance() As Global.System.Data.DataTable
+            Return New tblLoanDataTable()
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub InitVars()
+            Me.columnLoanID = MyBase.Columns("LoanID")
+            Me.columnLoanIPrincipal = MyBase.Columns("LoanIPrincipal")
+            Me.columnLoanPPrincipal = MyBase.Columns("LoanPPrincipal")
+            Me.columnLoanRateOfInterest = MyBase.Columns("LoanRateOfInterest")
+            Me.columnCustomerAcctID = MyBase.Columns("CustomerAcctID")
+            Me.columnLoanTerm = MyBase.Columns("LoanTerm")
+            Me.columnLoanStartDate = MyBase.Columns("LoanStartDate")
+            Me.columnManualAmort = MyBase.Columns("ManualAmort")
+            Me.columnMonthlyInstallment = MyBase.Columns("MonthlyInstallment")
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitClass()
+            Me.columnLoanID = New Global.System.Data.DataColumn("LoanID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLoanID)
+            Me.columnLoanIPrincipal = New Global.System.Data.DataColumn("LoanIPrincipal", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLoanIPrincipal)
+            Me.columnLoanPPrincipal = New Global.System.Data.DataColumn("LoanPPrincipal", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLoanPPrincipal)
+            Me.columnLoanRateOfInterest = New Global.System.Data.DataColumn("LoanRateOfInterest", GetType(Double), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLoanRateOfInterest)
+            Me.columnCustomerAcctID = New Global.System.Data.DataColumn("CustomerAcctID", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCustomerAcctID)
+            Me.columnLoanTerm = New Global.System.Data.DataColumn("LoanTerm", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLoanTerm)
+            Me.columnLoanStartDate = New Global.System.Data.DataColumn("LoanStartDate", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLoanStartDate)
+            Me.columnManualAmort = New Global.System.Data.DataColumn("ManualAmort", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnManualAmort)
+            Me.columnMonthlyInstallment = New Global.System.Data.DataColumn("MonthlyInstallment", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnMonthlyInstallment)
+            Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnLoanID}, true))
+            Me.columnLoanID.AutoIncrement = true
+            Me.columnLoanID.AutoIncrementSeed = -1
+            Me.columnLoanID.AutoIncrementStep = -1
+            Me.columnLoanID.AllowDBNull = false
+            Me.columnLoanID.ReadOnly = true
+            Me.columnLoanID.Unique = true
+            Me.columnLoanIPrincipal.AllowDBNull = false
+            Me.columnLoanPPrincipal.AllowDBNull = false
+            Me.columnLoanRateOfInterest.AllowDBNull = false
+            Me.columnCustomerAcctID.AllowDBNull = false
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function NewtblLoanRow() As tblLoanRow
+            Return CType(Me.NewRow,tblLoanRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function NewRowFromBuilder(ByVal builder As Global.System.Data.DataRowBuilder) As Global.System.Data.DataRow
+            Return New tblLoanRow(builder)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Function GetRowType() As Global.System.Type
+            Return GetType(tblLoanRow)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanged(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanged(e)
+            If (Not (Me.tblLoanRowChangedEvent) Is Nothing) Then
+                RaiseEvent tblLoanRowChanged(Me, New tblLoanRowChangeEvent(CType(e.Row,tblLoanRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowChanging(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowChanging(e)
+            If (Not (Me.tblLoanRowChangingEvent) Is Nothing) Then
+                RaiseEvent tblLoanRowChanging(Me, New tblLoanRowChangeEvent(CType(e.Row,tblLoanRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleted(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleted(e)
+            If (Not (Me.tblLoanRowDeletedEvent) Is Nothing) Then
+                RaiseEvent tblLoanRowDeleted(Me, New tblLoanRowChangeEvent(CType(e.Row,tblLoanRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Overrides Sub OnRowDeleting(ByVal e As Global.System.Data.DataRowChangeEventArgs)
+            MyBase.OnRowDeleting(e)
+            If (Not (Me.tblLoanRowDeletingEvent) Is Nothing) Then
+                RaiseEvent tblLoanRowDeleting(Me, New tblLoanRowChangeEvent(CType(e.Row,tblLoanRow), e.Action))
+            End If
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub RemovetblLoanRow(ByVal row As tblLoanRow)
+            Me.Rows.Remove(row)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Shared Function GetTypedTableSchema(ByVal xs As Global.System.Xml.Schema.XmlSchemaSet) As Global.System.Xml.Schema.XmlSchemaComplexType
+            Dim type As Global.System.Xml.Schema.XmlSchemaComplexType = New Global.System.Xml.Schema.XmlSchemaComplexType()
+            Dim sequence As Global.System.Xml.Schema.XmlSchemaSequence = New Global.System.Xml.Schema.XmlSchemaSequence()
+            Dim ds As NHALoanModuleDataSet = New NHALoanModuleDataSet()
+            Dim any1 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any1.Namespace = "http://www.w3.org/2001/XMLSchema"
+            any1.MinOccurs = New Decimal(0)
+            any1.MaxOccurs = Decimal.MaxValue
+            any1.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any1)
+            Dim any2 As Global.System.Xml.Schema.XmlSchemaAny = New Global.System.Xml.Schema.XmlSchemaAny()
+            any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1"
+            any2.MinOccurs = New Decimal(1)
+            any2.ProcessContents = Global.System.Xml.Schema.XmlSchemaContentProcessing.Lax
+            sequence.Items.Add(any2)
+            Dim attribute1 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute1.Name = "namespace"
+            attribute1.FixedValue = ds.Namespace
+            type.Attributes.Add(attribute1)
+            Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
+            attribute2.Name = "tableTypeName"
+            attribute2.FixedValue = "tblLoanDataTable"
+            type.Attributes.Add(attribute2)
+            type.Particle = sequence
+            Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
+            If xs.Contains(dsSchema.TargetNamespace) Then
+                Dim s1 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Dim s2 As Global.System.IO.MemoryStream = New Global.System.IO.MemoryStream()
+                Try 
+                    Dim schema As Global.System.Xml.Schema.XmlSchema = Nothing
+                    dsSchema.Write(s1)
+                    Dim schemas As Global.System.Collections.IEnumerator = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator
+                    Do While schemas.MoveNext
+                        schema = CType(schemas.Current,Global.System.Xml.Schema.XmlSchema)
+                        s2.SetLength(0)
+                        schema.Write(s2)
+                        If (s1.Length = s2.Length) Then
+                            s1.Position = 0
+                            s2.Position = 0
+                            
+                            Do While ((s1.Position <> s1.Length)  _
+                                        AndAlso (s1.ReadByte = s2.ReadByte))
+                                
+                                
+                            Loop
+                            If (s1.Position = s1.Length) Then
+                                Return type
+                            End If
+                        End If
+                        
+                    Loop
+                Finally
+                    If (Not (s1) Is Nothing) Then
+                        s1.Close
+                    End If
+                    If (Not (s2) Is Nothing) Then
+                        s2.Close
+                    End If
+                End Try
+            End If
+            xs.Add(dsSchema)
+            Return type
+        End Function
+    End Class
+    
+    '''<summary>
     '''Represents strongly named DataRow class.
     '''</summary>
     Partial Public Class tblAmortRow
@@ -5498,236 +5498,6 @@ Partial Public Class NHALoanModuleDataSet
                 Me(Me.tabletblInterestInfo.LastInterestMissedColumn) = value
             End Set
         End Property
-    End Class
-    
-    '''<summary>
-    '''Represents strongly named DataRow class.
-    '''</summary>
-    Partial Public Class tblLoanRow
-        Inherits Global.System.Data.DataRow
-        
-        Private tabletblLoan As tblLoanDataTable
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Friend Sub New(ByVal rb As Global.System.Data.DataRowBuilder)
-            MyBase.New(rb)
-            Me.tabletblLoan = CType(Me.Table,tblLoanDataTable)
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property LoanID() As Integer
-            Get
-                Return CType(Me(Me.tabletblLoan.LoanIDColumn),Integer)
-            End Get
-            Set
-                Me(Me.tabletblLoan.LoanIDColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property LoanIPrincipal() As Decimal
-            Get
-                Return CType(Me(Me.tabletblLoan.LoanIPrincipalColumn),Decimal)
-            End Get
-            Set
-                Me(Me.tabletblLoan.LoanIPrincipalColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property LoanPPrincipal() As Decimal
-            Get
-                Return CType(Me(Me.tabletblLoan.LoanPPrincipalColumn),Decimal)
-            End Get
-            Set
-                Me(Me.tabletblLoan.LoanPPrincipalColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property LoanRateOfInterest() As Double
-            Get
-                Return CType(Me(Me.tabletblLoan.LoanRateOfInterestColumn),Double)
-            End Get
-            Set
-                Me(Me.tabletblLoan.LoanRateOfInterestColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property CustomerAcctID() As Integer
-            Get
-                Return CType(Me(Me.tabletblLoan.CustomerAcctIDColumn),Integer)
-            End Get
-            Set
-                Me(Me.tabletblLoan.CustomerAcctIDColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property LoanTerm() As Integer
-            Get
-                Try 
-                    Return CType(Me(Me.tabletblLoan.LoanTermColumn),Integer)
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'LoanTerm' in table 'tblLoan' is DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tabletblLoan.LoanTermColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property LoanStartDate() As Date
-            Get
-                Try 
-                    Return CType(Me(Me.tabletblLoan.LoanStartDateColumn),Date)
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'LoanStartDate' in table 'tblLoan' is DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tabletblLoan.LoanStartDateColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property OutstandingInterest() As Decimal
-            Get
-                Try 
-                    Return CType(Me(Me.tabletblLoan.OutstandingInterestColumn),Decimal)
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'OutstandingInterest' in table 'tblLoan' is DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tabletblLoan.OutstandingInterestColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property MonthlyInstallment() As Decimal
-            Get
-                Try 
-                    Return CType(Me(Me.tabletblLoan.MonthlyInstallmentColumn),Decimal)
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'MonthlyInstallment' in table 'tblLoan' is DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tabletblLoan.MonthlyInstallmentColumn) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property tblCustAcctNumRow() As tblCustAcctNumRow
-            Get
-                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_tblLoan_tblCustomer")),tblCustAcctNumRow)
-            End Get
-            Set
-                Me.SetParentRow(value, Me.Table.ParentRelations("FK_tblLoan_tblCustomer"))
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsLoanTermNull() As Boolean
-            Return Me.IsNull(Me.tabletblLoan.LoanTermColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetLoanTermNull()
-            Me(Me.tabletblLoan.LoanTermColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsLoanStartDateNull() As Boolean
-            Return Me.IsNull(Me.tabletblLoan.LoanStartDateColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetLoanStartDateNull()
-            Me(Me.tabletblLoan.LoanStartDateColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsOutstandingInterestNull() As Boolean
-            Return Me.IsNull(Me.tabletblLoan.OutstandingInterestColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetOutstandingInterestNull()
-            Me(Me.tabletblLoan.OutstandingInterestColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function IsMonthlyInstallmentNull() As Boolean
-            Return Me.IsNull(Me.tabletblLoan.MonthlyInstallmentColumn)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub SetMonthlyInstallmentNull()
-            Me(Me.tabletblLoan.MonthlyInstallmentColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function GettblAmortRows() As tblAmortRow()
-            If (Me.Table.ChildRelations("FK_tblAmort_tblLoan") Is Nothing) Then
-                Return New tblAmortRow(-1) {}
-            Else
-                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("FK_tblAmort_tblLoan")),tblAmortRow())
-            End If
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function GettblCashRows() As tblCashRow()
-            If (Me.Table.ChildRelations("FK_tblCash_tblLoan") Is Nothing) Then
-                Return New tblCashRow(-1) {}
-            Else
-                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("FK_tblCash_tblLoan")),tblCashRow())
-            End If
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function GettblHoldingRows() As tblHoldingRow()
-            If (Me.Table.ChildRelations("FK_tblHolding_tblLoan") Is Nothing) Then
-                Return New tblHoldingRow(-1) {}
-            Else
-                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("FK_tblHolding_tblLoan")),tblHoldingRow())
-            End If
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function GettblPaymentsRows() As tblPaymentsRow()
-            If (Me.Table.ChildRelations("FK_tblPayments_tblLoan") Is Nothing) Then
-                Return New tblPaymentsRow(-1) {}
-            Else
-                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("FK_tblPayments_tblLoan")),tblPaymentsRow())
-            End If
-        End Function
     End Class
     
     '''<summary>
@@ -6382,6 +6152,236 @@ Partial Public Class NHALoanModuleDataSet
     End Class
     
     '''<summary>
+    '''Represents strongly named DataRow class.
+    '''</summary>
+    Partial Public Class tblLoanRow
+        Inherits Global.System.Data.DataRow
+        
+        Private tabletblLoan As tblLoanDataTable
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Sub New(ByVal rb As Global.System.Data.DataRowBuilder)
+            MyBase.New(rb)
+            Me.tabletblLoan = CType(Me.Table,tblLoanDataTable)
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property LoanID() As Integer
+            Get
+                Return CType(Me(Me.tabletblLoan.LoanIDColumn),Integer)
+            End Get
+            Set
+                Me(Me.tabletblLoan.LoanIDColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property LoanIPrincipal() As Decimal
+            Get
+                Return CType(Me(Me.tabletblLoan.LoanIPrincipalColumn),Decimal)
+            End Get
+            Set
+                Me(Me.tabletblLoan.LoanIPrincipalColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property LoanPPrincipal() As Decimal
+            Get
+                Return CType(Me(Me.tabletblLoan.LoanPPrincipalColumn),Decimal)
+            End Get
+            Set
+                Me(Me.tabletblLoan.LoanPPrincipalColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property LoanRateOfInterest() As Double
+            Get
+                Return CType(Me(Me.tabletblLoan.LoanRateOfInterestColumn),Double)
+            End Get
+            Set
+                Me(Me.tabletblLoan.LoanRateOfInterestColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property CustomerAcctID() As Integer
+            Get
+                Return CType(Me(Me.tabletblLoan.CustomerAcctIDColumn),Integer)
+            End Get
+            Set
+                Me(Me.tabletblLoan.CustomerAcctIDColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property LoanTerm() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tabletblLoan.LoanTermColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'LoanTerm' in table 'tblLoan' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabletblLoan.LoanTermColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property LoanStartDate() As Date
+            Get
+                Try 
+                    Return CType(Me(Me.tabletblLoan.LoanStartDateColumn),Date)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'LoanStartDate' in table 'tblLoan' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabletblLoan.LoanStartDateColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property ManualAmort() As Boolean
+            Get
+                Try 
+                    Return CType(Me(Me.tabletblLoan.ManualAmortColumn),Boolean)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'ManualAmort' in table 'tblLoan' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabletblLoan.ManualAmortColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property MonthlyInstallment() As Decimal
+            Get
+                Try 
+                    Return CType(Me(Me.tabletblLoan.MonthlyInstallmentColumn),Decimal)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'MonthlyInstallment' in table 'tblLoan' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tabletblLoan.MonthlyInstallmentColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property tblCustAcctNumRow() As tblCustAcctNumRow
+            Get
+                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_tblLoan_tblCustomer")),tblCustAcctNumRow)
+            End Get
+            Set
+                Me.SetParentRow(value, Me.Table.ParentRelations("FK_tblLoan_tblCustomer"))
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsLoanTermNull() As Boolean
+            Return Me.IsNull(Me.tabletblLoan.LoanTermColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetLoanTermNull()
+            Me(Me.tabletblLoan.LoanTermColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsLoanStartDateNull() As Boolean
+            Return Me.IsNull(Me.tabletblLoan.LoanStartDateColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetLoanStartDateNull()
+            Me(Me.tabletblLoan.LoanStartDateColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsManualAmortNull() As Boolean
+            Return Me.IsNull(Me.tabletblLoan.ManualAmortColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetManualAmortNull()
+            Me(Me.tabletblLoan.ManualAmortColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsMonthlyInstallmentNull() As Boolean
+            Return Me.IsNull(Me.tabletblLoan.MonthlyInstallmentColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetMonthlyInstallmentNull()
+            Me(Me.tabletblLoan.MonthlyInstallmentColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function GettblAmortRows() As tblAmortRow()
+            If (Me.Table.ChildRelations("FK_tblAmort_tblLoan") Is Nothing) Then
+                Return New tblAmortRow(-1) {}
+            Else
+                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("FK_tblAmort_tblLoan")),tblAmortRow())
+            End If
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function GettblCashRows() As tblCashRow()
+            If (Me.Table.ChildRelations("FK_tblCash_tblLoan") Is Nothing) Then
+                Return New tblCashRow(-1) {}
+            Else
+                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("FK_tblCash_tblLoan")),tblCashRow())
+            End If
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function GettblHoldingRows() As tblHoldingRow()
+            If (Me.Table.ChildRelations("FK_tblHolding_tblLoan") Is Nothing) Then
+                Return New tblHoldingRow(-1) {}
+            Else
+                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("FK_tblHolding_tblLoan")),tblHoldingRow())
+            End If
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function GettblPaymentsRows() As tblPaymentsRow()
+            If (Me.Table.ChildRelations("FK_tblPayments_tblLoan") Is Nothing) Then
+                Return New tblPaymentsRow(-1) {}
+            Else
+                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("FK_tblPayments_tblLoan")),tblPaymentsRow())
+            End If
+        End Function
+    End Class
+    
+    '''<summary>
     '''Row event argument class
     '''</summary>
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
@@ -6601,42 +6601,6 @@ Partial Public Class NHALoanModuleDataSet
     '''Row event argument class
     '''</summary>
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-    Public Class tblLoanRowChangeEvent
-        Inherits Global.System.EventArgs
-        
-        Private eventRow As tblLoanRow
-        
-        Private eventAction As Global.System.Data.DataRowAction
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub New(ByVal row As tblLoanRow, ByVal action As Global.System.Data.DataRowAction)
-            MyBase.New
-            Me.eventRow = row
-            Me.eventAction = action
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property Row() As tblLoanRow
-            Get
-                Return Me.eventRow
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property Action() As Global.System.Data.DataRowAction
-            Get
-                Return Me.eventAction
-            End Get
-        End Property
-    End Class
-    
-    '''<summary>
-    '''Row event argument class
-    '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Public Class tblPaymentsRowChangeEvent
         Inherits Global.System.EventArgs
         
@@ -6835,6 +6799,42 @@ Partial Public Class NHALoanModuleDataSet
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public ReadOnly Property Row() As FullNameCustRow
+            Get
+                Return Me.eventRow
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Action() As Global.System.Data.DataRowAction
+            Get
+                Return Me.eventAction
+            End Get
+        End Property
+    End Class
+    
+    '''<summary>
+    '''Row event argument class
+    '''</summary>
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+    Public Class tblLoanRowChangeEvent
+        Inherits Global.System.EventArgs
+        
+        Private eventRow As tblLoanRow
+        
+        Private eventAction As Global.System.Data.DataRowAction
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New(ByVal row As tblLoanRow, ByVal action As Global.System.Data.DataRowAction)
+            MyBase.New
+            Me.eventRow = row
+            Me.eventAction = action
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property Row() As tblLoanRow
             Get
                 Return Me.eventRow
             End Get
@@ -8982,520 +8982,6 @@ Namespace NHALoanModuleDataSetTableAdapters
      Global.System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner"& _ 
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"),  _
      Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
-    Partial Public Class tblLoanTableAdapter
-        Inherits Global.System.ComponentModel.Component
-        
-        Private WithEvents _adapter As Global.System.Data.SqlClient.SqlDataAdapter
-        
-        Private _connection As Global.System.Data.SqlClient.SqlConnection
-        
-        Private _transaction As Global.System.Data.SqlClient.SqlTransaction
-        
-        Private _commandCollection() As Global.System.Data.SqlClient.SqlCommand
-        
-        Private _clearBeforeFill As Boolean
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub New()
-            MyBase.New
-            Me.ClearBeforeFill = true
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected Friend ReadOnly Property Adapter() As Global.System.Data.SqlClient.SqlDataAdapter
-            Get
-                If (Me._adapter Is Nothing) Then
-                    Me.InitAdapter
-                End If
-                Return Me._adapter
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Friend Property Connection() As Global.System.Data.SqlClient.SqlConnection
-            Get
-                If (Me._connection Is Nothing) Then
-                    Me.InitConnection
-                End If
-                Return Me._connection
-            End Get
-            Set
-                Me._connection = value
-                If (Not (Me.Adapter.InsertCommand) Is Nothing) Then
-                    Me.Adapter.InsertCommand.Connection = value
-                End If
-                If (Not (Me.Adapter.DeleteCommand) Is Nothing) Then
-                    Me.Adapter.DeleteCommand.Connection = value
-                End If
-                If (Not (Me.Adapter.UpdateCommand) Is Nothing) Then
-                    Me.Adapter.UpdateCommand.Connection = value
-                End If
-                Dim i As Integer = 0
-                Do While (i < Me.CommandCollection.Length)
-                    If (Not (Me.CommandCollection(i)) Is Nothing) Then
-                        CType(Me.CommandCollection(i),Global.System.Data.SqlClient.SqlCommand).Connection = value
-                    End If
-                    i = (i + 1)
-                Loop
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Friend Property Transaction() As Global.System.Data.SqlClient.SqlTransaction
-            Get
-                Return Me._transaction
-            End Get
-            Set
-                Me._transaction = value
-                Dim i As Integer = 0
-                Do While (i < Me.CommandCollection.Length)
-                    Me.CommandCollection(i).Transaction = Me._transaction
-                    i = (i + 1)
-                Loop
-                If ((Not (Me.Adapter) Is Nothing)  _
-                            AndAlso (Not (Me.Adapter.DeleteCommand) Is Nothing)) Then
-                    Me.Adapter.DeleteCommand.Transaction = Me._transaction
-                End If
-                If ((Not (Me.Adapter) Is Nothing)  _
-                            AndAlso (Not (Me.Adapter.InsertCommand) Is Nothing)) Then
-                    Me.Adapter.InsertCommand.Transaction = Me._transaction
-                End If
-                If ((Not (Me.Adapter) Is Nothing)  _
-                            AndAlso (Not (Me.Adapter.UpdateCommand) Is Nothing)) Then
-                    Me.Adapter.UpdateCommand.Transaction = Me._transaction
-                End If
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Protected ReadOnly Property CommandCollection() As Global.System.Data.SqlClient.SqlCommand()
-            Get
-                If (Me._commandCollection Is Nothing) Then
-                    Me.InitCommandCollection
-                End If
-                Return Me._commandCollection
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property ClearBeforeFill() As Boolean
-            Get
-                Return Me._clearBeforeFill
-            End Get
-            Set
-                Me._clearBeforeFill = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Private Sub InitAdapter()
-            Me._adapter = New Global.System.Data.SqlClient.SqlDataAdapter()
-            Dim tableMapping As Global.System.Data.Common.DataTableMapping = New Global.System.Data.Common.DataTableMapping()
-            tableMapping.SourceTable = "Table"
-            tableMapping.DataSetTable = "tblLoan"
-            tableMapping.ColumnMappings.Add("LoanID", "LoanID")
-            tableMapping.ColumnMappings.Add("LoanIPrincipal", "LoanIPrincipal")
-            tableMapping.ColumnMappings.Add("LoanPPrincipal", "LoanPPrincipal")
-            tableMapping.ColumnMappings.Add("LoanRateOfInterest", "LoanRateOfInterest")
-            tableMapping.ColumnMappings.Add("CustomerAcctID", "CustomerAcctID")
-            tableMapping.ColumnMappings.Add("LoanTerm", "LoanTerm")
-            tableMapping.ColumnMappings.Add("LoanStartDate", "LoanStartDate")
-            tableMapping.ColumnMappings.Add("OutstandingInterest", "OutstandingInterest")
-            tableMapping.ColumnMappings.Add("MonthlyInstallment", "MonthlyInstallment")
-            Me._adapter.TableMappings.Add(tableMapping)
-            Me._adapter.DeleteCommand = New Global.System.Data.SqlClient.SqlCommand()
-            Me._adapter.DeleteCommand.Connection = Me.Connection
-            Me._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[tblLoan] WHERE (([LoanID] = @Original_LoanID) AND ([LoanIPrinc"& _ 
-                "ipal] = @Original_LoanIPrincipal) AND ([LoanPPrincipal] = @Original_LoanPPrincip"& _ 
-                "al) AND ([LoanRateOfInterest] = @Original_LoanRateOfInterest) AND ([CustomerAcct"& _ 
-                "ID] = @Original_CustomerAcctID) AND ((@IsNull_LoanTerm = 1 AND [LoanTerm] IS NUL"& _ 
-                "L) OR ([LoanTerm] = @Original_LoanTerm)) AND ((@IsNull_LoanStartDate = 1 AND [Lo"& _ 
-                "anStartDate] IS NULL) OR ([LoanStartDate] = @Original_LoanStartDate)) AND ((@IsN"& _ 
-                "ull_OutstandingInterest = 1 AND [OutstandingInterest] IS NULL) OR ([OutstandingI"& _ 
-                "nterest] = @Original_OutstandingInterest)) AND ((@IsNull_MonthlyInstallment = 1 "& _ 
-                "AND [MonthlyInstallment] IS NULL) OR ([MonthlyInstallment] = @Original_MonthlyIn"& _ 
-                "stallment)))"
-            Me._adapter.DeleteCommand.CommandType = Global.System.Data.CommandType.Text
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanID", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanIPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanIPrincipal", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanPPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanPPrincipal", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanRateOfInterest", Global.System.Data.SqlDbType.Float, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanRateOfInterest", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_CustomerAcctID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "CustomerAcctID", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_LoanStartDate", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanStartDate", Global.System.Data.SqlDbType.[Date], 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_OutstandingInterest", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "OutstandingInterest", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_OutstandingInterest", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "OutstandingInterest", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_MonthlyInstallment", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "MonthlyInstallment", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_MonthlyInstallment", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "MonthlyInstallment", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.InsertCommand = New Global.System.Data.SqlClient.SqlCommand()
-            Me._adapter.InsertCommand.Connection = Me.Connection
-            Me._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[tblLoan] ([LoanIPrincipal], [LoanPPrincipal], [LoanRateOfInter"& _ 
-                "est], [CustomerAcctID], [LoanTerm], [LoanStartDate], [OutstandingInterest], [Mon"& _ 
-                "thlyInstallment]) VALUES (@LoanIPrincipal, @LoanPPrincipal, @LoanRateOfInterest,"& _ 
-                " @CustomerAcctID, @LoanTerm, @LoanStartDate, @OutstandingInterest, @MonthlyInsta"& _ 
-                "llment);"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"SELECT LoanID, LoanIPrincipal, LoanPPrincipal, LoanRateOfInterest, Cus"& _ 
-                "tomerAcctID, LoanTerm, LoanStartDate, OutstandingInterest, MonthlyInstallment FR"& _ 
-                "OM tblLoan WHERE (LoanID = SCOPE_IDENTITY())"
-            Me._adapter.InsertCommand.CommandType = Global.System.Data.CommandType.Text
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanIPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanIPrincipal", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanPPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanPPrincipal", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanRateOfInterest", Global.System.Data.SqlDbType.Float, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanRateOfInterest", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@CustomerAcctID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "CustomerAcctID", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanStartDate", Global.System.Data.SqlDbType.[Date], 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@OutstandingInterest", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "OutstandingInterest", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@MonthlyInstallment", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "MonthlyInstallment", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand = New Global.System.Data.SqlClient.SqlCommand()
-            Me._adapter.UpdateCommand.Connection = Me.Connection
-            Me._adapter.UpdateCommand.CommandText = "UPDATE [dbo].[tblLoan] SET [LoanIPrincipal] = @LoanIPrincipal, [LoanPPrincipal] ="& _ 
-                " @LoanPPrincipal, [LoanRateOfInterest] = @LoanRateOfInterest, [CustomerAcctID] ="& _ 
-                " @CustomerAcctID, [LoanTerm] = @LoanTerm, [LoanStartDate] = @LoanStartDate, [Out"& _ 
-                "standingInterest] = @OutstandingInterest, [MonthlyInstallment] = @MonthlyInstall"& _ 
-                "ment WHERE (([LoanID] = @Original_LoanID) AND ([LoanIPrincipal] = @Original_Loan"& _ 
-                "IPrincipal) AND ([LoanPPrincipal] = @Original_LoanPPrincipal) AND ([LoanRateOfIn"& _ 
-                "terest] = @Original_LoanRateOfInterest) AND ([CustomerAcctID] = @Original_Custom"& _ 
-                "erAcctID) AND ((@IsNull_LoanTerm = 1 AND [LoanTerm] IS NULL) OR ([LoanTerm] = @O"& _ 
-                "riginal_LoanTerm)) AND ((@IsNull_LoanStartDate = 1 AND [LoanStartDate] IS NULL) "& _ 
-                "OR ([LoanStartDate] = @Original_LoanStartDate)) AND ((@IsNull_OutstandingInteres"& _ 
-                "t = 1 AND [OutstandingInterest] IS NULL) OR ([OutstandingInterest] = @Original_O"& _ 
-                "utstandingInterest)) AND ((@IsNull_MonthlyInstallment = 1 AND [MonthlyInstallmen"& _ 
-                "t] IS NULL) OR ([MonthlyInstallment] = @Original_MonthlyInstallment)));"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"SELECT "& _ 
-                "LoanID, LoanIPrincipal, LoanPPrincipal, LoanRateOfInterest, CustomerAcctID, Loan"& _ 
-                "Term, LoanStartDate, OutstandingInterest, MonthlyInstallment FROM tblLoan WHERE "& _ 
-                "(LoanID = @LoanID)"
-            Me._adapter.UpdateCommand.CommandType = Global.System.Data.CommandType.Text
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanIPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanIPrincipal", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanPPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanPPrincipal", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanRateOfInterest", Global.System.Data.SqlDbType.Float, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanRateOfInterest", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@CustomerAcctID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "CustomerAcctID", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanStartDate", Global.System.Data.SqlDbType.[Date], 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@OutstandingInterest", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "OutstandingInterest", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@MonthlyInstallment", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "MonthlyInstallment", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanID", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanIPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanIPrincipal", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanPPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanPPrincipal", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanRateOfInterest", Global.System.Data.SqlDbType.Float, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanRateOfInterest", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_CustomerAcctID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "CustomerAcctID", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_LoanStartDate", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanStartDate", Global.System.Data.SqlDbType.[Date], 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_OutstandingInterest", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "OutstandingInterest", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_OutstandingInterest", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "OutstandingInterest", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_MonthlyInstallment", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "MonthlyInstallment", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_MonthlyInstallment", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "MonthlyInstallment", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanID", Global.System.Data.SqlDbType.Int, 4, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanID", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Private Sub InitConnection()
-            Me._connection = New Global.System.Data.SqlClient.SqlConnection()
-            Me._connection.ConnectionString = Global.PaymentProcessorV1_1.My.MySettings.Default.NHALoanModuleConnectionString
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Private Sub InitCommandCollection()
-            Me._commandCollection = New Global.System.Data.SqlClient.SqlCommand(0) {}
-            Me._commandCollection(0) = New Global.System.Data.SqlClient.SqlCommand()
-            Me._commandCollection(0).Connection = Me.Connection
-            Me._commandCollection(0).CommandText = "SELECT LoanID, LoanIPrincipal, LoanPPrincipal, LoanRateOfInterest, CustomerAcctID"& _ 
-                ", LoanTerm, LoanStartDate, OutstandingInterest, MonthlyInstallment FROM dbo.tblL"& _ 
-                "oan"
-            Me._commandCollection(0).CommandType = Global.System.Data.CommandType.Text
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Fill, true)>  _
-        Public Overloads Overridable Function Fill(ByVal dataTable As NHALoanModuleDataSet.tblLoanDataTable) As Integer
-            Me.Adapter.SelectCommand = Me.CommandCollection(0)
-            If (Me.ClearBeforeFill = true) Then
-                dataTable.Clear
-            End If
-            Dim returnValue As Integer = Me.Adapter.Fill(dataTable)
-            Return returnValue
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.[Select], true)>  _
-        Public Overloads Overridable Function GetData() As NHALoanModuleDataSet.tblLoanDataTable
-            Me.Adapter.SelectCommand = Me.CommandCollection(0)
-            Dim dataTable As NHALoanModuleDataSet.tblLoanDataTable = New NHALoanModuleDataSet.tblLoanDataTable()
-            Me.Adapter.Fill(dataTable)
-            Return dataTable
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
-        Public Overloads Overridable Function Update(ByVal dataTable As NHALoanModuleDataSet.tblLoanDataTable) As Integer
-            Return Me.Adapter.Update(dataTable)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
-        Public Overloads Overridable Function Update(ByVal dataSet As NHALoanModuleDataSet) As Integer
-            Return Me.Adapter.Update(dataSet, "tblLoan")
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
-        Public Overloads Overridable Function Update(ByVal dataRow As Global.System.Data.DataRow) As Integer
-            Return Me.Adapter.Update(New Global.System.Data.DataRow() {dataRow})
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
-        Public Overloads Overridable Function Update(ByVal dataRows() As Global.System.Data.DataRow) As Integer
-            Return Me.Adapter.Update(dataRows)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Delete, true)>  _
-        Public Overloads Overridable Function Delete(ByVal Original_LoanID As Integer, ByVal Original_LoanIPrincipal As Decimal, ByVal Original_LoanPPrincipal As Decimal, ByVal Original_LoanRateOfInterest As Double, ByVal Original_CustomerAcctID As Integer, ByVal Original_LoanTerm As Global.System.Nullable(Of Integer), ByVal Original_LoanStartDate As Global.System.Nullable(Of Date), ByVal Original_OutstandingInterest As Global.System.Nullable(Of Decimal), ByVal Original_MonthlyInstallment As Global.System.Nullable(Of Decimal)) As Integer
-            Me.Adapter.DeleteCommand.Parameters(0).Value = CType(Original_LoanID,Integer)
-            Me.Adapter.DeleteCommand.Parameters(1).Value = CType(Original_LoanIPrincipal,Decimal)
-            Me.Adapter.DeleteCommand.Parameters(2).Value = CType(Original_LoanPPrincipal,Decimal)
-            Me.Adapter.DeleteCommand.Parameters(3).Value = CType(Original_LoanRateOfInterest,Double)
-            Me.Adapter.DeleteCommand.Parameters(4).Value = CType(Original_CustomerAcctID,Integer)
-            If (Original_LoanTerm.HasValue = true) Then
-                Me.Adapter.DeleteCommand.Parameters(5).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(6).Value = CType(Original_LoanTerm.Value,Integer)
-            Else
-                Me.Adapter.DeleteCommand.Parameters(5).Value = CType(1,Object)
-                Me.Adapter.DeleteCommand.Parameters(6).Value = Global.System.DBNull.Value
-            End If
-            If (Original_LoanStartDate.HasValue = true) Then
-                Me.Adapter.DeleteCommand.Parameters(7).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(8).Value = CType(Original_LoanStartDate.Value,Date)
-            Else
-                Me.Adapter.DeleteCommand.Parameters(7).Value = CType(1,Object)
-                Me.Adapter.DeleteCommand.Parameters(8).Value = Global.System.DBNull.Value
-            End If
-            If (Original_OutstandingInterest.HasValue = true) Then
-                Me.Adapter.DeleteCommand.Parameters(9).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(10).Value = CType(Original_OutstandingInterest.Value,Decimal)
-            Else
-                Me.Adapter.DeleteCommand.Parameters(9).Value = CType(1,Object)
-                Me.Adapter.DeleteCommand.Parameters(10).Value = Global.System.DBNull.Value
-            End If
-            If (Original_MonthlyInstallment.HasValue = true) Then
-                Me.Adapter.DeleteCommand.Parameters(11).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(12).Value = CType(Original_MonthlyInstallment.Value,Decimal)
-            Else
-                Me.Adapter.DeleteCommand.Parameters(11).Value = CType(1,Object)
-                Me.Adapter.DeleteCommand.Parameters(12).Value = Global.System.DBNull.Value
-            End If
-            Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.DeleteCommand.Connection.State
-            If ((Me.Adapter.DeleteCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
-                        <> Global.System.Data.ConnectionState.Open) Then
-                Me.Adapter.DeleteCommand.Connection.Open
-            End If
-            Try 
-                Dim returnValue As Integer = Me.Adapter.DeleteCommand.ExecuteNonQuery
-                Return returnValue
-            Finally
-                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
-                    Me.Adapter.DeleteCommand.Connection.Close
-                End If
-            End Try
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Insert, true)>  _
-        Public Overloads Overridable Function Insert(ByVal LoanIPrincipal As Decimal, ByVal LoanPPrincipal As Decimal, ByVal LoanRateOfInterest As Double, ByVal CustomerAcctID As Integer, ByVal LoanTerm As Global.System.Nullable(Of Integer), ByVal LoanStartDate As Global.System.Nullable(Of Date), ByVal OutstandingInterest As Global.System.Nullable(Of Decimal), ByVal MonthlyInstallment As Global.System.Nullable(Of Decimal)) As Integer
-            Me.Adapter.InsertCommand.Parameters(0).Value = CType(LoanIPrincipal,Decimal)
-            Me.Adapter.InsertCommand.Parameters(1).Value = CType(LoanPPrincipal,Decimal)
-            Me.Adapter.InsertCommand.Parameters(2).Value = CType(LoanRateOfInterest,Double)
-            Me.Adapter.InsertCommand.Parameters(3).Value = CType(CustomerAcctID,Integer)
-            If (LoanTerm.HasValue = true) Then
-                Me.Adapter.InsertCommand.Parameters(4).Value = CType(LoanTerm.Value,Integer)
-            Else
-                Me.Adapter.InsertCommand.Parameters(4).Value = Global.System.DBNull.Value
-            End If
-            If (LoanStartDate.HasValue = true) Then
-                Me.Adapter.InsertCommand.Parameters(5).Value = CType(LoanStartDate.Value,Date)
-            Else
-                Me.Adapter.InsertCommand.Parameters(5).Value = Global.System.DBNull.Value
-            End If
-            If (OutstandingInterest.HasValue = true) Then
-                Me.Adapter.InsertCommand.Parameters(6).Value = CType(OutstandingInterest.Value,Decimal)
-            Else
-                Me.Adapter.InsertCommand.Parameters(6).Value = Global.System.DBNull.Value
-            End If
-            If (MonthlyInstallment.HasValue = true) Then
-                Me.Adapter.InsertCommand.Parameters(7).Value = CType(MonthlyInstallment.Value,Decimal)
-            Else
-                Me.Adapter.InsertCommand.Parameters(7).Value = Global.System.DBNull.Value
-            End If
-            Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.InsertCommand.Connection.State
-            If ((Me.Adapter.InsertCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
-                        <> Global.System.Data.ConnectionState.Open) Then
-                Me.Adapter.InsertCommand.Connection.Open
-            End If
-            Try 
-                Dim returnValue As Integer = Me.Adapter.InsertCommand.ExecuteNonQuery
-                Return returnValue
-            Finally
-                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
-                    Me.Adapter.InsertCommand.Connection.Close
-                End If
-            End Try
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Update, true)>  _
-        Public Overloads Overridable Function Update( _
-                    ByVal LoanIPrincipal As Decimal,  _
-                    ByVal LoanPPrincipal As Decimal,  _
-                    ByVal LoanRateOfInterest As Double,  _
-                    ByVal CustomerAcctID As Integer,  _
-                    ByVal LoanTerm As Global.System.Nullable(Of Integer),  _
-                    ByVal LoanStartDate As Global.System.Nullable(Of Date),  _
-                    ByVal OutstandingInterest As Global.System.Nullable(Of Decimal),  _
-                    ByVal MonthlyInstallment As Global.System.Nullable(Of Decimal),  _
-                    ByVal Original_LoanID As Integer,  _
-                    ByVal Original_LoanIPrincipal As Decimal,  _
-                    ByVal Original_LoanPPrincipal As Decimal,  _
-                    ByVal Original_LoanRateOfInterest As Double,  _
-                    ByVal Original_CustomerAcctID As Integer,  _
-                    ByVal Original_LoanTerm As Global.System.Nullable(Of Integer),  _
-                    ByVal Original_LoanStartDate As Global.System.Nullable(Of Date),  _
-                    ByVal Original_OutstandingInterest As Global.System.Nullable(Of Decimal),  _
-                    ByVal Original_MonthlyInstallment As Global.System.Nullable(Of Decimal),  _
-                    ByVal LoanID As Integer) As Integer
-            Me.Adapter.UpdateCommand.Parameters(0).Value = CType(LoanIPrincipal,Decimal)
-            Me.Adapter.UpdateCommand.Parameters(1).Value = CType(LoanPPrincipal,Decimal)
-            Me.Adapter.UpdateCommand.Parameters(2).Value = CType(LoanRateOfInterest,Double)
-            Me.Adapter.UpdateCommand.Parameters(3).Value = CType(CustomerAcctID,Integer)
-            If (LoanTerm.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(LoanTerm.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(4).Value = Global.System.DBNull.Value
-            End If
-            If (LoanStartDate.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(5).Value = CType(LoanStartDate.Value,Date)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(5).Value = Global.System.DBNull.Value
-            End If
-            If (OutstandingInterest.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(6).Value = CType(OutstandingInterest.Value,Decimal)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(6).Value = Global.System.DBNull.Value
-            End If
-            If (MonthlyInstallment.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(7).Value = CType(MonthlyInstallment.Value,Decimal)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(7).Value = Global.System.DBNull.Value
-            End If
-            Me.Adapter.UpdateCommand.Parameters(8).Value = CType(Original_LoanID,Integer)
-            Me.Adapter.UpdateCommand.Parameters(9).Value = CType(Original_LoanIPrincipal,Decimal)
-            Me.Adapter.UpdateCommand.Parameters(10).Value = CType(Original_LoanPPrincipal,Decimal)
-            Me.Adapter.UpdateCommand.Parameters(11).Value = CType(Original_LoanRateOfInterest,Double)
-            Me.Adapter.UpdateCommand.Parameters(12).Value = CType(Original_CustomerAcctID,Integer)
-            If (Original_LoanTerm.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(13).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(14).Value = CType(Original_LoanTerm.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(13).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(14).Value = Global.System.DBNull.Value
-            End If
-            If (Original_LoanStartDate.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(15).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(16).Value = CType(Original_LoanStartDate.Value,Date)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(15).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(16).Value = Global.System.DBNull.Value
-            End If
-            If (Original_OutstandingInterest.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(17).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(18).Value = CType(Original_OutstandingInterest.Value,Decimal)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(17).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(18).Value = Global.System.DBNull.Value
-            End If
-            If (Original_MonthlyInstallment.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(19).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(20).Value = CType(Original_MonthlyInstallment.Value,Decimal)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(19).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(20).Value = Global.System.DBNull.Value
-            End If
-            Me.Adapter.UpdateCommand.Parameters(21).Value = CType(LoanID,Integer)
-            Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.UpdateCommand.Connection.State
-            If ((Me.Adapter.UpdateCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
-                        <> Global.System.Data.ConnectionState.Open) Then
-                Me.Adapter.UpdateCommand.Connection.Open
-            End If
-            Try 
-                Dim returnValue As Integer = Me.Adapter.UpdateCommand.ExecuteNonQuery
-                Return returnValue
-            Finally
-                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
-                    Me.Adapter.UpdateCommand.Connection.Close
-                End If
-            End Try
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Update, true)>  _
-        Public Overloads Overridable Function Update( _
-                    ByVal LoanIPrincipal As Decimal,  _
-                    ByVal LoanPPrincipal As Decimal,  _
-                    ByVal LoanRateOfInterest As Double,  _
-                    ByVal CustomerAcctID As Integer,  _
-                    ByVal LoanTerm As Global.System.Nullable(Of Integer),  _
-                    ByVal LoanStartDate As Global.System.Nullable(Of Date),  _
-                    ByVal OutstandingInterest As Global.System.Nullable(Of Decimal),  _
-                    ByVal MonthlyInstallment As Global.System.Nullable(Of Decimal),  _
-                    ByVal Original_LoanID As Integer,  _
-                    ByVal Original_LoanIPrincipal As Decimal,  _
-                    ByVal Original_LoanPPrincipal As Decimal,  _
-                    ByVal Original_LoanRateOfInterest As Double,  _
-                    ByVal Original_CustomerAcctID As Integer,  _
-                    ByVal Original_LoanTerm As Global.System.Nullable(Of Integer),  _
-                    ByVal Original_LoanStartDate As Global.System.Nullable(Of Date),  _
-                    ByVal Original_OutstandingInterest As Global.System.Nullable(Of Decimal),  _
-                    ByVal Original_MonthlyInstallment As Global.System.Nullable(Of Decimal)) As Integer
-            Return Me.Update(LoanIPrincipal, LoanPPrincipal, LoanRateOfInterest, CustomerAcctID, LoanTerm, LoanStartDate, OutstandingInterest, MonthlyInstallment, Original_LoanID, Original_LoanIPrincipal, Original_LoanPPrincipal, Original_LoanRateOfInterest, Original_CustomerAcctID, Original_LoanTerm, Original_LoanStartDate, Original_OutstandingInterest, Original_MonthlyInstallment, Original_LoanID)
-        End Function
-    End Class
-    
-    '''<summary>
-    '''Represents the connection and commands used to retrieve and save data.
-    '''</summary>
-    <Global.System.ComponentModel.DesignerCategoryAttribute("code"),  _
-     Global.System.ComponentModel.ToolboxItem(true),  _
-     Global.System.ComponentModel.DataObjectAttribute(true),  _
-     Global.System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner"& _ 
-        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"),  _
-     Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
     Partial Public Class tblPaymentsTableAdapter
         Inherits Global.System.ComponentModel.Component
         
@@ -11009,6 +10495,517 @@ Namespace NHALoanModuleDataSetTableAdapters
      Global.System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner"& _ 
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"),  _
      Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
+    Partial Public Class tblLoanTableAdapter
+        Inherits Global.System.ComponentModel.Component
+        
+        Private WithEvents _adapter As Global.System.Data.SqlClient.SqlDataAdapter
+        
+        Private _connection As Global.System.Data.SqlClient.SqlConnection
+        
+        Private _transaction As Global.System.Data.SqlClient.SqlTransaction
+        
+        Private _commandCollection() As Global.System.Data.SqlClient.SqlCommand
+        
+        Private _clearBeforeFill As Boolean
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub New()
+            MyBase.New
+            Me.ClearBeforeFill = true
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected Friend ReadOnly Property Adapter() As Global.System.Data.SqlClient.SqlDataAdapter
+            Get
+                If (Me._adapter Is Nothing) Then
+                    Me.InitAdapter
+                End If
+                Return Me._adapter
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Property Connection() As Global.System.Data.SqlClient.SqlConnection
+            Get
+                If (Me._connection Is Nothing) Then
+                    Me.InitConnection
+                End If
+                Return Me._connection
+            End Get
+            Set
+                Me._connection = value
+                If (Not (Me.Adapter.InsertCommand) Is Nothing) Then
+                    Me.Adapter.InsertCommand.Connection = value
+                End If
+                If (Not (Me.Adapter.DeleteCommand) Is Nothing) Then
+                    Me.Adapter.DeleteCommand.Connection = value
+                End If
+                If (Not (Me.Adapter.UpdateCommand) Is Nothing) Then
+                    Me.Adapter.UpdateCommand.Connection = value
+                End If
+                Dim i As Integer = 0
+                Do While (i < Me.CommandCollection.Length)
+                    If (Not (Me.CommandCollection(i)) Is Nothing) Then
+                        CType(Me.CommandCollection(i),Global.System.Data.SqlClient.SqlCommand).Connection = value
+                    End If
+                    i = (i + 1)
+                Loop
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Friend Property Transaction() As Global.System.Data.SqlClient.SqlTransaction
+            Get
+                Return Me._transaction
+            End Get
+            Set
+                Me._transaction = value
+                Dim i As Integer = 0
+                Do While (i < Me.CommandCollection.Length)
+                    Me.CommandCollection(i).Transaction = Me._transaction
+                    i = (i + 1)
+                Loop
+                If ((Not (Me.Adapter) Is Nothing)  _
+                            AndAlso (Not (Me.Adapter.DeleteCommand) Is Nothing)) Then
+                    Me.Adapter.DeleteCommand.Transaction = Me._transaction
+                End If
+                If ((Not (Me.Adapter) Is Nothing)  _
+                            AndAlso (Not (Me.Adapter.InsertCommand) Is Nothing)) Then
+                    Me.Adapter.InsertCommand.Transaction = Me._transaction
+                End If
+                If ((Not (Me.Adapter) Is Nothing)  _
+                            AndAlso (Not (Me.Adapter.UpdateCommand) Is Nothing)) Then
+                    Me.Adapter.UpdateCommand.Transaction = Me._transaction
+                End If
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Protected ReadOnly Property CommandCollection() As Global.System.Data.SqlClient.SqlCommand()
+            Get
+                If (Me._commandCollection Is Nothing) Then
+                    Me.InitCommandCollection
+                End If
+                Return Me._commandCollection
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property ClearBeforeFill() As Boolean
+            Get
+                Return Me._clearBeforeFill
+            End Get
+            Set
+                Me._clearBeforeFill = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitAdapter()
+            Me._adapter = New Global.System.Data.SqlClient.SqlDataAdapter()
+            Dim tableMapping As Global.System.Data.Common.DataTableMapping = New Global.System.Data.Common.DataTableMapping()
+            tableMapping.SourceTable = "Table"
+            tableMapping.DataSetTable = "tblLoan"
+            tableMapping.ColumnMappings.Add("LoanID", "LoanID")
+            tableMapping.ColumnMappings.Add("LoanIPrincipal", "LoanIPrincipal")
+            tableMapping.ColumnMappings.Add("LoanPPrincipal", "LoanPPrincipal")
+            tableMapping.ColumnMappings.Add("LoanRateOfInterest", "LoanRateOfInterest")
+            tableMapping.ColumnMappings.Add("CustomerAcctID", "CustomerAcctID")
+            tableMapping.ColumnMappings.Add("LoanTerm", "LoanTerm")
+            tableMapping.ColumnMappings.Add("LoanStartDate", "LoanStartDate")
+            tableMapping.ColumnMappings.Add("ManualAmort", "ManualAmort")
+            tableMapping.ColumnMappings.Add("MonthlyInstallment", "MonthlyInstallment")
+            Me._adapter.TableMappings.Add(tableMapping)
+            Me._adapter.DeleteCommand = New Global.System.Data.SqlClient.SqlCommand()
+            Me._adapter.DeleteCommand.Connection = Me.Connection
+            Me._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[tblLoan] WHERE (([LoanID] = @Original_LoanID) AND ([LoanIPrinc"& _ 
+                "ipal] = @Original_LoanIPrincipal) AND ([LoanPPrincipal] = @Original_LoanPPrincip"& _ 
+                "al) AND ([LoanRateOfInterest] = @Original_LoanRateOfInterest) AND ([CustomerAcct"& _ 
+                "ID] = @Original_CustomerAcctID) AND ((@IsNull_LoanTerm = 1 AND [LoanTerm] IS NUL"& _ 
+                "L) OR ([LoanTerm] = @Original_LoanTerm)) AND ((@IsNull_LoanStartDate = 1 AND [Lo"& _ 
+                "anStartDate] IS NULL) OR ([LoanStartDate] = @Original_LoanStartDate)) AND ((@IsN"& _ 
+                "ull_ManualAmort = 1 AND [ManualAmort] IS NULL) OR ([ManualAmort] = @Original_Man"& _ 
+                "ualAmort)) AND ((@IsNull_MonthlyInstallment = 1 AND [MonthlyInstallment] IS NULL"& _ 
+                ") OR ([MonthlyInstallment] = @Original_MonthlyInstallment)))"
+            Me._adapter.DeleteCommand.CommandType = Global.System.Data.CommandType.Text
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanID", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanIPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanIPrincipal", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanPPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanPPrincipal", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanRateOfInterest", Global.System.Data.SqlDbType.Float, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanRateOfInterest", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_CustomerAcctID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "CustomerAcctID", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_LoanStartDate", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanStartDate", Global.System.Data.SqlDbType.[Date], 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_ManualAmort", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "ManualAmort", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_ManualAmort", Global.System.Data.SqlDbType.Bit, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "ManualAmort", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_MonthlyInstallment", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "MonthlyInstallment", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_MonthlyInstallment", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "MonthlyInstallment", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.InsertCommand = New Global.System.Data.SqlClient.SqlCommand()
+            Me._adapter.InsertCommand.Connection = Me.Connection
+            Me._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[tblLoan] ([LoanIPrincipal], [LoanPPrincipal], [LoanRateOfInter"& _ 
+                "est], [CustomerAcctID], [LoanTerm], [LoanStartDate], [ManualAmort], [MonthlyInst"& _ 
+                "allment]) VALUES (@LoanIPrincipal, @LoanPPrincipal, @LoanRateOfInterest, @Custom"& _ 
+                "erAcctID, @LoanTerm, @LoanStartDate, @ManualAmort, @MonthlyInstallment);"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"SELECT"& _ 
+                " LoanID, LoanIPrincipal, LoanPPrincipal, LoanRateOfInterest, CustomerAcctID, Loa"& _ 
+                "nTerm, LoanStartDate, ManualAmort, MonthlyInstallment FROM tblLoan WHERE (LoanID"& _ 
+                " = SCOPE_IDENTITY())"
+            Me._adapter.InsertCommand.CommandType = Global.System.Data.CommandType.Text
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanIPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanIPrincipal", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanPPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanPPrincipal", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanRateOfInterest", Global.System.Data.SqlDbType.Float, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanRateOfInterest", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@CustomerAcctID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "CustomerAcctID", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanStartDate", Global.System.Data.SqlDbType.[Date], 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@ManualAmort", Global.System.Data.SqlDbType.Bit, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "ManualAmort", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@MonthlyInstallment", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "MonthlyInstallment", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand = New Global.System.Data.SqlClient.SqlCommand()
+            Me._adapter.UpdateCommand.Connection = Me.Connection
+            Me._adapter.UpdateCommand.CommandText = "UPDATE [dbo].[tblLoan] SET [LoanIPrincipal] = @LoanIPrincipal, [LoanPPrincipal] ="& _ 
+                " @LoanPPrincipal, [LoanRateOfInterest] = @LoanRateOfInterest, [CustomerAcctID] ="& _ 
+                " @CustomerAcctID, [LoanTerm] = @LoanTerm, [LoanStartDate] = @LoanStartDate, [Man"& _ 
+                "ualAmort] = @ManualAmort, [MonthlyInstallment] = @MonthlyInstallment WHERE (([Lo"& _ 
+                "anID] = @Original_LoanID) AND ([LoanIPrincipal] = @Original_LoanIPrincipal) AND "& _ 
+                "([LoanPPrincipal] = @Original_LoanPPrincipal) AND ([LoanRateOfInterest] = @Origi"& _ 
+                "nal_LoanRateOfInterest) AND ([CustomerAcctID] = @Original_CustomerAcctID) AND (("& _ 
+                "@IsNull_LoanTerm = 1 AND [LoanTerm] IS NULL) OR ([LoanTerm] = @Original_LoanTerm"& _ 
+                ")) AND ((@IsNull_LoanStartDate = 1 AND [LoanStartDate] IS NULL) OR ([LoanStartDa"& _ 
+                "te] = @Original_LoanStartDate)) AND ((@IsNull_ManualAmort = 1 AND [ManualAmort] "& _ 
+                "IS NULL) OR ([ManualAmort] = @Original_ManualAmort)) AND ((@IsNull_MonthlyInstal"& _ 
+                "lment = 1 AND [MonthlyInstallment] IS NULL) OR ([MonthlyInstallment] = @Original"& _ 
+                "_MonthlyInstallment)));"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"SELECT LoanID, LoanIPrincipal, LoanPPrincipal, LoanRate"& _ 
+                "OfInterest, CustomerAcctID, LoanTerm, LoanStartDate, ManualAmort, MonthlyInstall"& _ 
+                "ment FROM tblLoan WHERE (LoanID = @LoanID)"
+            Me._adapter.UpdateCommand.CommandType = Global.System.Data.CommandType.Text
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanIPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanIPrincipal", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanPPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanPPrincipal", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanRateOfInterest", Global.System.Data.SqlDbType.Float, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanRateOfInterest", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@CustomerAcctID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "CustomerAcctID", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanStartDate", Global.System.Data.SqlDbType.[Date], 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@ManualAmort", Global.System.Data.SqlDbType.Bit, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "ManualAmort", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@MonthlyInstallment", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "MonthlyInstallment", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanID", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanIPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanIPrincipal", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanPPrincipal", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "LoanPPrincipal", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanRateOfInterest", Global.System.Data.SqlDbType.Float, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanRateOfInterest", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_CustomerAcctID", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "CustomerAcctID", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanTerm", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanTerm", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_LoanStartDate", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_LoanStartDate", Global.System.Data.SqlDbType.[Date], 0, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanStartDate", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_ManualAmort", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "ManualAmort", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_ManualAmort", Global.System.Data.SqlDbType.Bit, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "ManualAmort", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@IsNull_MonthlyInstallment", Global.System.Data.SqlDbType.Int, 0, Global.System.Data.ParameterDirection.Input, 0, 0, "MonthlyInstallment", Global.System.Data.DataRowVersion.Original, true, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@Original_MonthlyInstallment", Global.System.Data.SqlDbType.[Decimal], 0, Global.System.Data.ParameterDirection.Input, 20, 2, "MonthlyInstallment", Global.System.Data.DataRowVersion.Original, false, Nothing, "", "", ""))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.SqlClient.SqlParameter("@LoanID", Global.System.Data.SqlDbType.Int, 4, Global.System.Data.ParameterDirection.Input, 0, 0, "LoanID", Global.System.Data.DataRowVersion.Current, false, Nothing, "", "", ""))
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitConnection()
+            Me._connection = New Global.System.Data.SqlClient.SqlConnection()
+            Me._connection.ConnectionString = Global.PaymentProcessorV1_1.My.MySettings.Default.NHALoanModuleConnectionString
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Private Sub InitCommandCollection()
+            Me._commandCollection = New Global.System.Data.SqlClient.SqlCommand(0) {}
+            Me._commandCollection(0) = New Global.System.Data.SqlClient.SqlCommand()
+            Me._commandCollection(0).Connection = Me.Connection
+            Me._commandCollection(0).CommandText = "SELECT LoanID, LoanIPrincipal, LoanPPrincipal, LoanRateOfInterest, CustomerAcctID"& _ 
+                ", LoanTerm, LoanStartDate, ManualAmort, MonthlyInstallment FROM dbo.tblLoan"
+            Me._commandCollection(0).CommandType = Global.System.Data.CommandType.Text
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Fill, true)>  _
+        Public Overloads Overridable Function Fill(ByVal dataTable As NHALoanModuleDataSet.tblLoanDataTable) As Integer
+            Me.Adapter.SelectCommand = Me.CommandCollection(0)
+            If (Me.ClearBeforeFill = true) Then
+                dataTable.Clear
+            End If
+            Dim returnValue As Integer = Me.Adapter.Fill(dataTable)
+            Return returnValue
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.[Select], true)>  _
+        Public Overloads Overridable Function GetData() As NHALoanModuleDataSet.tblLoanDataTable
+            Me.Adapter.SelectCommand = Me.CommandCollection(0)
+            Dim dataTable As NHALoanModuleDataSet.tblLoanDataTable = New NHALoanModuleDataSet.tblLoanDataTable()
+            Me.Adapter.Fill(dataTable)
+            Return dataTable
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
+        Public Overloads Overridable Function Update(ByVal dataTable As NHALoanModuleDataSet.tblLoanDataTable) As Integer
+            Return Me.Adapter.Update(dataTable)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
+        Public Overloads Overridable Function Update(ByVal dataSet As NHALoanModuleDataSet) As Integer
+            Return Me.Adapter.Update(dataSet, "tblLoan")
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
+        Public Overloads Overridable Function Update(ByVal dataRow As Global.System.Data.DataRow) As Integer
+            Return Me.Adapter.Update(New Global.System.Data.DataRow() {dataRow})
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
+        Public Overloads Overridable Function Update(ByVal dataRows() As Global.System.Data.DataRow) As Integer
+            Return Me.Adapter.Update(dataRows)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Delete, true)>  _
+        Public Overloads Overridable Function Delete(ByVal Original_LoanID As Integer, ByVal Original_LoanIPrincipal As Decimal, ByVal Original_LoanPPrincipal As Decimal, ByVal Original_LoanRateOfInterest As Double, ByVal Original_CustomerAcctID As Integer, ByVal Original_LoanTerm As Global.System.Nullable(Of Integer), ByVal Original_LoanStartDate As Global.System.Nullable(Of Date), ByVal Original_ManualAmort As Global.System.Nullable(Of Boolean), ByVal Original_MonthlyInstallment As Global.System.Nullable(Of Decimal)) As Integer
+            Me.Adapter.DeleteCommand.Parameters(0).Value = CType(Original_LoanID,Integer)
+            Me.Adapter.DeleteCommand.Parameters(1).Value = CType(Original_LoanIPrincipal,Decimal)
+            Me.Adapter.DeleteCommand.Parameters(2).Value = CType(Original_LoanPPrincipal,Decimal)
+            Me.Adapter.DeleteCommand.Parameters(3).Value = CType(Original_LoanRateOfInterest,Double)
+            Me.Adapter.DeleteCommand.Parameters(4).Value = CType(Original_CustomerAcctID,Integer)
+            If (Original_LoanTerm.HasValue = true) Then
+                Me.Adapter.DeleteCommand.Parameters(5).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(6).Value = CType(Original_LoanTerm.Value,Integer)
+            Else
+                Me.Adapter.DeleteCommand.Parameters(5).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(6).Value = Global.System.DBNull.Value
+            End If
+            If (Original_LoanStartDate.HasValue = true) Then
+                Me.Adapter.DeleteCommand.Parameters(7).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(8).Value = CType(Original_LoanStartDate.Value,Date)
+            Else
+                Me.Adapter.DeleteCommand.Parameters(7).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(8).Value = Global.System.DBNull.Value
+            End If
+            If (Original_ManualAmort.HasValue = true) Then
+                Me.Adapter.DeleteCommand.Parameters(9).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(10).Value = CType(Original_ManualAmort.Value,Boolean)
+            Else
+                Me.Adapter.DeleteCommand.Parameters(9).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(10).Value = Global.System.DBNull.Value
+            End If
+            If (Original_MonthlyInstallment.HasValue = true) Then
+                Me.Adapter.DeleteCommand.Parameters(11).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(12).Value = CType(Original_MonthlyInstallment.Value,Decimal)
+            Else
+                Me.Adapter.DeleteCommand.Parameters(11).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(12).Value = Global.System.DBNull.Value
+            End If
+            Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.DeleteCommand.Connection.State
+            If ((Me.Adapter.DeleteCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
+                        <> Global.System.Data.ConnectionState.Open) Then
+                Me.Adapter.DeleteCommand.Connection.Open
+            End If
+            Try 
+                Dim returnValue As Integer = Me.Adapter.DeleteCommand.ExecuteNonQuery
+                Return returnValue
+            Finally
+                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
+                    Me.Adapter.DeleteCommand.Connection.Close
+                End If
+            End Try
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Insert, true)>  _
+        Public Overloads Overridable Function Insert(ByVal LoanIPrincipal As Decimal, ByVal LoanPPrincipal As Decimal, ByVal LoanRateOfInterest As Double, ByVal CustomerAcctID As Integer, ByVal LoanTerm As Global.System.Nullable(Of Integer), ByVal LoanStartDate As Global.System.Nullable(Of Date), ByVal ManualAmort As Global.System.Nullable(Of Boolean), ByVal MonthlyInstallment As Global.System.Nullable(Of Decimal)) As Integer
+            Me.Adapter.InsertCommand.Parameters(0).Value = CType(LoanIPrincipal,Decimal)
+            Me.Adapter.InsertCommand.Parameters(1).Value = CType(LoanPPrincipal,Decimal)
+            Me.Adapter.InsertCommand.Parameters(2).Value = CType(LoanRateOfInterest,Double)
+            Me.Adapter.InsertCommand.Parameters(3).Value = CType(CustomerAcctID,Integer)
+            If (LoanTerm.HasValue = true) Then
+                Me.Adapter.InsertCommand.Parameters(4).Value = CType(LoanTerm.Value,Integer)
+            Else
+                Me.Adapter.InsertCommand.Parameters(4).Value = Global.System.DBNull.Value
+            End If
+            If (LoanStartDate.HasValue = true) Then
+                Me.Adapter.InsertCommand.Parameters(5).Value = CType(LoanStartDate.Value,Date)
+            Else
+                Me.Adapter.InsertCommand.Parameters(5).Value = Global.System.DBNull.Value
+            End If
+            If (ManualAmort.HasValue = true) Then
+                Me.Adapter.InsertCommand.Parameters(6).Value = CType(ManualAmort.Value,Boolean)
+            Else
+                Me.Adapter.InsertCommand.Parameters(6).Value = Global.System.DBNull.Value
+            End If
+            If (MonthlyInstallment.HasValue = true) Then
+                Me.Adapter.InsertCommand.Parameters(7).Value = CType(MonthlyInstallment.Value,Decimal)
+            Else
+                Me.Adapter.InsertCommand.Parameters(7).Value = Global.System.DBNull.Value
+            End If
+            Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.InsertCommand.Connection.State
+            If ((Me.Adapter.InsertCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
+                        <> Global.System.Data.ConnectionState.Open) Then
+                Me.Adapter.InsertCommand.Connection.Open
+            End If
+            Try 
+                Dim returnValue As Integer = Me.Adapter.InsertCommand.ExecuteNonQuery
+                Return returnValue
+            Finally
+                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
+                    Me.Adapter.InsertCommand.Connection.Close
+                End If
+            End Try
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Update, true)>  _
+        Public Overloads Overridable Function Update( _
+                    ByVal LoanIPrincipal As Decimal,  _
+                    ByVal LoanPPrincipal As Decimal,  _
+                    ByVal LoanRateOfInterest As Double,  _
+                    ByVal CustomerAcctID As Integer,  _
+                    ByVal LoanTerm As Global.System.Nullable(Of Integer),  _
+                    ByVal LoanStartDate As Global.System.Nullable(Of Date),  _
+                    ByVal ManualAmort As Global.System.Nullable(Of Boolean),  _
+                    ByVal MonthlyInstallment As Global.System.Nullable(Of Decimal),  _
+                    ByVal Original_LoanID As Integer,  _
+                    ByVal Original_LoanIPrincipal As Decimal,  _
+                    ByVal Original_LoanPPrincipal As Decimal,  _
+                    ByVal Original_LoanRateOfInterest As Double,  _
+                    ByVal Original_CustomerAcctID As Integer,  _
+                    ByVal Original_LoanTerm As Global.System.Nullable(Of Integer),  _
+                    ByVal Original_LoanStartDate As Global.System.Nullable(Of Date),  _
+                    ByVal Original_ManualAmort As Global.System.Nullable(Of Boolean),  _
+                    ByVal Original_MonthlyInstallment As Global.System.Nullable(Of Decimal),  _
+                    ByVal LoanID As Integer) As Integer
+            Me.Adapter.UpdateCommand.Parameters(0).Value = CType(LoanIPrincipal,Decimal)
+            Me.Adapter.UpdateCommand.Parameters(1).Value = CType(LoanPPrincipal,Decimal)
+            Me.Adapter.UpdateCommand.Parameters(2).Value = CType(LoanRateOfInterest,Double)
+            Me.Adapter.UpdateCommand.Parameters(3).Value = CType(CustomerAcctID,Integer)
+            If (LoanTerm.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(LoanTerm.Value,Integer)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(4).Value = Global.System.DBNull.Value
+            End If
+            If (LoanStartDate.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(5).Value = CType(LoanStartDate.Value,Date)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(5).Value = Global.System.DBNull.Value
+            End If
+            If (ManualAmort.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(6).Value = CType(ManualAmort.Value,Boolean)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(6).Value = Global.System.DBNull.Value
+            End If
+            If (MonthlyInstallment.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(7).Value = CType(MonthlyInstallment.Value,Decimal)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(7).Value = Global.System.DBNull.Value
+            End If
+            Me.Adapter.UpdateCommand.Parameters(8).Value = CType(Original_LoanID,Integer)
+            Me.Adapter.UpdateCommand.Parameters(9).Value = CType(Original_LoanIPrincipal,Decimal)
+            Me.Adapter.UpdateCommand.Parameters(10).Value = CType(Original_LoanPPrincipal,Decimal)
+            Me.Adapter.UpdateCommand.Parameters(11).Value = CType(Original_LoanRateOfInterest,Double)
+            Me.Adapter.UpdateCommand.Parameters(12).Value = CType(Original_CustomerAcctID,Integer)
+            If (Original_LoanTerm.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(13).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(14).Value = CType(Original_LoanTerm.Value,Integer)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(13).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(14).Value = Global.System.DBNull.Value
+            End If
+            If (Original_LoanStartDate.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(15).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(16).Value = CType(Original_LoanStartDate.Value,Date)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(15).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(16).Value = Global.System.DBNull.Value
+            End If
+            If (Original_ManualAmort.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(17).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(18).Value = CType(Original_ManualAmort.Value,Boolean)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(17).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(18).Value = Global.System.DBNull.Value
+            End If
+            If (Original_MonthlyInstallment.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(19).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(20).Value = CType(Original_MonthlyInstallment.Value,Decimal)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(19).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(20).Value = Global.System.DBNull.Value
+            End If
+            Me.Adapter.UpdateCommand.Parameters(21).Value = CType(LoanID,Integer)
+            Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.UpdateCommand.Connection.State
+            If ((Me.Adapter.UpdateCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
+                        <> Global.System.Data.ConnectionState.Open) Then
+                Me.Adapter.UpdateCommand.Connection.Open
+            End If
+            Try 
+                Dim returnValue As Integer = Me.Adapter.UpdateCommand.ExecuteNonQuery
+                Return returnValue
+            Finally
+                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
+                    Me.Adapter.UpdateCommand.Connection.Close
+                End If
+            End Try
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
+         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Update, true)>  _
+        Public Overloads Overridable Function Update( _
+                    ByVal LoanIPrincipal As Decimal,  _
+                    ByVal LoanPPrincipal As Decimal,  _
+                    ByVal LoanRateOfInterest As Double,  _
+                    ByVal CustomerAcctID As Integer,  _
+                    ByVal LoanTerm As Global.System.Nullable(Of Integer),  _
+                    ByVal LoanStartDate As Global.System.Nullable(Of Date),  _
+                    ByVal ManualAmort As Global.System.Nullable(Of Boolean),  _
+                    ByVal MonthlyInstallment As Global.System.Nullable(Of Decimal),  _
+                    ByVal Original_LoanID As Integer,  _
+                    ByVal Original_LoanIPrincipal As Decimal,  _
+                    ByVal Original_LoanPPrincipal As Decimal,  _
+                    ByVal Original_LoanRateOfInterest As Double,  _
+                    ByVal Original_CustomerAcctID As Integer,  _
+                    ByVal Original_LoanTerm As Global.System.Nullable(Of Integer),  _
+                    ByVal Original_LoanStartDate As Global.System.Nullable(Of Date),  _
+                    ByVal Original_ManualAmort As Global.System.Nullable(Of Boolean),  _
+                    ByVal Original_MonthlyInstallment As Global.System.Nullable(Of Decimal)) As Integer
+            Return Me.Update(LoanIPrincipal, LoanPPrincipal, LoanRateOfInterest, CustomerAcctID, LoanTerm, LoanStartDate, ManualAmort, MonthlyInstallment, Original_LoanID, Original_LoanIPrincipal, Original_LoanPPrincipal, Original_LoanRateOfInterest, Original_CustomerAcctID, Original_LoanTerm, Original_LoanStartDate, Original_ManualAmort, Original_MonthlyInstallment, Original_LoanID)
+        End Function
+    End Class
+    
+    '''<summary>
+    '''Represents the connection and commands used to retrieve and save data.
+    '''</summary>
+    <Global.System.ComponentModel.DesignerCategoryAttribute("code"),  _
+     Global.System.ComponentModel.ToolboxItem(true),  _
+     Global.System.ComponentModel.DataObjectAttribute(true),  _
+     Global.System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner"& _ 
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"),  _
+     Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
     Partial Public Class QueriesTableAdapter
         Inherits Global.System.ComponentModel.Component
         
@@ -12043,11 +12040,11 @@ Namespace NHALoanModuleDataSetTableAdapters
         
         Private _tblInterestInfoTableAdapter As tblInterestInfoTableAdapter
         
-        Private _tblLoanTableAdapter As tblLoanTableAdapter
-        
         Private _tblPaymentsTableAdapter As tblPaymentsTableAdapter
         
         Private _tblReceiptsTableAdapter As tblReceiptsTableAdapter
+        
+        Private _tblLoanTableAdapter As tblLoanTableAdapter
         
         Private _backupDataSetBeforeUpdate As Boolean
         
@@ -12153,20 +12150,6 @@ Namespace NHALoanModuleDataSetTableAdapters
          Global.System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso"& _ 
             "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3"& _ 
             "a", "System.Drawing.Design.UITypeEditor")>  _
-        Public Property tblLoanTableAdapter() As tblLoanTableAdapter
-            Get
-                Return Me._tblLoanTableAdapter
-            End Get
-            Set
-                Me._tblLoanTableAdapter = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso"& _ 
-            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3"& _ 
-            "a", "System.Drawing.Design.UITypeEditor")>  _
         Public Property tblPaymentsTableAdapter() As tblPaymentsTableAdapter
             Get
                 Return Me._tblPaymentsTableAdapter
@@ -12187,6 +12170,20 @@ Namespace NHALoanModuleDataSetTableAdapters
             End Get
             Set
                 Me._tblReceiptsTableAdapter = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
+         Global.System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso"& _ 
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3"& _ 
+            "a", "System.Drawing.Design.UITypeEditor")>  _
+        Public Property tblLoanTableAdapter() As tblLoanTableAdapter
+            Get
+                Return Me._tblLoanTableAdapter
+            End Get
+            Set
+                Me._tblLoanTableAdapter = value
             End Set
         End Property
         
@@ -12233,10 +12230,6 @@ Namespace NHALoanModuleDataSetTableAdapters
                             AndAlso (Not (Me._tblInterestInfoTableAdapter.Connection) Is Nothing)) Then
                     Return Me._tblInterestInfoTableAdapter.Connection
                 End If
-                If ((Not (Me._tblLoanTableAdapter) Is Nothing)  _
-                            AndAlso (Not (Me._tblLoanTableAdapter.Connection) Is Nothing)) Then
-                    Return Me._tblLoanTableAdapter.Connection
-                End If
                 If ((Not (Me._tblPaymentsTableAdapter) Is Nothing)  _
                             AndAlso (Not (Me._tblPaymentsTableAdapter.Connection) Is Nothing)) Then
                     Return Me._tblPaymentsTableAdapter.Connection
@@ -12244,6 +12237,10 @@ Namespace NHALoanModuleDataSetTableAdapters
                 If ((Not (Me._tblReceiptsTableAdapter) Is Nothing)  _
                             AndAlso (Not (Me._tblReceiptsTableAdapter.Connection) Is Nothing)) Then
                     Return Me._tblReceiptsTableAdapter.Connection
+                End If
+                If ((Not (Me._tblLoanTableAdapter) Is Nothing)  _
+                            AndAlso (Not (Me._tblLoanTableAdapter.Connection) Is Nothing)) Then
+                    Return Me._tblLoanTableAdapter.Connection
                 End If
                 Return Nothing
             End Get
@@ -12276,13 +12273,13 @@ Namespace NHALoanModuleDataSetTableAdapters
                 If (Not (Me._tblInterestInfoTableAdapter) Is Nothing) Then
                     count = (count + 1)
                 End If
-                If (Not (Me._tblLoanTableAdapter) Is Nothing) Then
-                    count = (count + 1)
-                End If
                 If (Not (Me._tblPaymentsTableAdapter) Is Nothing) Then
                     count = (count + 1)
                 End If
                 If (Not (Me._tblReceiptsTableAdapter) Is Nothing) Then
+                    count = (count + 1)
+                End If
+                If (Not (Me._tblLoanTableAdapter) Is Nothing) Then
                     count = (count + 1)
                 End If
                 Return count
@@ -12332,12 +12329,12 @@ Namespace NHALoanModuleDataSetTableAdapters
                     allChangedRows.AddRange(updatedRows)
                 End If
             End If
-            If (Not (Me._tblReceiptsTableAdapter) Is Nothing) Then
-                Dim updatedRows() As Global.System.Data.DataRow = dataSet.tblReceipts.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.ModifiedCurrent)
+            If (Not (Me._tblAmortTableAdapter) Is Nothing) Then
+                Dim updatedRows() As Global.System.Data.DataRow = dataSet.tblAmort.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.ModifiedCurrent)
                 updatedRows = Me.GetRealUpdatedRows(updatedRows, allAddedRows)
                 If ((Not (updatedRows) Is Nothing)  _
                             AndAlso (0 < updatedRows.Length)) Then
-                    result = (result + Me._tblReceiptsTableAdapter.Update(updatedRows))
+                    result = (result + Me._tblAmortTableAdapter.Update(updatedRows))
                     allChangedRows.AddRange(updatedRows)
                 End If
             End If
@@ -12359,21 +12356,21 @@ Namespace NHALoanModuleDataSetTableAdapters
                     allChangedRows.AddRange(updatedRows)
                 End If
             End If
+            If (Not (Me._tblReceiptsTableAdapter) Is Nothing) Then
+                Dim updatedRows() As Global.System.Data.DataRow = dataSet.tblReceipts.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.ModifiedCurrent)
+                updatedRows = Me.GetRealUpdatedRows(updatedRows, allAddedRows)
+                If ((Not (updatedRows) Is Nothing)  _
+                            AndAlso (0 < updatedRows.Length)) Then
+                    result = (result + Me._tblReceiptsTableAdapter.Update(updatedRows))
+                    allChangedRows.AddRange(updatedRows)
+                End If
+            End If
             If (Not (Me._tblPaymentsTableAdapter) Is Nothing) Then
                 Dim updatedRows() As Global.System.Data.DataRow = dataSet.tblPayments.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.ModifiedCurrent)
                 updatedRows = Me.GetRealUpdatedRows(updatedRows, allAddedRows)
                 If ((Not (updatedRows) Is Nothing)  _
                             AndAlso (0 < updatedRows.Length)) Then
                     result = (result + Me._tblPaymentsTableAdapter.Update(updatedRows))
-                    allChangedRows.AddRange(updatedRows)
-                End If
-            End If
-            If (Not (Me._tblAmortTableAdapter) Is Nothing) Then
-                Dim updatedRows() As Global.System.Data.DataRow = dataSet.tblAmort.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.ModifiedCurrent)
-                updatedRows = Me.GetRealUpdatedRows(updatedRows, allAddedRows)
-                If ((Not (updatedRows) Is Nothing)  _
-                            AndAlso (0 < updatedRows.Length)) Then
-                    result = (result + Me._tblAmortTableAdapter.Update(updatedRows))
                     allChangedRows.AddRange(updatedRows)
                 End If
             End If
@@ -12419,11 +12416,11 @@ Namespace NHALoanModuleDataSetTableAdapters
                     allAddedRows.AddRange(addedRows)
                 End If
             End If
-            If (Not (Me._tblReceiptsTableAdapter) Is Nothing) Then
-                Dim addedRows() As Global.System.Data.DataRow = dataSet.tblReceipts.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Added)
+            If (Not (Me._tblAmortTableAdapter) Is Nothing) Then
+                Dim addedRows() As Global.System.Data.DataRow = dataSet.tblAmort.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Added)
                 If ((Not (addedRows) Is Nothing)  _
                             AndAlso (0 < addedRows.Length)) Then
-                    result = (result + Me._tblReceiptsTableAdapter.Update(addedRows))
+                    result = (result + Me._tblAmortTableAdapter.Update(addedRows))
                     allAddedRows.AddRange(addedRows)
                 End If
             End If
@@ -12443,19 +12440,19 @@ Namespace NHALoanModuleDataSetTableAdapters
                     allAddedRows.AddRange(addedRows)
                 End If
             End If
+            If (Not (Me._tblReceiptsTableAdapter) Is Nothing) Then
+                Dim addedRows() As Global.System.Data.DataRow = dataSet.tblReceipts.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Added)
+                If ((Not (addedRows) Is Nothing)  _
+                            AndAlso (0 < addedRows.Length)) Then
+                    result = (result + Me._tblReceiptsTableAdapter.Update(addedRows))
+                    allAddedRows.AddRange(addedRows)
+                End If
+            End If
             If (Not (Me._tblPaymentsTableAdapter) Is Nothing) Then
                 Dim addedRows() As Global.System.Data.DataRow = dataSet.tblPayments.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Added)
                 If ((Not (addedRows) Is Nothing)  _
                             AndAlso (0 < addedRows.Length)) Then
                     result = (result + Me._tblPaymentsTableAdapter.Update(addedRows))
-                    allAddedRows.AddRange(addedRows)
-                End If
-            End If
-            If (Not (Me._tblAmortTableAdapter) Is Nothing) Then
-                Dim addedRows() As Global.System.Data.DataRow = dataSet.tblAmort.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Added)
-                If ((Not (addedRows) Is Nothing)  _
-                            AndAlso (0 < addedRows.Length)) Then
-                    result = (result + Me._tblAmortTableAdapter.Update(addedRows))
                     allAddedRows.AddRange(addedRows)
                 End If
             End If
@@ -12469,19 +12466,19 @@ Namespace NHALoanModuleDataSetTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Private Function UpdateDeletedRows(ByVal dataSet As NHALoanModuleDataSet, ByVal allChangedRows As Global.System.Collections.Generic.List(Of Global.System.Data.DataRow)) As Integer
             Dim result As Integer = 0
-            If (Not (Me._tblAmortTableAdapter) Is Nothing) Then
-                Dim deletedRows() As Global.System.Data.DataRow = dataSet.tblAmort.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Deleted)
-                If ((Not (deletedRows) Is Nothing)  _
-                            AndAlso (0 < deletedRows.Length)) Then
-                    result = (result + Me._tblAmortTableAdapter.Update(deletedRows))
-                    allChangedRows.AddRange(deletedRows)
-                End If
-            End If
             If (Not (Me._tblPaymentsTableAdapter) Is Nothing) Then
                 Dim deletedRows() As Global.System.Data.DataRow = dataSet.tblPayments.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Deleted)
                 If ((Not (deletedRows) Is Nothing)  _
                             AndAlso (0 < deletedRows.Length)) Then
                     result = (result + Me._tblPaymentsTableAdapter.Update(deletedRows))
+                    allChangedRows.AddRange(deletedRows)
+                End If
+            End If
+            If (Not (Me._tblReceiptsTableAdapter) Is Nothing) Then
+                Dim deletedRows() As Global.System.Data.DataRow = dataSet.tblReceipts.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Deleted)
+                If ((Not (deletedRows) Is Nothing)  _
+                            AndAlso (0 < deletedRows.Length)) Then
+                    result = (result + Me._tblReceiptsTableAdapter.Update(deletedRows))
                     allChangedRows.AddRange(deletedRows)
                 End If
             End If
@@ -12501,11 +12498,11 @@ Namespace NHALoanModuleDataSetTableAdapters
                     allChangedRows.AddRange(deletedRows)
                 End If
             End If
-            If (Not (Me._tblReceiptsTableAdapter) Is Nothing) Then
-                Dim deletedRows() As Global.System.Data.DataRow = dataSet.tblReceipts.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Deleted)
+            If (Not (Me._tblAmortTableAdapter) Is Nothing) Then
+                Dim deletedRows() As Global.System.Data.DataRow = dataSet.tblAmort.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Deleted)
                 If ((Not (deletedRows) Is Nothing)  _
                             AndAlso (0 < deletedRows.Length)) Then
-                    result = (result + Me._tblReceiptsTableAdapter.Update(deletedRows))
+                    result = (result + Me._tblAmortTableAdapter.Update(deletedRows))
                     allChangedRows.AddRange(deletedRows)
                 End If
             End If
@@ -12612,11 +12609,6 @@ Namespace NHALoanModuleDataSetTableAdapters
                 Throw New Global.System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s"& _ 
                         "tring.")
             End If
-            If ((Not (Me._tblLoanTableAdapter) Is Nothing)  _
-                        AndAlso (Me.MatchTableAdapterConnection(Me._tblLoanTableAdapter.Connection) = false)) Then
-                Throw New Global.System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s"& _ 
-                        "tring.")
-            End If
             If ((Not (Me._tblPaymentsTableAdapter) Is Nothing)  _
                         AndAlso (Me.MatchTableAdapterConnection(Me._tblPaymentsTableAdapter.Connection) = false)) Then
                 Throw New Global.System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s"& _ 
@@ -12624,6 +12616,11 @@ Namespace NHALoanModuleDataSetTableAdapters
             End If
             If ((Not (Me._tblReceiptsTableAdapter) Is Nothing)  _
                         AndAlso (Me.MatchTableAdapterConnection(Me._tblReceiptsTableAdapter.Connection) = false)) Then
+                Throw New Global.System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s"& _ 
+                        "tring.")
+            End If
+            If ((Not (Me._tblLoanTableAdapter) Is Nothing)  _
+                        AndAlso (Me.MatchTableAdapterConnection(Me._tblLoanTableAdapter.Connection) = false)) Then
                 Throw New Global.System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s"& _ 
                         "tring.")
             End If
@@ -12713,15 +12710,6 @@ Namespace NHALoanModuleDataSetTableAdapters
                         adaptersWithAcceptChangesDuringUpdate.Add(Me._tblInterestInfoTableAdapter.Adapter)
                     End If
                 End If
-                If (Not (Me._tblLoanTableAdapter) Is Nothing) Then
-                    revertConnections.Add(Me._tblLoanTableAdapter, Me._tblLoanTableAdapter.Connection)
-                    Me._tblLoanTableAdapter.Connection = CType(workConnection,Global.System.Data.SqlClient.SqlConnection)
-                    Me._tblLoanTableAdapter.Transaction = CType(workTransaction,Global.System.Data.SqlClient.SqlTransaction)
-                    If Me._tblLoanTableAdapter.Adapter.AcceptChangesDuringUpdate Then
-                        Me._tblLoanTableAdapter.Adapter.AcceptChangesDuringUpdate = false
-                        adaptersWithAcceptChangesDuringUpdate.Add(Me._tblLoanTableAdapter.Adapter)
-                    End If
-                End If
                 If (Not (Me._tblPaymentsTableAdapter) Is Nothing) Then
                     revertConnections.Add(Me._tblPaymentsTableAdapter, Me._tblPaymentsTableAdapter.Connection)
                     Me._tblPaymentsTableAdapter.Connection = CType(workConnection,Global.System.Data.SqlClient.SqlConnection)
@@ -12738,6 +12726,15 @@ Namespace NHALoanModuleDataSetTableAdapters
                     If Me._tblReceiptsTableAdapter.Adapter.AcceptChangesDuringUpdate Then
                         Me._tblReceiptsTableAdapter.Adapter.AcceptChangesDuringUpdate = false
                         adaptersWithAcceptChangesDuringUpdate.Add(Me._tblReceiptsTableAdapter.Adapter)
+                    End If
+                End If
+                If (Not (Me._tblLoanTableAdapter) Is Nothing) Then
+                    revertConnections.Add(Me._tblLoanTableAdapter, Me._tblLoanTableAdapter.Connection)
+                    Me._tblLoanTableAdapter.Connection = CType(workConnection,Global.System.Data.SqlClient.SqlConnection)
+                    Me._tblLoanTableAdapter.Transaction = CType(workTransaction,Global.System.Data.SqlClient.SqlTransaction)
+                    If Me._tblLoanTableAdapter.Adapter.AcceptChangesDuringUpdate Then
+                        Me._tblLoanTableAdapter.Adapter.AcceptChangesDuringUpdate = false
+                        adaptersWithAcceptChangesDuringUpdate.Add(Me._tblLoanTableAdapter.Adapter)
                     End If
                 End If
                 '
@@ -12824,10 +12821,6 @@ Namespace NHALoanModuleDataSetTableAdapters
                     Me._tblInterestInfoTableAdapter.Connection = CType(revertConnections(Me._tblInterestInfoTableAdapter),Global.System.Data.SqlClient.SqlConnection)
                     Me._tblInterestInfoTableAdapter.Transaction = Nothing
                 End If
-                If (Not (Me._tblLoanTableAdapter) Is Nothing) Then
-                    Me._tblLoanTableAdapter.Connection = CType(revertConnections(Me._tblLoanTableAdapter),Global.System.Data.SqlClient.SqlConnection)
-                    Me._tblLoanTableAdapter.Transaction = Nothing
-                End If
                 If (Not (Me._tblPaymentsTableAdapter) Is Nothing) Then
                     Me._tblPaymentsTableAdapter.Connection = CType(revertConnections(Me._tblPaymentsTableAdapter),Global.System.Data.SqlClient.SqlConnection)
                     Me._tblPaymentsTableAdapter.Transaction = Nothing
@@ -12835,6 +12828,10 @@ Namespace NHALoanModuleDataSetTableAdapters
                 If (Not (Me._tblReceiptsTableAdapter) Is Nothing) Then
                     Me._tblReceiptsTableAdapter.Connection = CType(revertConnections(Me._tblReceiptsTableAdapter),Global.System.Data.SqlClient.SqlConnection)
                     Me._tblReceiptsTableAdapter.Transaction = Nothing
+                End If
+                If (Not (Me._tblLoanTableAdapter) Is Nothing) Then
+                    Me._tblLoanTableAdapter.Connection = CType(revertConnections(Me._tblLoanTableAdapter),Global.System.Data.SqlClient.SqlConnection)
+                    Me._tblLoanTableAdapter.Transaction = Nothing
                 End If
                 If (0 < adaptersWithAcceptChangesDuringUpdate.Count) Then
                     Dim adapters((adaptersWithAcceptChangesDuringUpdate.Count) - 1) As Global.System.Data.Common.DataAdapter

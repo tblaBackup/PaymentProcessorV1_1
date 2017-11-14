@@ -8,9 +8,11 @@
             Dim myQry2 = (From theloans In context.tblCustAcctNums Where theloans.CustomerID = myValue Select theloans).ToList
             opener.LoansTble = myGlobalz.ToDataTable(myQry2)
             If opener.LoansTble.Rows.Count > 0 Then
-                Dim myValue2 As Integer = opener.LoansTble.Rows(0).Item(0)
-                Dim myQry3 = (From thePayments In context.tblPayments Where thePayments.LoanID = myValue2 Select thePayments.PaymentID, thePayments.PaymentAmount, thePayments.PaymentDate).ToList
+                Dim activeloan As Integer = opener.LoansTble.Rows(0).Item(0)
+                opener.activeLoanID = activeloan
+                Dim myQry3 = (From thePayments In context.tblPayments Where thePayments.LoanID = activeloan Select thePayments.PaymentID, thePayments.PaymentAmount, thePayments.PaymentDate).ToList
                 opener.PaymentsTble = myGlobalz.ToDataTable(myQry3)
+                opener.ProcessPayment1.mrc = (From theloans In context.tblLoans Where theloans.LoanID = activeloan Select theloans).Single.MonthlyInstallment
             End If
 
         End If
@@ -105,20 +107,94 @@
                                                                        opener.ProcessPayment1.loanID = LoanID
                                                                        opener.LoansTble = myGlobalz.ToDataTable(thePayments)
                                                                    End Sub
-                AddHandler opener.PaymentProcessed, Sub()
-                                                        'Code for processing payment
-                                                    End Sub
+                
         End Select
 
     End Sub
 
     Private Sub SearchBtn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchBtn.Click
+        Dim myPanel As ActiveLoan = Search()
+        prepActiveLoanPanel(myPanel, Panel1)
+    End Sub
+    Private Sub prepActiveLoanPanel(ByVal activeLoanPane1 As ActiveLoan, ByRef Apanel As Panel)
+        Dim activeloanpane As ActiveLoan = activeLoanPane1
+        Apanel.Controls.Clear()
+        Apanel.Controls.Add(activeLoanPane)
+        AddHandler activeloanpane.clientSelected, Sub()
+                                                      Dim customerID As Integer = activeloanpane.activeCustID
+                                                      Dim theLoans = (From theLoanz In context.CustomersLoans Where theLoanz.CustomerID = customerID Select theLoanz).ToList
+                                                      activeloanpane.LoansTble = myGlobalz.ToDataTable(theLoans)
+                                                      Try
+                                                          Dim theLoanID As Integer = activeloanpane.LoansTble.Rows(0).Item(0)
+                                                          If theLoanID > 0 Then
+                                                              activeloanpane.ProcessPayment1.loanID = theLoanID
+                                                              Dim thePaymentz = (From thePayments In context.tblPayments Where thePayments.LoanID = theLoanID Select thePayments).ToList
+                                                              Dim theLoanz = (From Dloans In context.CustomersLoans Where Dloans.LoanID = theLoanID Select Dloans).ToList
+                                                              Dim DLoanzTble As DataTable = myGlobalz.ToDataTable(theLoanz)
+                                                              Dim thePaymentzTble As DataTable = myGlobalz.ToDataTable(thePaymentz)
+                                                              If DLoanzTble.Rows.Count <= 0 Then
+                                                                  activeloanpane.CustomersLoans.DataSource = Nothing
+                                                                  activeloanpane.PaymentHistory.DataSource = Nothing
+                                                              Else
+                                                                  myGlobalz.loadGrid(DLoanzTble, activeloanpane.CustomersLoans)
+                                                                  If thePaymentzTble.Rows.Count <= 0 Then
+                                                                      activeloanpane.PaymentHistory.DataSource = Nothing
+                                                                  Else
+                                                                      myGlobalz.loadGrid(thePaymentzTble, activeloanpane.PaymentHistory)
+                                                                  End If
+                                                              End If
+                                                          End If
+                                                      Catch ex As Exception
+                                                          activeloanpane.CustomersLoans.DataSource = Nothing
+                                                          activeloanpane.PaymentHistory.DataSource = Nothing
+                                                      End Try
+                                                  End Sub
+
+        AddHandler activeloanpane.CustomersLoans.SelectionChanged, Sub()
+                                                                       Dim LoanID As Integer = activeloanpane.activeLoanID
+                                                                       activeloanpane.ProcessPayment1.loanID = LoanID
+                                                                       Dim thePayments = (From thepaymentz In context.tblPayments Where thepaymentz.LoanID = LoanID Select thepaymentz).ToList
+                                                                       Dim mrc = (From theLoanz In context.tblLoans Where theLoanz.LoanID = LoanID Select theLoanz).Single.MonthlyInstallment
+                                                                       Dim atble As DataTable = myGlobalz.ToDataTable(thePayments)
+                                                                       If atble.Rows.Count < 1 Then
+                                                                           activeloanpane.PaymentHistory.DataSource = Nothing
+                                                                       Else
+                                                                           activeloanpane.LoansTble = atble
+                                                                           myGlobalz.loadGrid(atble, activeloanpane.PaymentHistory)
+                                                                           activeloanpane.ProcessPayment1.mrc = mrc
+                                                                       End If
+                                                                   End Sub
+        AddHandler activeloanpane.PaymentProcessed, Sub()
+                                                        processPayment(activeloanpane.activeLoanID, activeloanpane.ProcessPayment1.DateSubmitted, activeloanpane.ProcessPayment1.Amount, activeloanpane.ProcessPayment1.mrc)
+                                                    End Sub
+    End Sub
+    Public Sub processPayment(ByVal loanID As Integer, ByVal paymentDate As Date, ByVal PaymentAmount As Double, ByVal MonthlyDue As Double)
+        'context.InsertIntoCash(PaymentAmount, paymentDate, loanID)
+        'Dim CashID As Integer = context.ReturnsCashID(PaymentAmount, paymentDate, loanID)
+        Dim valueOnHold As Double = 0.0
+        Dim OldPosition As Integer = 0 'position in Amort before applying this payment
+        Dim NewPosition As Integer = 0
+        Try
+            valueOnHold = context.SumOnHold(loanID)
+        Catch ex As Exception
+            valueOnHold = 0
+        End Try
+        valueOnHold += PaymentAmount
+        If valueOnHold >= CDbl(MonthlyDue) Then
+            Dim numPayments As Integer = PaymentAmount / MonthlyDue
+            Dim balance As Double = PaymentAmount - (MonthlyDue * numPayments)
+            Do While numPayments > 0
+                'context.InsertDataIntoTable
+            Loop
+        End If
+        'context.InsertDataIntoTable
+    End Sub
+    Public Function Search() As ActiveLoan
         Dim ForAResponse As New Dialog2
         Dim respone = ForAResponse.ShowDialog
         Dim opener As New ActiveLoan
         Select Case respone
             Case Windows.Forms.DialogResult.OK
-                Panel1.Controls.Clear()
                 Select Case ForAResponse.SearchConstraint
                     Case "First Name"
                         loadByFName(ForAResponse.searchString, opener)
@@ -130,34 +206,10 @@
                 myGlobalz.loadGrid(opener.customerTble, opener.ActiveCustomer)
                 myGlobalz.loadGrid(opener.LoansTble, opener.CustomersLoans)
                 myGlobalz.loadGrid(opener.PaymentsTble, opener.PaymentHistory)
-                Panel1.Controls.Add(opener)
-                AddHandler opener.ActiveCustomer.SelectionChanged, Sub()
-                                                                       Dim customerID As Integer = opener.activeCustID
-                                                                       Dim theLoans = (From theLoanz In context.CustomersLoans Where theLoanz.CustomerID = customerID Select theLoanz).ToList
-                                                                       opener.LoansTble = myGlobalz.ToDataTable(theLoans)
-                                                                       Try
-                                                                           Dim theLoanID As Integer = opener.LoansTble.Rows(0).Item(0)
-                                                                           If theLoanID > 0 Then
-                                                                               opener.ProcessPayment1.loanID = theLoanID
-                                                                               Dim thePaymentz = (From thePayments In context.tblPayments Where thePayments.LoanID = theLoanID Select thePayments).ToList
-                                                                               myGlobalz.loadGrid(opener.LoansTble, opener.CustomersLoans)
-                                                                               myGlobalz.loadGrid(opener.PaymentsTble, opener.PaymentHistory)
-                                                                           End If
-                                                                       Catch ex As Exception
-                                                                           opener.CustomersLoans.DataSource = Nothing
-                                                                           opener.PaymentHistory.DataSource = Nothing
-                                                                       End Try
-                                                                   End Sub
 
-                AddHandler opener.CustomersLoans.SelectionChanged, Sub()
-                                                                       Dim LoanID As Integer = opener.activeLoanID
-                                                                       opener.ProcessPayment1.loanID = LoanID
-                                                                       Dim thePayments = (From thepaymentz In context.tblPayments Where thepaymentz.LoanID = LoanID Select thepaymentz).ToList
-                                                                       opener.LoansTble = myGlobalz.ToDataTable(thePayments)
-                                                                   End Sub
         End Select
-
-    End Sub
+        Return opener
+    End Function
     Public Sub clearMainScreen()
         Dim checker As Boolean = False
         Panel1.Controls.Clear()
@@ -186,6 +238,7 @@
                                           End Sub
 
         AddHandler opener.LoanSubmited, Sub()
+                                            context.CreateLoan(opener.LoanPrincipal, opener.interestRate, opener.LoanTerm, opener.startDate, opener.monthlyInstallment, opener.CustAccNum, opener.manualAmort)
                                             Dim LoanID As Integer = context.ReturnLastLoan
                                             If opener.AddLoanInfo1.CheckBox1.Checked Then
                                                 Dim newScreen As New ManualAmort

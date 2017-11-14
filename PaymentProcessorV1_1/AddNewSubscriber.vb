@@ -5,6 +5,14 @@
     Public CustID As Integer
     Public AccNum As String
     Public CustAccNum As Integer
+    Public LoanPrincipal As Double
+    Public LoanTerm As Integer
+    Public interestRate As Double
+    Public monthlyInstallment As Double
+    Public manualAmort As Boolean
+    Public startDate As Date
+
+
     Public Sub ClientCreated() Handles BasicCustomerInformation1.clientSubmitted
         Dim opener As New Dialog3
         opener.FNameBox.Text = BasicCustomerInformation1.TextBox1.Text
@@ -25,6 +33,13 @@
     End Sub
     Public Sub LoanCreated() Handles AddLoanInfo1.loanCreated
         'Create Loan
+        LoanPrincipal = AddLoanInfo1.NumericUpDown1.Value
+        LoanTerm = AddLoanInfo1.NumericUpDown2.Value
+        interestRate = AddLoanInfo1.NumericUpDown3.Value
+        monthlyInstallment = AddLoanInfo1.NumericUpDown4.Value
+        manualAmort = AddLoanInfo1.CheckBox1.Checked
+        startDate = AddLoanInfo1.DateTimePicker1.Text
+        'myGlobalz
         RaiseEvent LoanSubmited()
     End Sub
 End Class
