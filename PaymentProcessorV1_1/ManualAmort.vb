@@ -20,4 +20,8 @@
             myGlobalz.loadGrid(AmortInfo, DataGridView1)
         End If
     End Sub
+
+    Private Sub NumericUpDown3_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NumericUpDown3.Leave
+        NumericUpDown4.Value = NumericUpDown1.Value - NumericUpDown3.Value
+    End Sub
 End Class

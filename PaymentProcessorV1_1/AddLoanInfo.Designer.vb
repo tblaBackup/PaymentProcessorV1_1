@@ -23,6 +23,8 @@ Partial Class AddLoanInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.NumericUpDown4 = New System.Windows.Forms.NumericUpDown()
@@ -36,8 +38,6 @@ Partial Class AddLoanInfo
         Me.NumericUpDown2 = New System.Windows.Forms.NumericUpDown()
         Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
-        Me.Label7 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         CType(Me.NumericUpDown4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,6 +67,23 @@ Partial Class AddLoanInfo
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(620, 538)
         Me.Panel1.TabIndex = 0
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(154, 250)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(55, 13)
+        Me.Label7.TabIndex = 25
+        Me.Label7.Text = "Start Date"
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.DateTimePicker1.Location = New System.Drawing.Point(241, 246)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(188, 20)
+        Me.DateTimePicker1.TabIndex = 24
         '
         'Button1
         '
@@ -153,7 +170,9 @@ Partial Class AddLoanInfo
         'NumericUpDown3
         '
         Me.NumericUpDown3.DecimalPlaces = 4
+        Me.NumericUpDown3.Increment = New Decimal(New Integer() {5, 0, 0, 131072})
         Me.NumericUpDown3.Location = New System.Drawing.Point(241, 210)
+        Me.NumericUpDown3.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NumericUpDown3.Name = "NumericUpDown3"
         Me.NumericUpDown3.Size = New System.Drawing.Size(188, 20)
         Me.NumericUpDown3.TabIndex = 14
@@ -184,23 +203,6 @@ Partial Class AddLoanInfo
         Me.Label6.Size = New System.Drawing.Size(205, 31)
         Me.Label6.TabIndex = 11
         Me.Label6.Text = "Loan Information"
-        '
-        'DateTimePicker1
-        '
-        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.DateTimePicker1.Location = New System.Drawing.Point(241, 246)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(188, 20)
-        Me.DateTimePicker1.TabIndex = 24
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(154, 250)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(55, 13)
-        Me.Label7.TabIndex = 25
-        Me.Label7.Text = "Start Date"
         '
         'AddLoanInfo
         '

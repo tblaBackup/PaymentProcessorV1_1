@@ -124,6 +124,7 @@ Partial Class ManualAmort
         '
         Me.NumericUpDown4.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.NumericUpDown4.DecimalPlaces = 2
+        Me.NumericUpDown4.Enabled = False
         Me.NumericUpDown4.Location = New System.Drawing.Point(104, 81)
         Me.NumericUpDown4.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
         Me.NumericUpDown4.Name = "NumericUpDown4"
@@ -153,6 +154,7 @@ Partial Class ManualAmort
         'NumericUpDown2
         '
         Me.NumericUpDown2.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.NumericUpDown2.Enabled = False
         Me.NumericUpDown2.Location = New System.Drawing.Point(104, 28)
         Me.NumericUpDown2.Maximum = New Decimal(New Integer() {500, 0, 0, 0})
         Me.NumericUpDown2.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
