@@ -4,17 +4,18 @@
         Dim myQry = (From theCustomers In context.tblCustomers Where theCustomers.CustFName.Contains(FName) Select theCustomers).ToList
         opener.customerTble = myGlobalz.ToDataTable(myQry)
         If opener.customerTble.Rows.Count > 0 Then
+            opener.CustFullName = RTrim(LTrim(opener.customerTble.Rows(0).Item(1))) + " " + RTrim(LTrim(opener.customerTble.Rows(0).Item(2)))
             Dim myValue As Integer = opener.customerTble.Rows(0).Item(0)
             Dim myQry2 = (From theloans In context.tblCustAcctNums Where theloans.CustomerID = myValue Select theloans).ToList
             opener.LoansTble = myGlobalz.ToDataTable(myQry2)
             If opener.LoansTble.Rows.Count > 0 Then
                 Dim activeloan As Integer = opener.LoansTble.Rows(0).Item(0)
                 opener.activeLoanID = activeloan
+                opener.ProcessPayment1.TextBox1.Text = opener.CustFullName
                 Dim myQry3 = (From thePayments In context.tblPayments Where thePayments.LoanID = activeloan Select thePayments.PaymentID, thePayments.PaymentAmount, thePayments.PaymentDate).ToList
                 opener.PaymentsTble = myGlobalz.ToDataTable(myQry3)
                 opener.ProcessPayment1.mrc = (From theloans In context.tblLoans Where theloans.LoanID = activeloan Select theloans).Single.MonthlyInstallment
             End If
-
         End If
     End Sub
     Private Sub loadByClientID(ByVal clientID As Integer, ByRef opener As ActiveLoan)
@@ -124,8 +125,11 @@
                                                       Dim customerID As Integer = activeloanpane.activeCustID
                                                       Dim theLoans = (From theLoanz In context.CustomersLoans Where theLoanz.CustomerID = customerID Select theLoanz).ToList
                                                       activeloanpane.LoansTble = myGlobalz.ToDataTable(theLoans)
+                                                      activeloanpane.CustFullName = RTrim(LTrim(activeloanpane.customerTble.Rows(0).Item(1))) + " " + RTrim(LTrim(activeloanpane.customerTble.Rows(0).Item(2)))
                                                       Try
                                                           Dim theLoanID As Integer = activeloanpane.LoansTble.Rows(0).Item(0)
+                                                          activeloanpane.ProcessPayment1.TextBox2.Text = activeloanpane.LoansTble.Rows(0).Item(1).ToString
+                                                          activeloanpane.ProcessPayment1.TextBox1.Text = activeloanpane.CustFullName
                                                           If theLoanID > 0 Then
                                                               activeloanpane.ProcessPayment1.loanID = theLoanID
                                                               Dim thePaymentz = (From thePayments In context.tblPayments Where thePayments.LoanID = theLoanID Select thePayments).ToList
@@ -137,6 +141,8 @@
                                                                   activeloanpane.PaymentHistory.DataSource = Nothing
                                                               Else
                                                                   myGlobalz.loadGrid(DLoanzTble, activeloanpane.CustomersLoans)
+                                                                  activeloanpane.ProcessPayment1.TextBox1.Text = DLoanzTble.Rows(0).Item(1).ToString
+
                                                                   If thePaymentzTble.Rows.Count <= 0 Then
                                                                       activeloanpane.PaymentHistory.DataSource = Nothing
                                                                   Else
@@ -150,28 +156,32 @@
                                                       End Try
                                                   End Sub
 
-        AddHandler activeloanpane.CustomersLoans.SelectionChanged, Sub()
-                                                                       Dim LoanID As Integer = activeloanpane.activeLoanID
-                                                                       activeloanpane.ProcessPayment1.loanID = LoanID
-                                                                       Dim thePayments = (From thepaymentz In context.tblPayments Where thepaymentz.LoanID = LoanID Select thepaymentz).ToList
-                                                                       Dim mrc = (From theLoanz In context.tblLoans Where theLoanz.LoanID = LoanID Select theLoanz).Single.MonthlyInstallment
-                                                                       Dim atble As DataTable = myGlobalz.ToDataTable(thePayments)
-                                                                       If atble.Rows.Count < 1 Then
-                                                                           activeloanpane.PaymentHistory.DataSource = Nothing
-                                                                       Else
-                                                                           activeloanpane.LoansTble = atble
-                                                                           myGlobalz.loadGrid(atble, activeloanpane.PaymentHistory)
-                                                                           activeloanpane.ProcessPayment1.mrc = mrc
-                                                                       End If
-                                                                   End Sub
+        AddHandler activeloanpane.loanSelected, Sub()
+                                                    Dim LoanID As Integer = activeloanpane.activeLoanID
+                                                    activeloanpane.ProcessPayment1.loanID = LoanID
+                                                    Dim thePayments = (From thepaymentz In context.tblPayments Where thepaymentz.LoanID = LoanID Select thepaymentz).ToList
+                                                    Dim mrc = (From theLoanz In context.tblLoans Where theLoanz.LoanID = LoanID Select theLoanz).Single.MonthlyInstallment
+                                                    Dim atble As DataTable = myGlobalz.ToDataTable(thePayments)
+                                                    If atble.Rows.Count < 1 Then
+                                                        activeloanpane.PaymentHistory.DataSource = Nothing
+                                                    Else
+                                                        activeloanpane.LoansTble = atble
+                                                        myGlobalz.loadGrid(atble, activeloanpane.PaymentHistory)
+                                                        activeloanpane.ProcessPayment1.mrc = mrc
+                                                    End If
+                                                    activeloanpane.ProcessPayment1.TextBox2.Text = activeloanpane.activeLoanID
+                                                    activeloanpane.ProcessPayment1.TextBox1.Text = activeloanpane.CustFullName
+                                                End Sub
         AddHandler activeloanpane.PaymentProcessed, Sub()
                                                         processPayment(activeloanpane.activeLoanID, activeloanpane.ProcessPayment1.DateSubmitted, activeloanpane.ProcessPayment1.Amount, activeloanpane.ProcessPayment1.mrc)
+
                                                     End Sub
     End Sub
     Public Sub processPayment(ByVal loanID As Integer, ByVal paymentDate As Date, ByVal PaymentAmount As Double, ByVal MonthlyDue As Double)
-        'context.InsertIntoCash(PaymentAmount, paymentDate, loanID)
-        'Dim CashID As Integer = context.ReturnsCashID(PaymentAmount, paymentDate, loanID)
+        context.InsertIntoCash(PaymentAmount, paymentDate, loanID)
+        Dim CashID As Integer = context.ReturnsCashID(PaymentAmount, paymentDate, loanID)
         Dim valueOnHold As Double = 0.0
+        Dim fromHolding As Double = 0.0
         Dim OldPosition As Integer = 0 'position in Amort before applying this payment
         Dim NewPosition As Integer = 0
         Try
@@ -179,18 +189,52 @@
         Catch ex As Exception
             valueOnHold = 0
         End Try
+        fromHolding = valueOnHold
         valueOnHold += PaymentAmount
+        Dim totalPaid As Double = context.ReturnTotalPaymentz(loanID)
+        OldPosition = CInt(totalPaid / MonthlyDue)
+        NewPosition = CInt((totalPaid + valueOnHold) / MonthlyDue)
+
         If valueOnHold >= CDbl(MonthlyDue) Then
-            Dim numPayments As Integer = PaymentAmount / MonthlyDue
+            Dim numPayments As Integer = NewPosition - OldPosition
             Dim balance As Double = PaymentAmount - (MonthlyDue * numPayments)
+            Dim manualAmort As Boolean = True
+            Dim interestPayment As Double
+            Dim principalPayment As Double
+            manualAmort = context.ManualAmortTest(loanID)
+            If balance > 0 Then
+                context.InsertIntoHolding(balance, loanID)
+            End If
             Do While numPayments > 0
-                'context.InsertDataIntoTable
+                If manualAmort Then
+                    interestPayment = context.ReturnInterest(loanID, OldPosition)
+                    principalPayment = context.ReturnPrincipal(loanID, OldPosition)
+                    OldPosition += 1
+                End If
+                context.InsertDataIntoTable(paymentDate, MonthlyDue, loanID, interestPayment, principalPayment, CashID)
+                numPayments -= 1
             Loop
+        ElseIf fromHolding > 0 Then
+            context.UpdateAmountInHolding(PaymentAmount, loanID)
+        Else
+            context.InsertIntoHolding(fromHolding, loanID)
         End If
-        'context.InsertDataIntoTable
+        printReceipt(CashID, loanID, paymentDate, PaymentAmount)
+        context.PrintReceipt(CashID, paymentDate)
+    End Sub
+    Public Sub printReceipt(ByVal ReceiptID As Integer, ByVal LoanID As Integer, ByVal PaymentDate As Date, ByVal amount As Double)
+        Dim opener As New Printer
+        opener.Label1.Text = "Receipt#" + ReceiptID.ToString
+        opener.NameLbl.Text = context.ReturnFullNameFromLoanID(LoanID)
+        opener.AddressLbl.Text = context.ReturnFullAddressFromLoanID(LoanID)
+        opener.DateLbl.Text = PaymentDate
+        opener.AmtLbl.Text = amount
+        opener.Show()
+        opener.BringToFront()
     End Sub
     Public Function Search() As ActiveLoan
         Dim ForAResponse As New Dialog2
+        ForAResponse.CheckBox1.Checked = True
         Dim respone = ForAResponse.ShowDialog
         Dim opener As New ActiveLoan
         Select Case respone
@@ -206,7 +250,9 @@
                 myGlobalz.loadGrid(opener.customerTble, opener.ActiveCustomer)
                 myGlobalz.loadGrid(opener.LoansTble, opener.CustomersLoans)
                 myGlobalz.loadGrid(opener.PaymentsTble, opener.PaymentHistory)
-
+                If opener.LoansTble.Rows.Count > 0 Then
+                    opener.ProcessPayment1.TextBox2.Text = opener.LoansTble.Rows(0).Item(1).ToString
+                End If
         End Select
         Return opener
     End Function
@@ -288,5 +334,9 @@
 
         End Select
 
+    End Sub
+
+    Private Sub ToolStripButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton1.Click
+        printReceipt(1, 1, Now(), 1.0)
     End Sub
 End Class

@@ -165,4 +165,35 @@
     <Parameter Name="paymentNumber" Type="System.Int32" DbType="Int" />
     <Return Type="System.Double" />
   </Function>
+  <Function Name="dbo.ReturnTotalPaymentz" Method="ReturnTotalPaymentz" IsComposable="true">
+    <Parameter Name="LoanID" Parameter="loanID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Double" />
+  </Function>
+  <Function Name="dbo.ManualAmortTest" Method="ManualAmortTest" IsComposable="true">
+    <Parameter Name="loanID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InsertIntoHolding" Method="InsertIntoHolding">
+    <Parameter Name="Amt" Parameter="amt" Type="System.Double" DbType="Float" />
+    <Parameter Name="loanID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PrintReceipt" Method="PrintReceipt">
+    <Parameter Name="ReceiptID" Parameter="receiptID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PrintDate" Parameter="printDate" Type="System.DateTime" DbType="Date" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UpdateAmountInHolding" Method="UpdateAmountInHolding">
+    <Parameter Name="Amount" Parameter="amount" Type="System.Double" DbType="Float" />
+    <Parameter Name="LoanID" Parameter="loanID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ReturnFullNameFromLoanID" Method="ReturnFullNameFromLoanID" IsComposable="true">
+    <Parameter Name="LoanID" Parameter="loanID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.String" />
+  </Function>
+  <Function Name="dbo.ReturnFullAddressFromLoanID" Method="ReturnFullAddressFromLoanID" IsComposable="true">
+    <Parameter Name="LoanID" Parameter="loanID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.String" />
+  </Function>
 </Database>

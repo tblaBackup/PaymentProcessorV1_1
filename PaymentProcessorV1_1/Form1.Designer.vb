@@ -24,7 +24,12 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.PaymentsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LoanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ManualAmortToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.MainUI1 = New PaymentProcessorV1_1.MainUI()
         Me.HomeBtn = New System.Windows.Forms.ToolStripButton()
         Me.PaymentBtn = New System.Windows.Forms.ToolStripButton()
         Me.AddCustBtn = New System.Windows.Forms.ToolStripButton()
@@ -32,11 +37,6 @@ Partial Class Form1
         Me.SearchBtn = New System.Windows.Forms.ToolStripButton()
         Me.ReportBtn = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.MainUI1 = New PaymentProcessorV1_1.MainUI()
-        Me.LoanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ManualAmortToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -57,6 +57,26 @@ Partial Class Form1
         Me.PaymentsToolStripMenuItem.Size = New System.Drawing.Size(71, 20)
         Me.PaymentsToolStripMenuItem.Text = "Payments"
         '
+        'LoanToolStripMenuItem
+        '
+        Me.LoanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UpdateToolStripMenuItem})
+        Me.LoanToolStripMenuItem.Name = "LoanToolStripMenuItem"
+        Me.LoanToolStripMenuItem.Size = New System.Drawing.Size(45, 20)
+        Me.LoanToolStripMenuItem.Text = "Loan"
+        '
+        'UpdateToolStripMenuItem
+        '
+        Me.UpdateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManualAmortToolStripMenuItem})
+        Me.UpdateToolStripMenuItem.Name = "UpdateToolStripMenuItem"
+        Me.UpdateToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
+        Me.UpdateToolStripMenuItem.Text = "Update"
+        '
+        'ManualAmortToolStripMenuItem
+        '
+        Me.ManualAmortToolStripMenuItem.Name = "ManualAmortToolStripMenuItem"
+        Me.ManualAmortToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
+        Me.ManualAmortToolStripMenuItem.Text = "Manual Amort"
+        '
         'ToolStrip1
         '
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HomeBtn, Me.PaymentBtn, Me.AddCustBtn, Me.ToolStripButton2, Me.SearchBtn, Me.ReportBtn, Me.ToolStripButton1})
@@ -65,6 +85,22 @@ Partial Class Form1
         Me.ToolStrip1.Size = New System.Drawing.Size(1008, 135)
         Me.ToolStrip1.TabIndex = 1
         Me.ToolStrip1.Text = "ToolStrip1"
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.MainUI1)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(0, 159)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1008, 570)
+        Me.Panel1.TabIndex = 2
+        '
+        'MainUI1
+        '
+        Me.MainUI1.Location = New System.Drawing.Point(2, 2)
+        Me.MainUI1.Name = "MainUI1"
+        Me.MainUI1.Size = New System.Drawing.Size(1000, 570)
+        Me.MainUI1.TabIndex = 0
         '
         'HomeBtn
         '
@@ -135,42 +171,6 @@ Partial Class Form1
         Me.ToolStripButton1.Name = "ToolStripButton1"
         Me.ToolStripButton1.Size = New System.Drawing.Size(132, 132)
         Me.ToolStripButton1.Text = "ToolStripButton1"
-        '
-        'Panel1
-        '
-        Me.Panel1.Controls.Add(Me.MainUI1)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel1.Location = New System.Drawing.Point(0, 159)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1008, 570)
-        Me.Panel1.TabIndex = 2
-        '
-        'MainUI1
-        '
-        Me.MainUI1.Location = New System.Drawing.Point(2, 2)
-        Me.MainUI1.Name = "MainUI1"
-        Me.MainUI1.Size = New System.Drawing.Size(1000, 570)
-        Me.MainUI1.TabIndex = 0
-        '
-        'LoanToolStripMenuItem
-        '
-        Me.LoanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UpdateToolStripMenuItem})
-        Me.LoanToolStripMenuItem.Name = "LoanToolStripMenuItem"
-        Me.LoanToolStripMenuItem.Size = New System.Drawing.Size(45, 20)
-        Me.LoanToolStripMenuItem.Text = "Loan"
-        '
-        'UpdateToolStripMenuItem
-        '
-        Me.UpdateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManualAmortToolStripMenuItem})
-        Me.UpdateToolStripMenuItem.Name = "UpdateToolStripMenuItem"
-        Me.UpdateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.UpdateToolStripMenuItem.Text = "Update"
-        '
-        'ManualAmortToolStripMenuItem
-        '
-        Me.ManualAmortToolStripMenuItem.Name = "ManualAmortToolStripMenuItem"
-        Me.ManualAmortToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ManualAmortToolStripMenuItem.Text = "Manual Amort"
         '
         'Form1
         '

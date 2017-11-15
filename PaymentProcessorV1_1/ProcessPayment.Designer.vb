@@ -112,6 +112,7 @@ Partial Class ProcessPayment
         '
         'NumericUpDown1
         '
+        Me.NumericUpDown1.DecimalPlaces = 2
         Me.NumericUpDown1.Increment = New Decimal(New Integer() {5, 0, 0, 65536})
         Me.NumericUpDown1.Location = New System.Drawing.Point(74, 85)
         Me.NumericUpDown1.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
@@ -130,6 +131,7 @@ Partial Class ProcessPayment
         '
         'TextBox2
         '
+        Me.TextBox2.Enabled = False
         Me.TextBox2.Location = New System.Drawing.Point(74, 58)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(163, 20)

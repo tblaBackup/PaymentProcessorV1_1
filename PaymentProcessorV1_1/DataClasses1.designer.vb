@@ -211,6 +211,44 @@ Partial Public Class DataClasses1DataContext
 	Public Function ReturnInterest(<Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="Int")> ByVal loanID As System.Nullable(Of Integer), <Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="Int")> ByVal paymentNumber As System.Nullable(Of Integer)) As System.Nullable(Of Double)
 		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanID, paymentNumber).ReturnValue,System.Nullable(Of Double))
 	End Function
+	
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.ReturnTotalPaymentz", IsComposable:=true)>  _
+	Public Function ReturnTotalPaymentz(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="LoanID", DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As System.Nullable(Of Double)
+		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanID).ReturnValue,System.Nullable(Of Double))
+	End Function
+	
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.ManualAmortTest", IsComposable:=true)>  _
+	Public Function ManualAmortTest(<Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As System.Nullable(Of Integer)
+		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanID).ReturnValue,System.Nullable(Of Integer))
+	End Function
+	
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.InsertIntoHolding")>  _
+	Public Function InsertIntoHolding(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="Amt", DbType:="Float")> ByVal amt As System.Nullable(Of Double), <Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As Integer
+		Dim result As IExecuteResult = Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), amt, loanID)
+		Return CType(result.ReturnValue,Integer)
+	End Function
+	
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.PrintReceipt")>  _
+	Public Function PrintReceipt(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="ReceiptID", DbType:="Int")> ByVal receiptID As System.Nullable(Of Integer), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="PrintDate", DbType:="Date")> ByVal printDate As System.Nullable(Of Date)) As Integer
+		Dim result As IExecuteResult = Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), receiptID, printDate)
+		Return CType(result.ReturnValue,Integer)
+	End Function
+	
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.UpdateAmountInHolding")>  _
+	Public Function UpdateAmountInHolding(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="Amount", DbType:="Float")> ByVal amount As System.Nullable(Of Double), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="LoanID", DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As Integer
+		Dim result As IExecuteResult = Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), amount, loanID)
+		Return CType(result.ReturnValue,Integer)
+	End Function
+	
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.ReturnFullNameFromLoanID", IsComposable:=true)>  _
+	Public Function ReturnFullNameFromLoanID(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="LoanID", DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As String
+		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanID).ReturnValue,String)
+	End Function
+	
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.ReturnFullAddressFromLoanID", IsComposable:=true)>  _
+	Public Function ReturnFullAddressFromLoanID(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="LoanID", DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As String
+		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanID).ReturnValue,String)
+	End Function
 End Class
 
 <Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.tblCustAcctNum")>  _

@@ -4,6 +4,8 @@
     Public PaymentsTble As DataTable
     Public activeCustID As Integer
     Public activeLoanID As Integer
+    Public accountNumber As String
+    Public CustFullName As String
     Private loading As Boolean
     Public Event clientSelected()
     Public Event loanSelected()
@@ -15,6 +17,7 @@
         If Not loading Then
 
             activeCustID = CInt(ActiveCustomer.SelectedRows.Item(0).Cells(0).Value.ToString)
+            CustFullName = ActiveCustomer.SelectedRows.Item(0).Cells(1).Value.ToString + ActiveCustomer.SelectedRows.Item(0).Cells(2).Value.ToString
             RaiseEvent clientSelected()
 
 
@@ -36,6 +39,7 @@
         If Not loading Then
             If Not activeLoanID = CInt(CustomersLoans.SelectedRows.Item(0).Cells(0).Value.ToString) Then
                 activeCustID = CInt(CustomersLoans.SelectedRows.Item(0).Cells(0).Value.ToString)
+                accountNumber = CInt(CustomersLoans.SelectedRows.Item(0).Cells(1).Value.ToString)
                 RaiseEvent loanSelected()
             End If
 
