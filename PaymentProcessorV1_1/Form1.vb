@@ -9,7 +9,7 @@
             Dim myQry2 = (From theloans In context.tblCustAcctNums Where theloans.CustomerID = myValue Select theloans).ToList
             opener.LoansTble = myGlobalz.ToDataTable(myQry2)
             If opener.LoansTble.Rows.Count > 0 Then
-                Dim activeloan As Integer = opener.LoansTble.Rows(0).Item(0)
+                Dim activeloan As Integer = opener.LoansTble.Rows(0).Item("LoanID")
                 opener.activeLoanID = activeloan
                 opener.ProcessPayment1.TextBox1.Text = opener.CustFullName
                 Dim myQry3 = (From thePayments In context.tblPayments Where thePayments.LoanID = activeloan Select thePayments.PaymentID, thePayments.PaymentAmount, thePayments.PaymentDate).ToList
