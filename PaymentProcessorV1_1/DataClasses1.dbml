@@ -196,4 +196,19 @@
     <Parameter Name="LoanID" Parameter="loanID" Type="System.Int32" DbType="Int" />
     <Return Type="System.String" />
   </Function>
+  <Function Name="dbo.UpdateAmort" Method="UpdateAmort">
+    <Parameter Name="AmortID" Parameter="amortID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="InterestAmt" Parameter="interestAmt" Type="System.Double" DbType="Float" />
+    <Parameter Name="PrincipalAmt" Parameter="principalAmt" Type="System.Double" DbType="Float" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ReturnAmortInfoByFName" Method="ReturnAmortInfoByFName" IsComposable="true">
+    <Parameter Name="firstName" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="ReturnAmortInfoByFNameResult">
+      <Column Name="LoanID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CustFName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="custlname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TBLAAcctID" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>

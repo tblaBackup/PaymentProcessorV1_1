@@ -249,6 +249,17 @@ Partial Public Class DataClasses1DataContext
 	Public Function ReturnFullAddressFromLoanID(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="LoanID", DbType:="Int")> ByVal loanID As System.Nullable(Of Integer)) As String
 		Return CType(Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), loanID).ReturnValue,String)
 	End Function
+	
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.UpdateAmort")>  _
+	Public Function UpdateAmort(<Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="AmortID", DbType:="Int")> ByVal amortID As System.Nullable(Of Integer), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="InterestAmt", DbType:="Float")> ByVal interestAmt As System.Nullable(Of Double), <Global.System.Data.Linq.Mapping.ParameterAttribute(Name:="PrincipalAmt", DbType:="Float")> ByVal principalAmt As System.Nullable(Of Double)) As Integer
+		Dim result As IExecuteResult = Me.ExecuteMethodCall(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), amortID, interestAmt, principalAmt)
+		Return CType(result.ReturnValue,Integer)
+	End Function
+	
+	<Global.System.Data.Linq.Mapping.FunctionAttribute(Name:="dbo.ReturnAmortInfoByFName", IsComposable:=true)>  _
+	Public Function ReturnAmortInfoByFName(<Global.System.Data.Linq.Mapping.ParameterAttribute(DbType:="NVarChar(50)")> ByVal firstName As String) As IQueryable(Of ReturnAmortInfoByFNameResult)
+		Return Me.CreateMethodCallQuery(Of ReturnAmortInfoByFNameResult)(Me, CType(MethodInfo.GetCurrentMethod,MethodInfo), firstName)
+	End Function
 End Class
 
 <Global.System.Data.Linq.Mapping.TableAttribute(Name:="dbo.tblCustAcctNum")>  _
@@ -1637,6 +1648,70 @@ Partial Public Class allCustFullNameResult
 		Set
 			If (String.Equals(Me._FullName, value) = false) Then
 				Me._FullName = value
+			End If
+		End Set
+	End Property
+End Class
+
+Partial Public Class ReturnAmortInfoByFNameResult
+	
+	Private _LoanID As Integer
+	
+	Private _CustFName As String
+	
+	Private _custlname As String
+	
+	Private _TBLAAcctID As String
+	
+	Public Sub New()
+		MyBase.New
+	End Sub
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_LoanID", DbType:="Int NOT NULL")>  _
+	Public Property LoanID() As Integer
+		Get
+			Return Me._LoanID
+		End Get
+		Set
+			If ((Me._LoanID = value)  _
+						= false) Then
+				Me._LoanID = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_CustFName", DbType:="NVarChar(50)")>  _
+	Public Property CustFName() As String
+		Get
+			Return Me._CustFName
+		End Get
+		Set
+			If (String.Equals(Me._CustFName, value) = false) Then
+				Me._CustFName = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_custlname", DbType:="NVarChar(50)")>  _
+	Public Property custlname() As String
+		Get
+			Return Me._custlname
+		End Get
+		Set
+			If (String.Equals(Me._custlname, value) = false) Then
+				Me._custlname = value
+			End If
+		End Set
+	End Property
+	
+	<Global.System.Data.Linq.Mapping.ColumnAttribute(Storage:="_TBLAAcctID", DbType:="NChar(10) NOT NULL", CanBeNull:=false)>  _
+	Public Property TBLAAcctID() As String
+		Get
+			Return Me._TBLAAcctID
+		End Get
+		Set
+			If (String.Equals(Me._TBLAAcctID, value) = false) Then
+				Me._TBLAAcctID = value
 			End If
 		End Set
 	End Property

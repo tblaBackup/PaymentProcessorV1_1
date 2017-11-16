@@ -57,21 +57,21 @@
         <elementListCompartment Id="d2fee0ce-8c1a-46a4-aae0-cd614929689f" absoluteBounds="0.515, 0.96, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(1.5 : 3.0401025390625); (1.5 : 4.25)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(1.5 : 3.0401025390625); (1.5 : 4.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClasses1DataContext/tblLoan/tblLoan_tblPayment" />
       <nodes>
         <classShapeMoniker Id="0d7bfc70-30a5-45c7-922a-a9904d736dd6" />
         <classShapeMoniker Id="1526927c-7775-4420-96df-71cae7d77dce" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.5 : 2.34939647265625); (5.15625 : 2.34939647265625); (5.15625 : 2.75)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.5 : 2.34939647265625); (5.15625 : 2.34939647265625); (5.15625 : 2.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClasses1DataContext/tblLoan/tblLoan_tblAmort" />
       <nodes>
         <classShapeMoniker Id="0d7bfc70-30a5-45c7-922a-a9904d736dd6" />
         <classShapeMoniker Id="e99d7461-ccd1-4221-898e-27dee8f9df23" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.875 : 1.19314697265625); (2.5 : 1.19314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.875 : 1.19314697265625); (2.5 : 1.19314697265625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClasses1DataContext/tblCustAcctNum/tblCustAcctNum_tblLoan" />
       <nodes>
         <classShapeMoniker Id="7be7e4e6-991e-4b20-81d2-c5c3a386ba33" />

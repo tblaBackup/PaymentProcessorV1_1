@@ -301,8 +301,14 @@
                                                 Panel1.Controls.Clear()
                                                 Panel1.Controls.Add(newScreen)
                                                 AddHandler newScreen.amortEntered, Sub()
-                                                                                       context.CreateAmort(newScreen.LoanID, newScreen.NumericUpDown2.Value, newScreen.NumericUpDown1.Value, newScreen.NumericUpDown3.Value, newScreen.NumericUpDown4.Value)
-                                                                                       newScreen.NumericUpDown2.Value += 1
+                                                                                       If newScreen.editMode = False Then
+                                                                                           context.CreateAmort(newScreen.LoanID, newScreen.NumericUpDown2.Value, newScreen.NumericUpDown1.Value, newScreen.NumericUpDown3.Value, newScreen.NumericUpDown4.Value)
+                                                                                           newScreen.NumericUpDown2.Value += 1
+                                                                                       Else
+                                                                                           Dim AmortID As Integer = newScreen.DataGridView1.SelectedRows.Item(0).Cells(0).Value
+                                                                                           context.UpdateAmort(AmortID, newScreen.NumericUpDown3.Value, newScreen.NumericUpDown4.Value)
+                                                                                           newScreen.editMode = False
+                                                                                       End If
                                                                                        results = (From theAmort In context.tblAmorts Where theAmort.LoanID = LoanID Select theAmort Order By theAmort.PaymentNumber Descending).ToList
                                                                                        Try
                                                                                            Dim aTble As New DataTable
@@ -312,6 +318,13 @@
                                                                                            newScreen.DataGridView1.DataSource = Nothing
                                                                                        End Try
                                                                                    End Sub
+                                                AddHandler newScreen.amortSelected, Sub()
+                                                                                        newScreen.NumericUpDown2.Value = newScreen.DataGridView1.SelectedRows.Item(0).Cells(1).Value
+                                                                                        newScreen.NumericUpDown1.Value = newScreen.DataGridView1.SelectedRows.Item(0).Cells(2).Value
+                                                                                        newScreen.NumericUpDown3.Value = newScreen.DataGridView1.SelectedRows.Item(0).Cells(3).Value
+                                                                                        newScreen.NumericUpDown4.Value = newScreen.DataGridView1.SelectedRows.Item(0).Cells(4).Value
+                                                                                        newScreen.editMode = True
+                                                                                    End Sub
                                             End If
                                         End Sub
     End Sub
@@ -327,15 +340,130 @@
     Private Sub ManualAmortToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ManualAmortToolStripMenuItem.Click
         Dim opener As New ManualAmort
         Panel1.Controls.Clear()
-        Dim opener2 As New Dialog1
+        Dim opener2 As New Dialog2
         Dim myResponse = opener2.ShowDialog
         Select Case myResponse
             Case vbOK
-
+                loadAmortByFName(opener2.TextBox1.Text)
         End Select
 
     End Sub
+    Private Sub loadAmortByFName(ByVal FName As String)
+        Dim myValues As DataTable = myGlobalz.ToDataTable((context.ReturnAmortInfoByFName(FName)).ToList)
+        If myValues.Rows.Count > 1 Then
+            Dim dopener As New Dialog4
+            myGlobalz.loadGrid(myValues, dopener.DataGridView1)
+            Dim response = dopener.ShowDialog()
+            If response = vbOK And dopener.SelectedID > 0 Then
+                Dim results = (From theAmort In context.tblAmorts Where theAmort.LoanID = dopener.SelectedID Select theAmort Order By theAmort.PaymentNumber Descending).ToList
+                Dim opener2 As New ManualAmort
+                opener2.LoanID = dopener.SelectedID
+                Panel1.Controls.Clear()
+                Dim TheAmortz As DataTable = myGlobalz.ToDataTable(results)
+                Try
+                    opener2.NumericUpDown1.Value = TheAmortz.Rows(0).Item(2)
+                    opener2.NumericUpDown2.Value = TheAmortz.Rows(0).Item(1)
+                    opener2.NumericUpDown3.Value = TheAmortz.Rows(0).Item(3)
+                    opener2.NumericUpDown4.Value = TheAmortz.Rows(0).Item(4)
+                Catch ex As Exception
 
+                End Try
+                Panel1.Controls.Add(opener2)
+                myGlobalz.loadGrid(TheAmortz, opener2.DataGridView1)
+                opener2.editMode = True
+                AddHandler opener2.amortSelected, Sub()
+                                                      opener2.NumericUpDown2.Value = opener2.DataGridView1.SelectedRows.Item(0).Cells(1).Value
+                                                      opener2.NumericUpDown1.Value = opener2.DataGridView1.SelectedRows.Item(0).Cells(2).Value
+                                                      opener2.NumericUpDown3.Value = opener2.DataGridView1.SelectedRows.Item(0).Cells(3).Value
+                                                      opener2.NumericUpDown4.Value = opener2.DataGridView1.SelectedRows.Item(0).Cells(4).Value
+                                                      opener2.editMode = True
+                                                  End Sub
+                AddHandler opener2.amortEntered, Sub()
+                                                     Dim myResponse As Integer = -1
+                                                     If opener2.editMode = False Then
+                                                         context.CreateAmort(opener2.LoanID, opener2.NumericUpDown2.Value, opener2.NumericUpDown1.Value, opener2.NumericUpDown3.Value, opener2.NumericUpDown4.Value)
+                                                         opener2.NumericUpDown2.Value += 1
+                                                     Else
+                                                         Dim AmortID As Integer = opener2.DataGridView1.SelectedRows.Item(0).Cells(0).Value
+                                                         context.UpdateAmort(AmortID, opener2.NumericUpDown3.Value, opener2.NumericUpDown4.Value)
+                                                         Dim theValue = (From theAmortes In context.tblAmorts Where theAmortes.LoanID = opener2.LoanID Select theAmortes Order By theAmortes.PaymentNumber Descending).ToList
+                                                         Dim myTble As DataTable = myGlobalz.ToDataTable(theValue)
+                                                         Dim nextPayment As Integer = myTble.Rows(0).Item(1)
+                                                         opener2.NumericUpDown2.Value = nextPayment + 1
+                                                         myResponse = MsgBox("Would you like to add more payments to the schedule?", vbYesNo, "How to proceed?")
+                                                     End If
+                                                     If myResponse = vbYes Then
+                                                         opener2.editMode = False
+                                                     ElseIf myResponse = vbNo Then
+                                                         opener2.editMode = True
+                                                     End If
+                                                     results = Nothing
+                                                     context = New DataClasses1DataContext
+                                                     results = (From theAmort In context.tblAmorts Where theAmort.LoanID = opener2.LoanID Select theAmort Order By theAmort.PaymentNumber Descending).ToList
+                                                     Try
+                                                         Dim aTble As New DataTable
+                                                         aTble = myGlobalz.ToDataTable(results)
+                                                         myGlobalz.loadGrid(aTble, opener2.DataGridView1)
+                                                     Catch ex As Exception
+                                                         opener2.DataGridView1.DataSource = Nothing
+                                                     End Try
+                                                 End Sub
+            Else
+
+            End If
+        ElseIf myValues.Rows.Count = 1 Then
+            Dim myOpener As New ManualAmort
+            myOpener.LoanID = myValues.Rows(0).Item(0)
+            Dim results = (From theAmort In context.tblAmorts Where theAmort.LoanID = myOpener.LoanID Select theAmort Order By theAmort.PaymentNumber Descending).ToList
+            Panel1.Controls.Clear()
+            Dim TheAmortz As DataTable = myGlobalz.ToDataTable(results)
+            MsgBox(TheAmortz.Rows.Count)
+            Try
+                myOpener.NumericUpDown1.Value = TheAmortz.Rows(0).Item(2)
+                myOpener.NumericUpDown2.Value = TheAmortz.Rows(0).Item(1)
+                myOpener.NumericUpDown3.Value = TheAmortz.Rows(0).Item(3)
+                myOpener.NumericUpDown4.Value = TheAmortz.Rows(0).Item(4)
+            Catch ex As Exception
+
+            End Try
+            myOpener.editMode = True
+            Panel1.Controls.Add(myOpener)
+            myGlobalz.loadGrid(TheAmortz, myOpener.DataGridView1)
+            AddHandler myOpener.amortSelected, Sub()
+                                                   myOpener.NumericUpDown2.Value = myOpener.DataGridView1.SelectedRows.Item(0).Cells(1).Value
+                                                   myOpener.NumericUpDown1.Value = myOpener.DataGridView1.SelectedRows.Item(0).Cells(2).Value
+                                                   myOpener.NumericUpDown3.Value = myOpener.DataGridView1.SelectedRows.Item(0).Cells(3).Value
+                                                   myOpener.NumericUpDown4.Value = myOpener.DataGridView1.SelectedRows.Item(0).Cells(4).Value
+                                                   myOpener.AmortID = myOpener.DataGridView1.SelectedRows.Item(0).Cells(0).Value
+                                                   myOpener.editMode = True
+                                               End Sub
+            AddHandler myOpener.amortEntered, Sub()
+                                                  Dim AmortID As Integer = myOpener.DataGridView1.SelectedRows.Item(0).Cells(0).Value
+                                                  myOpener.LoanID = (From theAmort In context.tblAmorts Where theAmort.AmortID = AmortID Select theAmort).Single.LoanID
+                                                  If myOpener.editMode = False Then
+                                                      ' context.CreateAmort(MyOpener.LoanID, MyOpener.NumericUpDown2.Value, MyOpener.NumericUpDown1.Value, MyOpener.NumericUpDown3.Value, MyOpener.NumericUpDown4.Value)
+
+                                                  Else
+
+                                                      context.UpdateAmort(AmortID, myOpener.NumericUpDown3.Value, myOpener.NumericUpDown4.Value)
+                                                      'MyOpener.editMode = False
+                                                  End If
+                                                  results = Nothing
+                                                  context = New DataClasses1DataContext
+                                                  results = (From theAmort In context.tblAmorts Where theAmort.LoanID = myOpener.LoanID Select theAmort Order By theAmort.PaymentNumber Descending).ToList
+                                                  Try
+                                                      Dim aTble As New DataTable
+                                                      aTble = myGlobalz.ToDataTable(results)
+                                                      MsgBox(aTble.Rows(0).Item(3))
+                                                      myOpener.DataGridView1.DataSource = Nothing
+                                                      myGlobalz.loadGrid(aTble, myOpener.DataGridView1)
+                                                  Catch ex As Exception
+                                                      myOpener.DataGridView1.DataSource = Nothing
+                                                  End Try
+                                              End Sub
+        End If
+
+    End Sub
     Private Sub ToolStripButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripButton1.Click
         printReceipt(1, 1, Now(), 1.0)
     End Sub
